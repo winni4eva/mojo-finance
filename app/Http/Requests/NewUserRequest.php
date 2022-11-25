@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Password;
 
 class NewUserRequest extends FormRequest
 {
@@ -13,8 +14,8 @@ class NewUserRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
-    }
+        return true;
+     }
 
     /**
      * Get the validation rules that apply to the request.
@@ -28,7 +29,7 @@ class NewUserRequest extends FormRequest
             'other_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'max:255', 'unique:users'],
-            'password' => ['required', 'confirmed']
+            'password' => ['required', 'confirmed', Password::defaults()]
         ];
     }
 }

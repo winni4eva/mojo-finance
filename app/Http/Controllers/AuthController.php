@@ -27,7 +27,7 @@ class AuthController extends Controller
 
         return $this->success([
             'user' => $user,
-            'token' => $user->createToken('Api token of ' . $user->first_name . ' ' . $request->last_name)->plainTextToken
+            'token' => $user->createToken('Api token of ' . $user->first_name . ' ' . $user->last_name)->plainTextToken
         ]);
     }
 
@@ -45,7 +45,7 @@ class AuthController extends Controller
 
         return $this->success([
             'user' => $user,
-            'token' => $user->createToken('Api token of ' . $user->first_name . ' ' . $request->last_name)->plainTextToken
+            'token' => $user->createToken('Api token of ' . $user->first_name . ' ' . $user->last_name)->plainTextToken
         ]);
     }
 }

@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreAccountRequest;
 use App\Http\Resources\AccountResource;
 use App\Models\Account;
+use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class AccountController extends Controller
 {
+    use HttpResponses;
+
     /**
      * Display a listing of the resource.
      *
@@ -46,6 +49,10 @@ class AccountController extends Controller
      */
     public function show(Account $account)
     {
+        if (Auth::user()->id != $account->user_id) {
+            return $this->error('', 'You are not authorized to make this request', 403);
+        }
+        
         return new AccountResource($account);
     }
 

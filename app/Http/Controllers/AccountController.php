@@ -32,7 +32,7 @@ class AccountController extends Controller
 
         $account = Account::create([
             'user_id' => Auth::user()->id,
-             'amount' => $request->amount
+            'amount' => $request->amount
         ]);
 
         return new AccountResource($account);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreAccountRequest;
 use App\Http\Resources\AccountResource;
 use App\Models\Account;
 use Illuminate\Http\Request;
@@ -22,12 +23,19 @@ class AccountController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\StoreAccountRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreAccountRequest $request)
     {
-        //
+        $request->validated($request->all());
+
+        $account = Account::create([
+            'user_id' => Auth::user()->id,
+             'amount' => $request->amount
+        ]);
+
+        return new AccountResource($account);
     }
 
     /**

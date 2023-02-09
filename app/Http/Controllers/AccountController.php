@@ -16,7 +16,7 @@ class AccountController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index()
     {
@@ -27,7 +27,7 @@ class AccountController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\StoreAccountRequest  $request
-     * @return \Illuminate\Http\Response
+     * @return \App\Http\Resources\AccountResource
      */
     public function store(StoreAccountRequest $request)
     {
@@ -45,14 +45,14 @@ class AccountController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Account $account
-     * @return \Illuminate\Http\Response
+     * @return \App\Http\Resources\AccountResource|\Illuminate\Http\JsonResponse
      */
     public function show(Account $account)
     {
         if (Auth::user()->id != $account->user_id) {
             return $this->error('', 'You are not authorized to make this request', 403);
         }
-        
+
         return new AccountResource($account);
     }
 

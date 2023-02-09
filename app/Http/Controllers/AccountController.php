@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\AccountResource;
+use App\Models\Account;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AccountController extends Controller
 {
@@ -13,7 +16,7 @@ class AccountController extends Controller
      */
     public function index()
     {
-        return response()->json('Test');
+        return AccountResource::collection(Account::where('user_id', Auth::user()->id)->get());
     }
 
     /**

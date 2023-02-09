@@ -59,13 +59,21 @@ class AccountController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  \App\Http\Requests\StoreAccountRequest  $request
+     * @param  \App\Models\Account $account
+     * @return \App\Http\Resources\AccountResource|\Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $id)
+    public function update(StoreAccountRequest $request, Account $account)
     {
-        //
+        if (Auth::user()->id != $account->user_id) {
+            return $this->error('', 'You are not authorized to make this request', 403);
+        }
+        
+        $request->validated($request->all());
+
+        $account->update($request->all());
+
+        return new AccountResource($account);
     }
 
     /**

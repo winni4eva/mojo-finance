@@ -79,11 +79,22 @@ class AccountController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  \App\Models\Account $account
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id)
+    public function destroy(Account $account)
     {
-        //
+        $account->delete();
+
+        return $this->success(null, 'Account deleted successfully', 204);
+    }
+
+    private function isNotAccountOwner(Account $account)
+    {
+        if (Auth::user()->id != $account->user_id) {
+            return $this->error('', 'You are not authorized to make this request', 403);
+        }
+
+        return true;
     }
 }

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTransactionRequest;
+use App\Http\Resources\TransactionResource;
 use App\Models\Account;
+use App\Models\Transaction;
 use App\Traits\HttpResponses;
 use Auth;
 use DB;
@@ -55,12 +57,18 @@ class TransactionController extends Controller
         }
 
         DB::beginTransaction();
+
         $debitAccount->amount = $debitAccount->amount - $request->amount;
         $creditAccount->amount = $creditAccount->amount + $request->amount;
-        
+        Transaction::create([
+            'credit_account_id' => $creditAccount->id,
+            'debit_account_id' => $debitAccount->id,
+            'amount' => 
+        ]);
+
         if($debitAccount->save() && $creditAccount->save()) {
             DB::commit();
-            return response()->json([$debitAccount->amount, ($request->amount / 100)]);
+            return new TransactionResource();
         }
         
         DB::rollBack();

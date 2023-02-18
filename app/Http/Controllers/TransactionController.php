@@ -30,17 +30,24 @@ class TransactionController extends Controller
      */
     public function store(StoreTransactionRequest $request, Account $account)
     {
-        logger('Account => ' . $account->id);
-        logger($request->all());
+        
         // Does auth user own debit account
-        logger('User ID => ' . $account->user()->first()->id);
         if ($account->user_id != Auth::user()->id) {
             return $this->error('', 'You are not authorized to make this request', 403);
         }
-        //$currentUserOwnsAccount = $account->where('user_id', Auth::user()->id)->get();
-        //logger('User Accounts ', $currentUserOwnsAccount->toArray());
         
         // Does credit accounts exist
+        $creditAccount = Account::find($request->credit_account);
+
+        if (!$creditAccount) {
+            return $this->error('', 'Credit account does not exist', 403);
+        }
+
+        if ($creditAccount->id == $account->id) {
+            return $this->error('', 'Debit and credit accounts are the same', 403);
+        }
+        
+        logger('Credit Account '. $creditAccount->id);
 
         // Does debit account hold enough balance
 

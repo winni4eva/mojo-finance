@@ -43,14 +43,17 @@ class TransactionController extends Controller
             return $this->error('', 'Credit account does not exist', 403);
         }
 
+        // Is credit account and debit account same
         if ($creditAccount->id == $account->id) {
             return $this->error('', 'Debit and credit accounts are the same', 403);
         }
-        
-        logger('Credit Account '. $creditAccount->id);
 
         // Does debit account hold enough balance
+        if (($request->amount / 100) > $account->amount) {
+            return $this->error('', 'You do not have sufficient balance to perform this transaction', 403);
+        }
 
+        return response()->json([$account->amount, ($request->amount / 100)]);
     }
 
     /**

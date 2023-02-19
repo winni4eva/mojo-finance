@@ -14,11 +14,11 @@ class Transaction extends Model
 
     public function debitAccount()
     {
-        return $this->belongsTo(Account::class, 'id', 'debit_account_id');
+        return $this->belongsTo(Account::class, 'debit_account_id', 'id');
     }
 
     public function creditAccount()
     {
-        return $this->belongsTo(Account::class, 'id', 'credit_account_id');
+        return $this->belongsTo(Account::class, 'credit_account_id', 'id');
     }
 }

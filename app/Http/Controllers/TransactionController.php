@@ -31,11 +31,12 @@ class TransactionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreTransactionRequest $request, Account $debitAccount)
+    public function store(StoreTransactionRequest $request, Account $account)
     {
 
         // Does auth user own debit account
-        if ($debitAccount->user_id != Auth::user()->id) {
+        logger($account);
+        if ($account->user_id != Auth::user()->id) {
             return $this->error('', 'You are not authorized to make this request', 403);
         }
         
@@ -47,28 +48,33 @@ class TransactionController extends Controller
         }
 
         // Is credit account and debit account same
-        if ($creditAccount->id == $debitAccount->id) {
+        if ($creditAccount->id == $account->id) {
             return $this->error('', 'Debit and credit accounts are the same', 403);
         }
 
         // Does debit account hold enough balance
-        if (($request->amount / 100) > $debitAccount->amount) {
+        if (($request->amount / 100) > $account->amount) {
             return $this->error('', 'You do not have sufficient balance to perform this transaction', 403);
         }
 
         DB::beginTransaction();
 
-        $debitAccount->amount = $debitAccount->amount - $request->amount;
-        $creditAccount->amount = $creditAccount->amount + $request->amount;
-        Transaction::create([
+        $account->update([
+            'amount' => $account->amount - $request->amount,
+        ]);
+        $creditAccount->update([
+            'amount' => $creditAccount->amount + $request->amount
+        ]);
+        $transaction = Transaction::create([
             'credit_account_id' => $creditAccount->id,
-            'debit_account_id' => $debitAccount->id,
-            'amount' => 
+            'debit_account_id' => $account->id,
+            'amount' => $request->amount
         ]);
 
-        if($debitAccount->save() && $creditAccount->save()) {
+        if($transaction) {
             DB::commit();
-            return new TransactionResource();
+            //return true;
+            return new TransactionResource($transaction);
         }
         
         DB::rollBack();

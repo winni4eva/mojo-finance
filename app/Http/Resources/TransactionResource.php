@@ -25,7 +25,9 @@ class TransactionResource extends JsonResource
             ],
             'relationships' => [
                 'debit_user_account' => $this->debitAccount->user->first_name .' '. $this->debitAccount->user->other_name.' '. $this->debitAccount->user->last_name,
-                'credit_user_account' => $this->creditAccount->user->first_name .' '. $this->creditAccount->user->other_name.' '. $this->creditAccount->user->last_name
+                'debit_user_current_balance' => $this->debitAccount->amount,
+                'credit_user_account' => $this->creditAccount->user->first_name .' '. $this->creditAccount->user->other_name.' '. $this->creditAccount->user->last_name,
+                'credit_user_current_balance' => $this->creditAccount->amount
             ]
         ];
     }

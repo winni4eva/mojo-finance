@@ -50,7 +50,7 @@ class AccountController extends Controller
     public function show(Account $account)
     {
         if (Auth::user()->id != $account->user_id) {
-            return $this->error('', 'You are not authorized to make this request', 403);
+            return $this->error('', 'You are not authorized to make this request', self::ERROR_RESPONSE_CODE);
         }
 
         return new AccountResource($account);
@@ -66,7 +66,7 @@ class AccountController extends Controller
     public function update(StoreAccountRequest $request, Account $account)
     {
         if (Auth::user()->id != $account->user_id) {
-            return $this->error('', 'You are not authorized to make this request', 403);
+            return $this->error('', 'You are not authorized to make this request', self::ERROR_RESPONSE_CODE);
         }
         
         $request->validated($request->all());
@@ -86,13 +86,13 @@ class AccountController extends Controller
     {
         $account->delete();
 
-        return $this->success(null, 'Account deleted successfully', 204);
+        return $this->success(null, 'Account deleted successfully', self::NO_RESPONSE_CODE);
     }
 
     private function isNotAccountOwner(Account $account)
     {
         if (Auth::user()->id != $account->user_id) {
-            return $this->error('', 'You are not authorized to make this request', 403);
+            return $this->error('', 'You are not authorized to make this request', self::ERROR_RESPONSE_CODE);
         }
 
         return true;

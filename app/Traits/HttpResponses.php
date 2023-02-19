@@ -3,6 +3,15 @@
 namespace App\Traits;
 
 trait HttpResponses {
+
+    protected const ERROR_RESPONSE_CODE = 403;
+
+    protected const SUCCESS_RESPONSE_CODE = 200;
+
+    protected const CREATED_RESPONSE_CODE = 201;
+
+    protected const NO_RESPONSE_CODE = 204;
+
     protected function success($data, $message = null, $code = 200)
     {
         return response()->json([

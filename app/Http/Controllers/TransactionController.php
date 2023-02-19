@@ -29,32 +29,30 @@ class TransactionController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \App\Http\Resources\TransactionResource|\Illuminate\Http\JsonResponse
      */
     public function store(StoreTransactionRequest $request, Account $account)
     {
-
         // Does auth user own debit account
-        logger($account);
         if ($account->user_id != Auth::user()->id) {
-            return $this->error('', 'You are not authorized to make this request', 403);
+            return $this->error('', 'You are not authorized to make this request', self::ERROR_RESPONSE_CODE);
         }
         
         // Does credit accounts exist
         $creditAccount = Account::find($request->credit_account);
 
         if (!$creditAccount) {
-            return $this->error('', 'Credit account does not exist', 403);
+            return $this->error('', 'Credit account does not exist', self::ERROR_RESPONSE_CODE);
         }
 
         // Is credit account and debit account same
         if ($creditAccount->id == $account->id) {
-            return $this->error('', 'Debit and credit accounts are the same', 403);
+            return $this->error('', 'Debit and credit accounts are the same', self::ERROR_RESPONSE_CODE);
         }
 
         // Does debit account hold enough balance
         if (($request->amount / 100) > $account->amount) {
-            return $this->error('', 'You do not have sufficient balance to perform this transaction', 403);
+            return $this->error('', 'You do not have sufficient balance to perform this transaction', self::ERROR_RESPONSE_CODE);
         }
 
         DB::beginTransaction();
@@ -73,7 +71,6 @@ class TransactionController extends Controller
 
         if($transaction) {
             DB::commit();
-            //return true;
             return new TransactionResource($transaction);
         }
         

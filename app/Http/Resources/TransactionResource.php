@@ -15,19 +15,17 @@ class TransactionResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => (string)$this->id,
+            'id' => $this->id,
             'attributes' => [
                 'amount' => $this->amount,
-                'credit_account' => $this->credit_account_id,
-                'debit_account' => $this->debit_account_id,
+                'credit_account_id' => $this->credit_account_id,
+                'debit_account_id' => $this->debit_account_id,
                 'created_at' => $this->created_at,
                 'updated_at' => $this->updated_at
             ],
             'relationships' => [
-                'debit_user_account' => $this->debitAccount->user->first_name .' '. $this->debitAccount->user->other_name.' '. $this->debitAccount->user->last_name,
-                'debit_user_current_balance' => $this->debitAccount->amount,
-                'credit_user_account' => $this->creditAccount->user->first_name .' '. $this->creditAccount->user->other_name.' '. $this->creditAccount->user->last_name,
-                'credit_user_current_balance' => $this->creditAccount->amount
+                'debit_account' => new AccountResource($this->debitAccount),
+                'credit_account' => new AccountResource($this->creditAccount)
             ]
         ];
     }

@@ -15,14 +15,14 @@ class AccountResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => (string)$this->id,
+            'id' => $this->id,
             'attributes' => [
                 'amount' => $this->amount,
                 'created_at' => $this->created_at,
                 'updated_at' => $this->updated_at
             ],
             'relationships' => [
-                'user_id' => (string)$this->user->id,
+                'user_id' => $this->user->id,
                 'first_name' => $this->user->first_name,
                 'other_name' => $this->user->other_name,
                 'last_name' => $this->user->last_name,

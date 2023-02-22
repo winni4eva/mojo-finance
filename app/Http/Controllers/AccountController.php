@@ -49,6 +49,8 @@ class AccountController extends Controller
      */
     public function show(Account $account)
     {
+        $this->authorize('view', $account);
+
         return new AccountResource($account);
     }
 

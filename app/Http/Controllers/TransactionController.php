@@ -7,14 +7,14 @@ use App\Http\Resources\TransactionResource;
 use App\Models\Account;
 use App\Models\Transaction;
 use App\Traits\HttpResponses;
-use Auth;
 use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TransactionController extends Controller
 {
     use HttpResponses;
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -37,7 +37,7 @@ class TransactionController extends Controller
         if ($account->user_id != Auth::user()->id) {
             return $this->error('', 'You are not authorized to make this request', self::ERROR_RESPONSE_CODE);
         }
-        
+
         // Does credit accounts exist
         $creditAccount = Account::find($request->credit_account);
 
@@ -69,11 +69,11 @@ class TransactionController extends Controller
             'amount' => $request->amount
         ]);
 
-        if($transaction) {
+        if ($transaction) {
             DB::commit();
             return new TransactionResource($transaction);
         }
-        
+
         DB::rollBack();
 
         return $this->error('', 'Error saving transaction', 403);

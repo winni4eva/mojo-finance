@@ -12,6 +12,8 @@ trait HttpResponses {
 
     protected const NO_RESPONSE_CODE = 204;
 
+    protected const SERVER_ERROR_RESPONSE_CODE = 500;
+
     protected function success($data, $message = null, $code = 200)
     {
         return response()->json([

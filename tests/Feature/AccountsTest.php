@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -10,14 +11,10 @@ class AccountsTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
-    public function test_get_user_accounts()
+    public function test_authenticated_user_can_get_accounts()
     {
-        $response = $this->get('api/accounts');
+        $user = User::factory()->create();
+        $response = $this->actingAs($user)->get('http://127.0.0.1:8000/api/accounts');
 
         $response->assertStatus(200);
     }

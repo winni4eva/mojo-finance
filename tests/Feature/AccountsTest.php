@@ -12,6 +12,12 @@ class AccountsTest extends TestCase
 {
     use RefreshDatabase, HttpResponses;
 
+    private User $user;
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->user = User::factory()->create();
+    }
     public function test_unauthenticated_user_cannot_get_accounts()
     {
         $response = $this->get('/api/accounts');
@@ -20,8 +26,7 @@ class AccountsTest extends TestCase
     }
     public function test_authenticated_user_can_get_accounts()
     {
-        $user = User::factory()->create();
-        $response = $this->actingAs($user)->get('/api/accounts');
+        $response = $this->actingAs($this->user)->get('/api/accounts');
 
         $response->assertStatus(self::SUCCESS_RESPONSE_CODE);
     }

@@ -7,9 +7,9 @@ use App\Http\Resources\TransactionResource;
 use App\Models\Account;
 use App\Models\Transaction;
 use App\Traits\HttpResponses;
-use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class TransactionController extends Controller
 {

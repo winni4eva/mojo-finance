@@ -11,10 +11,16 @@ class AccountsTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function test_unauthenticated_user_cannot_get_accounts()
+    {
+        $response = $this->get('/api/accounts');
+
+        $response->assertStatus(500);
+    }
     public function test_authenticated_user_can_get_accounts()
     {
         $user = User::factory()->create();
-        $response = $this->actingAs($user)->get('http://127.0.0.1:8000/api/accounts');
+        $response = $this->actingAs($user)->get('/api/accounts');
 
         $response->assertStatus(200);
     }

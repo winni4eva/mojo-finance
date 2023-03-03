@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Account;
 use App\Models\User;
 use App\Traits\HttpResponses;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -18,16 +19,58 @@ class AccountsTest extends TestCase
         parent::setUp();
         $this->user = User::factory()->create();
     }
-    public function test_unauthenticated_user_cannot_get_accounts()
+    public function test_unauthenticated_user_cannot_access_accounts()
     {
         $response = $this->get('/api/accounts');
 
         $response->assertStatus(self::SERVER_ERROR_RESPONSE_CODE);
     }
-    public function test_authenticated_user_can_get_accounts()
+    public function test_authenticated_user_can_access_accounts()
     {
         $response = $this->actingAs($this->user)->get('/api/accounts');
 
         $response->assertStatus(self::SUCCESS_RESPONSE_CODE);
+    }
+
+    public function test_authenticated_user_can_get_related_accounts()
+    {
+        $randomUser = User::factory()->create();
+        Account::factory(count: 3)->create([
+            'user_id' => $randomUser->id
+        ]);
+        Account::factory(count: 2)->create([
+            'user_id' => $this->user->id
+        ]);
+
+        $response = $this->actingAs($this->user)->get('/api/accounts');
+
+        $response->assertStatus(self::SUCCESS_RESPONSE_CODE)
+            ->assertJsonStructure([
+                'data' => [
+                    [
+                        'id',
+                        'attributes' => [
+                            'amount',
+                            'created_at',
+                            'updated_at'
+                        ],
+                        'relationships' => [
+                            'user' => [
+                                'id',
+                                'attributes' => [
+                                    'first_name',
+                                    'other_name',
+                                    'last_name',
+                                    'email',
+                                    'created_at',
+                                    'updated_at'
+                                ],
+                                'relationships'
+                            ]
+                        ]
+                    ]
+                ]
+            ])
+            ->assertJsonCount(count: 2, key :'data');
     }
 }

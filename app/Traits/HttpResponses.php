@@ -4,6 +4,7 @@ namespace App\Traits;
 
 trait HttpResponses {
 
+    // Response::HTTP_UNAUTHORIZE TODO
     protected const ERROR_RESPONSE_CODE = 403;
 
     protected const SUCCESS_RESPONSE_CODE = 200;
@@ -13,6 +14,8 @@ trait HttpResponses {
     protected const NO_RESPONSE_CODE = 204;
 
     protected const SERVER_ERROR_RESPONSE_CODE = 500;
+
+    protected const UNAUTHORIZED_RESPONSE_CODE = 401;
 
     protected function success($data, $message = null, $code = 200)
     {

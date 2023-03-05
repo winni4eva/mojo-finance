@@ -1,5 +1,5 @@
 ## Mojo Finance API
-A simple laravel api powered by Sanctum that allows for customer account creation and transfer of funds bewtween accounts
+A simple laravel api powered by Sanctum that allows for customer account creation and transfer of funds between accounts
 
 ## Setup
     - Create a mysql database eg. mojo_finance

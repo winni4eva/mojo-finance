@@ -19,7 +19,6 @@ class AccountPolicy
     public function viewAny(User $user)
     {
         //
-        logger('Running View Policy');
     }
 
     /**
@@ -31,7 +30,6 @@ class AccountPolicy
      */
     public function view(User $user, Account $account)
     {
-        logger('Running View Policy');
         return $user->id === $account->user_id;
     }
 
@@ -44,7 +42,6 @@ class AccountPolicy
     public function create(User $user)
     {
         //
-        logger('Running View Policy');
     }
 
     /**
@@ -56,7 +53,6 @@ class AccountPolicy
      */
     public function update(User $user, Account $account)
     {
-        logger('Running View Policy');
         return $user->id === $account->user_id;
     }
 
@@ -69,7 +65,6 @@ class AccountPolicy
      */
     public function delete(User $user, Account $account)
     {
-        logger('Running View Policy');
         return $user->id === $account->user_id;
     }
 
@@ -82,7 +77,6 @@ class AccountPolicy
      */
     public function restore(User $user, Account $account)
     {
-        logger('Running View Policy');
         //
     }
 
@@ -95,7 +89,6 @@ class AccountPolicy
      */
     public function forceDelete(User $user, Account $account)
     {
-        logger('Running View Policy');
         //
     }
 }

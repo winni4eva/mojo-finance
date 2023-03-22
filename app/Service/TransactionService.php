@@ -26,13 +26,14 @@ class TransactionService
             'amount' => $amount
         ]);
 
-        if ($transaction) {
-            DB::commit();
-            return $transaction;
+        if (!$transaction) {
+            DB::rollBack();
+
+            return false;
         }
 
-        DB::rollBack();
-
-        return false;
+        DB::commit();
+        
+        return $transaction;
     }
 }

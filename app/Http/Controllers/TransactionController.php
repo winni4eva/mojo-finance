@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTransactionRequest;
 use App\Http\Resources\TransactionResource;
+use App\Jobs\ProcessTransaction;
 use App\Models\Account;
-use App\Service\TransactionService;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,10 +14,7 @@ class TransactionController extends Controller
 {
     use HttpResponses;
 
-    public function __construct(protected TransactionService $transactionService)
-    {
-        //
-    }
+    public function __construct() {}
 
     /**
      * Display a listing of the resource.
@@ -59,14 +56,9 @@ class TransactionController extends Controller
             return $this->error('', 'You do not have sufficient balance to perform this transaction', self::ERROR_RESPONSE_CODE);
         }
 
-        // handle success or error
-        $transaction = $this->transactionService->createTransaction($account, $creditAccount, $request->amount);
+        ProcessTransaction::dispatch($account, $creditAccount, $request->amount);
 
-        if ($transaction) {
-            return new TransactionResource($transaction);
-        }
-
-        return $this->error('', 'Error saving transaction', 403);
+        return $this->success('', 'Transaction processing initiated successfully', self::SUCCESS_RESPONSE_CODE);
     }
 
     /**

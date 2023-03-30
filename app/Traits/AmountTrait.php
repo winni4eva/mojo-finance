@@ -4,7 +4,8 @@ namespace App\Traits;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
 
-trait AmountTrait {
+trait AmountTrait
+{
     /**
      * Interact with amount.
      *

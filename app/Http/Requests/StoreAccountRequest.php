@@ -24,7 +24,7 @@ class StoreAccountRequest extends FormRequest
     public function rules()
     {
         return [
-            'amount' => 'required|numeric|min:0'
+            'amount' => 'required|numeric|min:0',
         ];
     }
 }

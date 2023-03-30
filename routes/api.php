@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TransactionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -30,7 +30,7 @@ Route::post('/register', [AuthController::class, 'register']);
 /**
  * Protected routes
  */
-Route::group(['middleware' => ['auth:sanctum']], function() {
+Route::group(['middleware' => ['auth:sanctum']], function () {
     // logout route
     Route::resource('/accounts', AccountController::class);
     Route::resource('accounts.transactions', TransactionController::class);

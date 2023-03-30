@@ -2,8 +2,8 @@
 
 namespace App\Traits;
 
-trait HttpResponses {
-
+trait HttpResponses
+{
     // Response::HTTP_UNAUTHORIZE TODO
     protected const ERROR_RESPONSE_CODE = 403;
 
@@ -22,7 +22,7 @@ trait HttpResponses {
         return response()->json([
             'status' => 'Request was successful.',
             'message' => $message,
-            'data' => $data
+            'data' => $data,
         ], $code);
     }
 
@@ -31,7 +31,7 @@ trait HttpResponses {
         return response()->json([
             'status' => 'Error has occurred...',
             'message' => $message,
-            'data' => $data
+            'data' => $data,
         ], $code);
     }
 }

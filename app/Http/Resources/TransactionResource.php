@@ -21,12 +21,12 @@ class TransactionResource extends JsonResource
                 'credit_account_id' => $this->credit_account_id,
                 'debit_account_id' => $this->debit_account_id,
                 'created_at' => $this->created_at,
-                'updated_at' => $this->updated_at
+                'updated_at' => $this->updated_at,
             ],
             'relationships' => [
                 'debit_account' => new AccountResource($this->debitAccount),
-                'credit_account' => new AccountResource($this->creditAccount)
-            ]
+                'credit_account' => new AccountResource($this->creditAccount),
+            ],
         ];
     }
 }

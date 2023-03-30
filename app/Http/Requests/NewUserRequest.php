@@ -15,7 +15,7 @@ class NewUserRequest extends FormRequest
     public function authorize()
     {
         return true;
-     }
+    }
 
     /**
      * Get the validation rules that apply to the request.
@@ -29,7 +29,7 @@ class NewUserRequest extends FormRequest
             'other_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'max:255', 'unique:users'],
-            'password' => ['required', 'confirmed', Password::defaults()]
+            'password' => ['required', 'confirmed', Password::defaults()],
         ];
     }
 }

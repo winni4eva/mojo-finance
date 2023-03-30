@@ -5,7 +5,6 @@ namespace App\Listeners;
 use App\Events\NewUserCreated;
 use App\Notifications\NewUserCreated as NotificationsNewUserCreated;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 
 class SendNewUserCreatedNotifications implements ShouldQueue
 {

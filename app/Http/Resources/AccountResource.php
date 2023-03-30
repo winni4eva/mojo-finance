@@ -19,11 +19,11 @@ class AccountResource extends JsonResource
             'attributes' => [
                 'amount' => $this->amount,
                 'created_at' => $this->created_at,
-                'updated_at' => $this->updated_at
+                'updated_at' => $this->updated_at,
             ],
             'relationships' => [
-                'user' => new UserResource($this->user)
-            ]
+                'user' => new UserResource($this->user),
+            ],
         ];
     }
 }

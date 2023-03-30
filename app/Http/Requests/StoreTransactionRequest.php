@@ -25,7 +25,7 @@ class StoreTransactionRequest extends FormRequest
     {
         return [
             'amount' => 'required|numeric|min:0',
-            'credit_account' => 'required|numeric|min:0'
+            'credit_account' => 'required|numeric|min:0',
         ];
     }
 }

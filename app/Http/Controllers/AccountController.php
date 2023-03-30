@@ -6,7 +6,6 @@ use App\Http\Requests\StoreAccountRequest;
 use App\Http\Resources\AccountResource;
 use App\Models\Account;
 use App\Traits\HttpResponses;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class AccountController extends Controller
@@ -35,7 +34,7 @@ class AccountController extends Controller
 
         $account = Account::create([
             'user_id' => Auth::user()->id,
-            'amount' => $request->amount
+            'amount' => $request->amount,
         ]);
 
         return new AccountResource($account);
@@ -44,7 +43,7 @@ class AccountController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Account $account
+     * @param  \App\Models\Account  $account
      * @return \App\Http\Resources\AccountResource|\Illuminate\Http\JsonResponse
      */
     public function show(Account $account)
@@ -58,7 +57,7 @@ class AccountController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\StoreAccountRequest  $request
-     * @param  \App\Models\Account $account
+     * @param  \App\Models\Account  $account
      * @return \App\Http\Resources\AccountResource|\Illuminate\Http\JsonResponse
      */
     public function update(StoreAccountRequest $request, Account $account)
@@ -73,7 +72,7 @@ class AccountController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Account $account
+     * @param  \App\Models\Account  $account
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Account $account)

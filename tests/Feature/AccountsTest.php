@@ -6,7 +6,6 @@ use App\Models\Account;
 use App\Models\User;
 use App\Traits\HttpResponses;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class AccountsTest extends TestCase
@@ -14,11 +13,13 @@ class AccountsTest extends TestCase
     use RefreshDatabase, HttpResponses;
 
     private User $user;
+
     protected function setUp(): void
     {
         parent::setUp();
         $this->user = User::factory()->create();
     }
+
     public function test_unauthenticated_user_cannot_access_accounts()
     {
         $response = $this->get('/api/accounts', ['Accept' => 'application/json']);
@@ -26,6 +27,7 @@ class AccountsTest extends TestCase
         $response->assertStatus(self::UNAUTHORIZED_RESPONSE_CODE)
             ->assertJsonStructure(['status', 'message', 'data']);
     }
+
     public function test_authenticated_user_can_access_accounts()
     {
         $response = $this->actingAs($this->user)->get('/api/accounts', ['Accept' => 'application/json']);
@@ -36,10 +38,10 @@ class AccountsTest extends TestCase
     {
         $randomUser = User::factory()->create();
         Account::factory(count: 3)->create([
-            'user_id' => $randomUser->id
+            'user_id' => $randomUser->id,
         ]);
         Account::factory(count: 2)->create([
-            'user_id' => $this->user->id
+            'user_id' => $this->user->id,
         ]);
 
         $response = $this->actingAs($this->user)->get('/api/accounts', ['Accept' => 'application/json']);
@@ -52,7 +54,7 @@ class AccountsTest extends TestCase
                         'attributes' => [
                             'amount',
                             'created_at',
-                            'updated_at'
+                            'updated_at',
                         ],
                         'relationships' => [
                             'user' => [
@@ -63,13 +65,13 @@ class AccountsTest extends TestCase
                                     'last_name',
                                     'email',
                                     'created_at',
-                                    'updated_at'
+                                    'updated_at',
                                 ],
-                                'relationships'
-                            ]
-                        ]
-                    ]
-                ]
+                                'relationships',
+                            ],
+                        ],
+                    ],
+                ],
             ])
             ->assertJsonCount(count: 2, key: 'data');
     }
@@ -82,28 +84,28 @@ class AccountsTest extends TestCase
 
         $response->assertStatus(self::CREATED_RESPONSE_CODE)
             ->assertJsonStructure([
-                "data" => [
-                    "id",
-                    "attributes" => [
-                        "amount",
-                        "created_at",
-                        "updated_at"
+                'data' => [
+                    'id',
+                    'attributes' => [
+                        'amount',
+                        'created_at',
+                        'updated_at',
                     ],
-                    "relationships" => [
-                        "user" => [
-                            "id",
-                            "attributes" => [
-                                "first_name",
-                                "other_name",
-                                "last_name",
-                                "email",
-                                "created_at",
-                                "updated_at"
+                    'relationships' => [
+                        'user' => [
+                            'id',
+                            'attributes' => [
+                                'first_name',
+                                'other_name',
+                                'last_name',
+                                'email',
+                                'created_at',
+                                'updated_at',
                             ],
-                            "relationships"
-                        ]
-                    ]
-                ]
+                            'relationships',
+                        ],
+                    ],
+                ],
             ]);
     }
 }

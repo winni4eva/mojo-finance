@@ -6,7 +6,6 @@ use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\NewUserRequest;
 use App\Models\User;
 use App\Traits\HttpResponses;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -18,8 +17,7 @@ class AuthController extends Controller
     {
         $request->validated($request->all());
 
-        if (!Auth::attempt($request->only(['email', 'password'])))
-        {
+        if (! Auth::attempt($request->only(['email', 'password']))) {
             return $this->error('', 'Credentials do not match', 401);
         }
 
@@ -27,7 +25,7 @@ class AuthController extends Controller
 
         return $this->success([
             'user' => $user,
-            'token' => $user->createToken('Api token of ' . $user->first_name . ' ' . $user->last_name)->plainTextToken
+            'token' => $user->createToken('Api token of '.$user->first_name.' '.$user->last_name)->plainTextToken,
         ]);
     }
 
@@ -40,12 +38,12 @@ class AuthController extends Controller
             'other_name' => $request->other_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
-            'password' => Hash::make($request->password)
+            'password' => Hash::make($request->password),
         ]);
 
         return $this->success([
             'user' => $user,
-            'token' => $user->createToken('Api token of ' . $user->first_name . ' ' . $user->last_name)->plainTextToken
+            'token' => $user->createToken('Api token of '.$user->first_name.' '.$user->last_name)->plainTextToken,
         ]);
     }
 }

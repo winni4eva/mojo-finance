@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        /** TODO 
+        /** TODO
          * TEST ROLLBACK
          */
         Schema::table('transactions', function (Blueprint $table) {

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTransactionRequest;
-use App\Http\Resources\TransactionResource;
 use App\Jobs\ProcessTransaction;
 use App\Models\Account;
 use App\Traits\HttpResponses;
@@ -14,7 +13,9 @@ class TransactionController extends Controller
 {
     use HttpResponses;
 
-    public function __construct() {}
+    public function __construct()
+    {
+    }
 
     /**
      * Display a listing of the resource.
@@ -42,7 +43,7 @@ class TransactionController extends Controller
         // Does credit accounts exist
         $creditAccount = Account::find($request->credit_account);
 
-        if (!$creditAccount) {
+        if (! $creditAccount) {
             return $this->error('', 'Credit account does not exist', self::ERROR_RESPONSE_CODE);
         }
 

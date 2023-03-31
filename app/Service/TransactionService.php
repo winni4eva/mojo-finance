@@ -24,6 +24,7 @@ class TransactionService
             'credit_account_id' => $creditAccount->id,
             'debit_account_id' => $account->id,
             'amount' => $amount,
+            'user_id' => auth()->user()->id,
         ]);
 
         if (! $transaction) {

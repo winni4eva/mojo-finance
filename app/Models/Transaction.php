@@ -10,7 +10,7 @@ class Transaction extends Model
 {
     use HasFactory, AmountTrait;
 
-    protected $fillable = ['credit_account_id', 'debit_account_id', 'amount'];
+    protected $fillable = ['credit_account_id', 'debit_account_id', 'amount', 'user_id'];
 
     public function debitAccount()
     {

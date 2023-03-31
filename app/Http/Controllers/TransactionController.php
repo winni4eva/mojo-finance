@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTransactionRequest;
+use App\Http\Resources\TransactionResource;
 use App\Jobs\ProcessTransaction;
 use App\Models\Account;
+use App\Models\Transaction;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,7 +26,7 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        //
+        return TransactionResource::collection(Transaction::where('user_id', Auth::user()->id)->get());
     }
 
     /**

@@ -21,4 +21,9 @@ class Transaction extends Model
     {
         return $this->belongsTo(Account::class, 'credit_account_id', 'id');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

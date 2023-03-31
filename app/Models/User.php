@@ -49,4 +49,9 @@ class User extends Authenticatable
     protected $dispatchesEvents = [
         'created' => NewUserCreated::class,
     ];
+
+    public function accounts()
+    {
+        return $this->hasMany(Account::class);
+    }
 }

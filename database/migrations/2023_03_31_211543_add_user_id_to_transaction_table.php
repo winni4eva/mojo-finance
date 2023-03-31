@@ -13,15 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        /** TODO
-         * TEST ROLLBACK
-         */
         Schema::table('transactions', function (Blueprint $table) {
-            $table->comment('Stores user account debit and credit transactions');
-            $table->renameColumn('account_id', 'credit_account_id');
-            $table->foreignId('debit_account_id')
-                ->after('credit_account_id')
-                ->constrained('accounts', 'id')
+            $table->foreignId('user_id')
+                ->after('amount')
+                ->constrained()
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
         });
@@ -35,9 +30,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('transactions', function (Blueprint $table) {
-            $table->renameColumn('credit_account_id', 'account_id');
-            $table->dropForeign(['debit_account_id']);
-            $table->dropColumn('debit_account_id');
+            $table->dropForeign(['user_id']);
         });
     }
 };

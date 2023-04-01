@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Filters\TransactionFilters;
 use App\Http\Requests\StoreTransactionRequest;
 use App\Http\Resources\TransactionResource;
 use App\Jobs\ProcessTransaction;
@@ -24,9 +25,10 @@ class TransactionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(TransactionFilters $filters)
     {
-        return TransactionResource::collection(Transaction::where('user_id', Auth::user()->id)->get());
+
+        return TransactionResource::collection(Transaction::where('user_id', Auth::user()->id)->filter($filters)->get());
     }
 
     /**

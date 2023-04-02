@@ -27,7 +27,6 @@ class TransactionController extends Controller
      */
     public function index(TransactionFilters $filters)
     {
-
         return TransactionResource::collection(Transaction::where('user_id', Auth::user()->id)->filter($filters)->get());
     }
 

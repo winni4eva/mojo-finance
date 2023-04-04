@@ -20,7 +20,6 @@ return new class extends Migration
             $table->comment('Stores user account debit and credit transactions');
             $table->renameColumn('account_id', 'credit_account_id');
             $table->foreignId('debit_account_id')
-                ->after('credit_account_id')
                 ->constrained('accounts', 'id')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();

@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Traits\HttpResponses;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
+use Symfony\Component\HttpFoundation\Response;
 
 class Authenticate extends Middleware
 {
@@ -24,7 +25,6 @@ class Authenticate extends Middleware
 
     protected function unauthenticated($request, array $guards)
     {
-        logger('Halleluyah');
-        abort($this->error('error', 'Unauthenticated.', self::UNAUTHORIZED_RESPONSE_CODE));
+        abort($this->error('error', 'Unauthenticated.', Response::HTTP_UNAUTHORIZED));
     }
 }

@@ -9,6 +9,10 @@ A simple laravel api powered by Sanctum that allows for customer account creatio
 
 ## Setup with Sail
     - Install docker
+    - Start docker
+    - Update .env with database name and credentials
+    - Run command from project root => ./vendor/bin/sail artisan db:migrate
+    - Run command from project root => ./vendor/bin/sail artisan db:seed
     - Run command from project root => ./vendor/bin/sail up
 ## Api Docs
 

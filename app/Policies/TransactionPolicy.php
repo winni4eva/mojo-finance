@@ -46,6 +46,7 @@ class TransactionPolicy
      */
     public function create(User $user, Account $account, Account $creditAccount, float $depositAmount)
     {
+        logger('transaction policy');
         if ($user->id != $account->user_id) {
             return $this->deny($this->getDenyMessage(''), Response::HTTP_FORBIDDEN);
         }

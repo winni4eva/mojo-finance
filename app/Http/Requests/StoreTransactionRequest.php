@@ -15,7 +15,7 @@ class StoreTransactionRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->can('create', Transaction::class, $this->account, $this->credit_account, $this->amount);
+        return $this->user()->can('create', [Transaction::class, $this->account, $this->creditAccount(), $this->amount]);
     }
 
     /**

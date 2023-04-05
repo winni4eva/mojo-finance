@@ -2,9 +2,11 @@
 
 namespace App\Policies;
 
+use App\Models\Account;
 use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Symfony\Component\HttpFoundation\Response;
 
 class TransactionPolicy
 {
@@ -37,11 +39,28 @@ class TransactionPolicy
      * Determine whether the user can create models.
      *
      * @param  \App\Models\User  $user
+     * @param  \App\Models\Account 
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(User $user)
+    public function create(User $user, Account $account, Account $creditAccount, float $depositAmount)
     {
-        //
+        if ($user->id != $account->user_id) {
+            return $this->deny($this->getDenyMessage(''), Response::HTTP_FORBIDDEN);
+        }
+
+        if (!$creditAccount) {
+            return $this->deny($this->getDenyMessage('ACCOUNT_DOES_NOT_EXIST'), Response::HTTP_FORBIDDEN);
+        }
+        
+        if ($account->id == $creditAccount->id) {
+            return $this->deny($this->getDenyMessage('ACCOUNTS_ARE_THE_SAME'), Response::HTTP_FORBIDDEN);
+        }
+
+        if (($depositAmount / 100) > $account->amount) {
+            return $this->deny($this->getDenyMessage('INSUFFICIENT_ACCOUNT_BALANCE'), Response::HTTP_FORBIDDEN);
+        }
+
+        return true;
     }
 
     /**
@@ -90,5 +109,15 @@ class TransactionPolicy
     public function forceDelete(User $user, Transaction $transaction)
     {
         //
+    }
+
+    private function getDenyMessage(string $messageKey): string
+    {
+        return match ($messageKey) {
+            'ACCOUNT_DOES_NOT_EXIST' => 'Credit account does not exist',
+            'ACCOUNTS_ARE_THE_SAME' => 'Debit and credit accounts are the same',
+            'INSUFFICIENT_ACCOUNT_BALANCE' => 'You do not have sufficient balance to perform this transaction',
+            default => 'You are not authorized to make this request'
+        };
     }
 }

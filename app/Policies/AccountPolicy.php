@@ -77,7 +77,7 @@ class AccountPolicy
      */
     public function restore(User $user, Account $account)
     {
-        //
+        return $user->id === $account->user_id;
     }
 
     /**
@@ -89,6 +89,6 @@ class AccountPolicy
      */
     public function forceDelete(User $user, Account $account)
     {
-        //
+        return $user->id === $account->user_id;
     }
 }

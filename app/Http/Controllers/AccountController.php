@@ -7,6 +7,7 @@ use App\Http\Resources\AccountResource;
 use App\Models\Account;
 use App\Traits\HttpResponses;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 
 class AccountController extends Controller
 {
@@ -79,6 +80,6 @@ class AccountController extends Controller
     {
         $account->delete();
 
-        return $this->success(null, 'Account deleted successfully', self::NO_RESPONSE_CODE);
+        return $this->success(null, 'Account deleted successfully', Response::HTTP_NO_CONTENT);
     }
 }

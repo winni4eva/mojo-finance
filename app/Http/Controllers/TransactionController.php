@@ -11,6 +11,8 @@ use App\Models\Transaction;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Spatie\FlareClient\Http\Response as HttpResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class TransactionController extends Controller
 {
@@ -40,29 +42,29 @@ class TransactionController extends Controller
     {
         // Does auth user own debit account
         if ($account->user_id != Auth::user()->id) {
-            return $this->error('', 'You are not authorized to make this request', self::ERROR_RESPONSE_CODE);
+            return $this->error('', 'You are not authorized to make this request', Response::HTTP_FORBIDDEN);
         }
 
         // Does credit accounts exist
         $creditAccount = Account::find($request->credit_account);
 
         if (! $creditAccount) {
-            return $this->error('', 'Credit account does not exist', self::ERROR_RESPONSE_CODE);
+            return $this->error('', 'Credit account does not exist', Response::HTTP_FORBIDDEN);
         }
 
         // Is credit account and debit account same
         if ($creditAccount->id == $account->id) {
-            return $this->error('', 'Debit and credit accounts are the same', self::ERROR_RESPONSE_CODE);
+            return $this->error('', 'Debit and credit accounts are the same', Response::HTTP_FORBIDDEN);
         }
 
         // Does debit account hold enough balance
         if (($request->amount / 100) > $account->amount) {
-            return $this->error('', 'You do not have sufficient balance to perform this transaction', self::ERROR_RESPONSE_CODE);
+            return $this->error('', 'You do not have sufficient balance to perform this transaction', Response::HTTP_FORBIDDEN);
         }
 
         ProcessTransaction::dispatch($account, $creditAccount, $request->amount);
 
-        return $this->success('', 'Transaction processing initiated successfully', self::SUCCESS_RESPONSE_CODE);
+        return $this->success('', 'Transaction processing initiated successfully', Response::HTTP_CREATED);
     }
 
     /**

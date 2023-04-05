@@ -6,6 +6,7 @@ use App\Models\Account;
 use App\Models\User;
 use App\Traits\HttpResponses;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
 class AccountsTest extends TestCase
@@ -24,14 +25,14 @@ class AccountsTest extends TestCase
     {
         $response = $this->get('/api/accounts', ['Accept' => 'application/json']);
 
-        $response->assertStatus(self::UNAUTHORIZED_RESPONSE_CODE)
+        $response->assertStatus(Response::HTTP_UNAUTHORIZED)
             ->assertJsonStructure(['status', 'message', 'data']);
     }
 
     public function test_authenticated_user_can_access_accounts()
     {
         $response = $this->actingAs($this->user)->get('/api/accounts', ['Accept' => 'application/json']);
-        $response->assertStatus(self::SUCCESS_RESPONSE_CODE);
+        $response->assertStatus(Response::HTTP_OK);
     }
 
     public function test_authenticated_user_can_get_all_related_accounts()
@@ -46,7 +47,7 @@ class AccountsTest extends TestCase
 
         $response = $this->actingAs($this->user)->get('/api/accounts', ['Accept' => 'application/json']);
 
-        $response->assertStatus(self::SUCCESS_RESPONSE_CODE)
+        $response->assertStatus(Response::HTTP_OK)
             ->assertJsonStructure([
                 'data' => [
                     '*' => [
@@ -82,7 +83,7 @@ class AccountsTest extends TestCase
 
         $response = $this->actingAs($this->user)->post('/api/accounts', $accountPayload, ['Accept' => 'application/json']);
 
-        $response->assertStatus(self::CREATED_RESPONSE_CODE)
+        $response->assertStatus(Response::HTTP_CREATED)
             ->assertJsonStructure([
                 'data' => [
                     'id',

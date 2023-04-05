@@ -20,6 +20,4 @@ abstract class AbstractFilter
     {
         return request()->only(array_keys($this->filters));
     }
-
-
 }

@@ -11,7 +11,6 @@ use App\Models\Transaction;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Spatie\FlareClient\Http\Response as HttpResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 class TransactionController extends Controller

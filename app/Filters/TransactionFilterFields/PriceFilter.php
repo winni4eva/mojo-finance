@@ -12,8 +12,8 @@ class PriceFilter
 
         $query->when(request('price_operand') == '<', fn ($q) => $q->where('amount', '<', $date));
 
-        $query->when(!request('price_operand') || request('price_operand') == '=', fn ($q) => $q->where('amount', $date));
-        
+        $query->when(! request('price_operand') || request('price_operand') == '=', fn ($q) => $q->where('amount', $date));
+
         return $query;
     }
 }

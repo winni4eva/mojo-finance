@@ -39,7 +39,7 @@ class TransactionPolicy
      * Determine whether the user can create models.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Account 
+     * @param  \App\Models\Account
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function create(User $user, Account $account, Account $creditAccount, float $depositAmount)
@@ -48,10 +48,10 @@ class TransactionPolicy
             return $this->deny($this->getDenyMessage(''), Response::HTTP_FORBIDDEN);
         }
 
-        if (!$creditAccount) {
+        if (! $creditAccount) {
             return $this->deny($this->getDenyMessage('ACCOUNT_DOES_NOT_EXIST'), Response::HTTP_FORBIDDEN);
         }
-        
+
         if ($account->id == $creditAccount->id) {
             return $this->deny($this->getDenyMessage('ACCOUNTS_ARE_THE_SAME'), Response::HTTP_FORBIDDEN);
         }

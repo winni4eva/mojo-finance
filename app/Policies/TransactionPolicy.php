@@ -47,19 +47,19 @@ class TransactionPolicy
     public function create(User $user, Account $account, Account|null $creditAccount, float $depositAmount)
     {
         if ($user->id != $account->user_id) {
-            return $this->deny($this->getDenyMessage(''), Response::HTTP_FORBIDDEN);
+            return $this->deny($this->getDenyMessage('DEFAULT'), Response::HTTP_FORBIDDEN);
         }
 
         if (! $creditAccount) {
-            return $this->deny($this->getDenyMessage('ACCOUNT_DOES_NOT_EXIST'), Response::HTTP_FORBIDDEN);
+            abort(Response::HTTP_FORBIDDEN, $this->getDenyMessage('ACCOUNT_DOES_NOT_EXIST'));
         }
 
         if ($account->id == $creditAccount->id) {
-            return $this->deny($this->getDenyMessage('ACCOUNTS_ARE_THE_SAME'), Response::HTTP_FORBIDDEN);
+            abort(Response::HTTP_FORBIDDEN, $this->getDenyMessage('ACCOUNTS_ARE_THE_SAME'));
         }
 
         if (($depositAmount / 100) > $account->amount) {
-            return $this->deny($this->getDenyMessage('INSUFFICIENT_ACCOUNT_BALANCE'), Response::HTTP_FORBIDDEN);
+            abort(Response::HTTP_FORBIDDEN, $this->getDenyMessage('INSUFFICIENT_ACCOUNT_BALANCE'));
         }
 
         return $this->allow();

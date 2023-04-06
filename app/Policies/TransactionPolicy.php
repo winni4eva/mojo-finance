@@ -47,7 +47,7 @@ class TransactionPolicy
     public function create(User $user, Account $account, Account|null $creditAccount, float $depositAmount)
     {
         if ($user->id != $account->user_id) {
-            return $this->deny($this->getDenyMessage('DEFAULT'), Response::HTTP_FORBIDDEN);
+            abort(Response::HTTP_FORBIDDEN, $this->getDenyMessage('DEFAULT'));
         }
 
         if (! $creditAccount) {

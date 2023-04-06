@@ -28,7 +28,12 @@ class TransactionController extends Controller
      */
     public function index(TransactionFilters $filters)
     {
-        return TransactionResource::collection(Transaction::where('user_id', Auth::user()->id)->filter($filters)->get());
+        $transactions = Transaction::where('user_id', Auth::user()->id)
+            ->filter($filters)
+            ->latest()
+            ->paginate(request()->query('perPage', 10), columns: ['*'], pageName: 'page', page: request()->query('page', 1));
+
+        return TransactionResource::collection($transactions);
     }
 
     /**

@@ -3,7 +3,6 @@
 namespace App\Notifications;
 
 use App\Models\Transaction;
-use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -49,7 +48,7 @@ class NewTransactionCreated extends Notification
                     ->line("{$appName}")
                     ->action('TRANSACTION', url('/'))
                     ->subject(" New Transaction Created")
-                    ->greeting("Hi Test")
+                    ->greeting("Hi {$username}")
                     ->line('A transfer was sent from account A to accout B')
                     ->line('These are the details amount sent - amout received')
                     ->line('Thank you for using our application!');

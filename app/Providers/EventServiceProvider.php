@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Events\NewTransactionCreated;
 use App\Events\NewUserCreated;
+use App\Listeners\SendNewTransactionCreatedNotifications;
 use App\Listeners\SendNewUserCreatedNotifications;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -23,6 +25,9 @@ class EventServiceProvider extends ServiceProvider
         NewUserCreated::class => [
             SendNewUserCreatedNotifications::class,
         ],
+        NewTransactionCreated::class => [
+            SendNewTransactionCreatedNotifications::class
+        ]
     ];
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -17,7 +18,7 @@ class NewTransactionCreated extends Notification
      *
      * @return void
      */
-    public function __construct(public User $user)
+    public function __construct(public Transaction $transaction)
     {
         //
     }
@@ -42,12 +43,13 @@ class NewTransactionCreated extends Notification
     public function toMail($notifiable)
     {
         $appName = config('app.name');
-
+        $username = $this->transaction->user->first_name;
+        
         return (new MailMessage)
                     ->line("{$appName}")
                     ->action('TRANSACTION', url('/'))
                     ->subject(" New Transaction Created")
-                    ->greeting("Hi {$this->user->first_name}")
+                    ->greeting("Hi Test")
                     ->line('A transfer was sent from account A to accout B')
                     ->line('These are the details amount sent - amout received')
                     ->line('Thank you for using our application!');

@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Models\User;
+use App\Models\Transaction;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -20,7 +20,7 @@ class NewTransactionCreated
      *
      * @return void
      */
-    public function __construct(public User $user)
+    public function __construct(public Transaction $transaction)
     {
         //
     }

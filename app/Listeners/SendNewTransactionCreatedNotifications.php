@@ -27,6 +27,6 @@ class SendNewTransactionCreatedNotifications implements ShouldQueue
      */
     public function handle(NewTransactionCreated $event)
     {
-        $event->user->notify(new NotificationsNewTransactionCreated($event->user));
+        $event->transaction->user->notify(new NotificationsNewTransactionCreated($event->transaction));
     }
 }

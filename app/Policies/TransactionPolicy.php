@@ -39,14 +39,13 @@ class TransactionPolicy
      * Determine whether the user can create models.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Account $account
-     * @param  \App\Models\Account $creditAccount
-     * @param float $depositAmount
+     * @param  \App\Models\Account  $account
+     * @param  \App\Models\Account  $creditAccount
+     * @param  float  $depositAmount
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(User $user, Account $account, Account $creditAccount, float $depositAmount)
+    public function create(User $user, Account $account, Account|null $creditAccount, float $depositAmount)
     {
-        logger('transaction policy');
         if ($user->id != $account->user_id) {
             return $this->deny($this->getDenyMessage(''), Response::HTTP_FORBIDDEN);
         }
@@ -63,7 +62,7 @@ class TransactionPolicy
             return $this->deny($this->getDenyMessage('INSUFFICIENT_ACCOUNT_BALANCE'), Response::HTTP_FORBIDDEN);
         }
 
-        return true;
+        return $this->allow();
     }
 
     /**

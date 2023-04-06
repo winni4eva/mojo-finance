@@ -60,8 +60,15 @@ class User extends Authenticatable
         return $this->hasMany(Transaction::class);
     }
 
-    public function ownsTransaction(Transaction $transaction)
+    public function scopeByUser($query, $userId)
     {
-        //
+        return $query->where('user_id', $userId);
+    }
+
+    public function getTransaction(int $transactionId)
+    {
+        return $this->transactions()
+            ->byUser($this->id)
+             ->find($transactionId);
     }
 }

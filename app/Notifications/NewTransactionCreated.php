@@ -4,10 +4,11 @@ namespace App\Notifications;
 
 use App\Models\User;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class NewUserCreated extends Notification
+class NewTransactionCreated extends Notification
 {
     use Queueable;
 
@@ -44,9 +45,11 @@ class NewUserCreated extends Notification
 
         return (new MailMessage)
                     ->line("{$appName}")
-                    ->action('ACCOUNT', url('/'))
-                    ->subject(" New Account Creeated")
+                    ->action('TRANSACTION', url('/'))
+                    ->subject(" New Transaction Created")
                     ->greeting("Hi {$this->user->first_name}")
+                    ->line('A transfer was sent from account A to accout B')
+                    ->line('These are the details amount sent - amout received')
                     ->line('Thank you for using our application!');
     }
 

@@ -24,8 +24,8 @@ class TransactionResource extends JsonResource
                 'updated_at' => $this->updated_at,
             ],
             'relationships' => [
-                'debit_account' => new AccountResource($this->debitAccount),
-                'credit_account' => new AccountResource($this->creditAccount),
+                'debit_user' => new UserResource($this->debitAccount->user),
+                'credit_user' => new UserResource($this->user),
             ],
         ];
     }

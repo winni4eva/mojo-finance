@@ -20,19 +20,6 @@ class Account extends Model
 
     public function transactions()
     {
-        return $this->hasMany(Transaction::class);
-    }
-
-    /**
-     * Interact with amount.
-     *
-     * @return \Illuminate\Database\Eloquent\Casts\Attribute
-     */
-    protected function amount(): Attribute
-    {
-        return Attribute::make(
-            get: fn ($value) => $value / 100,
-            set: fn ($value) => $value * 100,
-        );
+        return $this->hasMany(Transaction::class, 'debit_account_id', 'id');
     }
 }

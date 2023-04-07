@@ -23,6 +23,7 @@ class AccountResource extends JsonResource
             ],
             'relationships' => [
                 'user' => new UserResource($this->user),
+                'transactions' => TransactionResource::collection( $this->transactions()->orderBy('id', 'desc')->limit(1)->get() )
             ],
         ];
     }

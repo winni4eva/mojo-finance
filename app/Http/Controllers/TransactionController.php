@@ -44,7 +44,7 @@ class TransactionController extends Controller
      */
     public function store(StoreTransactionRequest $request, Account $account)
     {
-        ProcessTransaction::dispatch($account, $request->creditAccount(), $request->amount);
+        ProcessTransaction::dispatch($account, $request->creditAccount(), Auth::user()->id, $request->amount);
 
         return $this->success('', 'Transaction processing initiated successfully', Response::HTTP_CREATED);
     }

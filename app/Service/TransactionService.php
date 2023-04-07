@@ -4,11 +4,12 @@ namespace App\Service;
 
 use App\Models\Account;
 use App\Models\Transaction;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 class TransactionService
 {
-    public function createTransaction(Account $account, Account $creditAccount, int $amount)
+    public function createTransaction(Account $account, Account $creditAccount, int $userId, int $amount)
     {
         DB::beginTransaction();
 
@@ -24,7 +25,7 @@ class TransactionService
             'credit_account_id' => $creditAccount->id,
             'debit_account_id' => $account->id,
             'amount' => $amount,
-            'user_id' => auth()->user()->id,
+            'user_id' => $userId,
         ]);
 
         if (! $transaction) {

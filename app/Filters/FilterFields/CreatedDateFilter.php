@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filters\TransactionFilterFields;
+namespace App\Filters\FilterFields;
 
 class CreatedDateFilter
 {

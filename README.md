@@ -17,7 +17,10 @@ A simple laravel api powered by Sanctum that allows for customer account creatio
     - Run command from project root => ./vendor/bin/sail artisan db:migrate
     - Run command from project root => ./vendor/bin/sail artisan db:seed
     - Run command from project root => ./vendor/bin/sail up
-    
+
+## Jobs (Horizon - Redis)
+    - Run command from project root => ./vendor/bin/sail artisan horizon
+    - Visit http://localhost/horizon to access the dashboard
 ## Api Docs
 
 ### **[Authentication Api](https://documenter.getpostman.com/view/9364284/2s93JnV7Jq/)**

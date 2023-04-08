@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Filters\AccountFilters;
 use App\Http\Requests\StoreAccountRequest;
 use App\Http\Resources\AccountResource;
 use App\Models\Account;
@@ -18,9 +19,9 @@ class AccountController extends Controller
      *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index()
+    public function index(AccountFilters $filters)
     {
-        return AccountResource::collection(Account::where('user_id', Auth::user()->id)->get());
+        return AccountResource::collection(Account::where('user_id', Auth::user()->id)->filter($filters)->get());
     }
 
     /**

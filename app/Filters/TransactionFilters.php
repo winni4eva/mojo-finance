@@ -13,6 +13,6 @@ class TransactionFilters extends AbstractFilter
         'credit_account' => CreditAccountFilter::class,
         'debit_account' => DebitAccountFilter::class,
         'date' => CreatedDateFilter::class,
-        'amount' => PriceFilter::class,
+        'price' => PriceFilter::class,
     ];
 }

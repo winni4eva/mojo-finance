@@ -21,6 +21,16 @@ A simple laravel api powered by Sanctum that allows for customer account creatio
 ## Jobs (Horizon - Redis)
     - Run command from project root => ./vendor/bin/sail artisan horizon
     - Visit http://localhost/horizon to access the dashboard
+
+## Nova 
+    - Run command from project root => ./vendor/bin/sail npm i
+    - Run command from project root => ./vendor/bin/sail npm run dev
+    - Run command from project root => ./vendor/bin/sail artisan nova:install
+    - Run comman from project root => ./vendor/bin/sail artisan migrate
+    - Visit dashboard => http://localhost/nova
+    - To setup user ru command => ./vendor/bin/sail artisan nova:user
+
+
 ## Api Docs
 
 ### **[Authentication Api](https://documenter.getpostman.com/view/9364284/2s93JnV7Jq/)**

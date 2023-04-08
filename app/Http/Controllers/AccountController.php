@@ -21,7 +21,12 @@ class AccountController extends Controller
      */
     public function index(AccountFilters $filters)
     {
-        return AccountResource::collection(Account::where('user_id', Auth::user()->id)->filter($filters)->get());
+        $accounts = Account::where('user_id', Auth::user()->id)
+            ->filter($filters)
+            ->latest()
+            ->paginate(request()->query('perPage', 10), columns: ['*'], pageName: 'page', page: request()->query('page', 1));
+        
+        return AccountResource::collection($accounts);
     }
 
     /**

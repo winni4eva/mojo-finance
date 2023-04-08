@@ -42,16 +42,15 @@ class NewTransactionCreated extends Notification
     public function toMail($notifiable)
     {
         $appName = config('app.name');
-        $username = $this->transaction->user->first_name;
         
         return (new MailMessage)
                     ->line("{$appName}")
                     ->action('TRANSACTION', url('/'))
                     ->subject(" New Transaction Created")
-                    ->greeting("Hi {$username}")
-                    ->line('A transfer was sent from account A to accout B')
-                    ->line('These are the details amount sent - amout received')
-                    ->line('Thank you for using our application!');
+                    ->greeting("Hi {$this->transaction->user->first_name}")
+                    ->line("A transfer of USD {$this->transaction->amount} was sent from account (000{$this->transaction->creditAccount->id}) to account (000{$this->transaction->debitAccount->id})")
+                    ->line("Account balance is USD ({$this->transaction->debitAccount->amount})")
+                    ->line('kind Regards.');
     }
 
     /**

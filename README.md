@@ -28,7 +28,7 @@ A simple laravel api powered by Sanctum that allows for customer account creatio
     - Run command from project root => ./vendor/bin/sail artisan nova:install
     - Run comman from project root => ./vendor/bin/sail artisan migrate
     - Visit dashboard => http://localhost/nova
-    - To setup user ru command => ./vendor/bin/sail artisan nova:user
+    - To setup user run command => ./vendor/bin/sail artisan nova:user
 
 
 ## Api Docs

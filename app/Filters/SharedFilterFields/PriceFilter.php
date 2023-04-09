@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filters\FilterFields;
+namespace App\Filters\SharedFilterFields;
 
 class PriceFilter
 {
@@ -8,7 +8,6 @@ class PriceFilter
     {
         // Add where between price ranges
         $price = $price ?? 0.00;
-        
 
         $query->when(request('price_operand') == '>', fn ($q) => $q->where('amount', '>', $price));
 

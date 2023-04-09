@@ -2,12 +2,12 @@
 
 namespace App\Filters;
 
-use App\Filters\FilterFields\CreatedDateFilter;
-use App\Filters\FilterFields\PriceFilter;
+use App\Filters\SharedFilterFields\CreatedDateFilter;
+use App\Filters\SharedFilterFields\PriceFilter;
 use App\Filters\TransactionFilterFields\CreditAccountFilter;
 use App\Filters\TransactionFilterFields\DebitAccountFilter;
 
-class TransactionFilters extends AbstractFilter
+class TransactionFilters extends AbstractFilter implements FilterInterface
 {
     protected $filters = [
         'credit_account' => CreditAccountFilter::class,

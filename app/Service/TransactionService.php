@@ -5,7 +5,6 @@ namespace App\Service;
 use App\Events\TransactionFailed;
 use App\Models\Account;
 use App\Models\Transaction;
-use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 class TransactionService

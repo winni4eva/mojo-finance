@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Events\TransactionFailed;
 use App\Models\Account;
 use App\Models\Transaction;
 use App\Models\User;
@@ -11,31 +12,42 @@ class TransactionService
 {
     public function createTransaction(Account $account, Account $creditAccount, int $userId, int $amount)
     {
-        DB::beginTransaction();
+        try {
+            DB::beginTransaction();
+            
+            $account->update([
+                'amount' => $account->amount - $amount,
+            ]);
 
-        $account->update([
-            'amount' => $account->amount - $amount,
-        ]);
+            $creditAccount->update([
+                'amount' => $creditAccount->amount + $amount,
+            ]);
 
-        $creditAccount->update([
-            'amount' => $creditAccount->amount + $amount,
-        ]);
+            $transaction = Transaction::create([
+                'credit_account_id' => $creditAccount->id,
+                'debit_account_id' => $account->id,
+                'amount' => $amount,
+                'user_id' => $userId,
+            ]);
 
-        $transaction = Transaction::create([
-            'credit_account_id' => $creditAccount->id,
-            'debit_account_id' => $account->id,
-            'amount' => $amount,
-            'user_id' => $userId,
-        ]);
+            if (! $transaction) {
+                DB::rollBack();
+                $this->dispatchFailedEvent($account, $creditAccount, $userId, $amount);
+                return false;
+            }
 
-        if (! $transaction) {
+            DB::commit();
+
+            return $transaction;
+        } catch (\Throwable $th) {
             DB::rollBack();
-            /**TODO ADD FAILED TRANSACTION NOTIFICATIONS */
-            return false;
+            $this->dispatchFailedEvent($account, $creditAccount, $userId, $amount);
+            throw $th;
         }
+    }
 
-        DB::commit();
-
-        return $transaction;
+    private function dispatchFailedEvent(Account $account, Account $creditAccount, int $userId, int $amount)
+    {
+        TransactionFailed::dispatch($account, $creditAccount, $userId, $amount);
     }
 }

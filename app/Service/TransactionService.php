@@ -40,6 +40,7 @@ class TransactionService
 
             return $transaction;
         } catch (\Throwable $th) {
+            // Add audit logs
             DB::rollBack();
             $this->dispatchFailedEvent($account, $creditAccount, $userId, $amount);
             throw $th;

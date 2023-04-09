@@ -8,14 +8,14 @@ use App\Http\Resources\TransactionResource;
 use App\Jobs\ProcessTransaction;
 use App\Models\Account;
 use App\Models\Transaction;
-use App\Traits\HttpResponses;
+use App\Traits\HttpResponseTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class TransactionController extends Controller
 {
-    use HttpResponses;
+    use HttpResponseTrait;
 
     public function __construct()
     {

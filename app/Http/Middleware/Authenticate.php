@@ -2,13 +2,13 @@
 
 namespace App\Http\Middleware;
 
-use App\Traits\HttpResponses;
+use App\Traits\HttpResponseTrait;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 use Symfony\Component\HttpFoundation\Response;
 
 class Authenticate extends Middleware
 {
-    use HttpResponses;
+    use HttpResponseTrait;
 
     /**
      * Get the path the user should be redirected to when they are not authenticated.

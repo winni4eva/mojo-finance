@@ -6,13 +6,13 @@ use App\Filters\AccountFilters;
 use App\Http\Requests\StoreAccountRequest;
 use App\Http\Resources\AccountResource;
 use App\Models\Account;
-use App\Traits\HttpResponses;
+use App\Traits\HttpResponseTrait;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class AccountController extends Controller
 {
-    use HttpResponses;
+    use HttpResponseTrait;
 
     /**
      * Display a listing of the resource.

@@ -25,6 +25,7 @@ class AuthController extends Controller
 
         $user = User::where('email', $request->email)->first();
 
+        /** TODO Refactor response to match app response structure */
         return $this->success([
             'user' => $user,
             'token' => $user->createToken('Api token of '.$user->first_name.' '.$user->last_name)->plainTextToken,
@@ -43,6 +44,7 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        /** TODO Refactor response to match app response structure */
         return $this->success([
             'user' => $user,
             'token' => $user->createToken('Api token of '.$user->first_name.' '.$user->last_name)->plainTextToken,

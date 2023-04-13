@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Events\TransactionFailed;
 use App\Models\Account;
+use App\Models\ScheduledTransaction;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\DB;
 
@@ -44,6 +45,26 @@ class TransactionService
             $this->dispatchFailedEvent($account, $creditAccount, $userId, $amount);
             throw $th;
         }
+    }
+
+    public function createScheduledTransaction()
+    {
+            $scheduledTransaction = ScheduledTransaction::create([
+                'credit_account_id' => request('credit_account'),
+                'debit_account_id' => request('account'),
+                'amount' => request('amount'),
+                'user_id' => auth()->user()->id,
+                'period' => request('period'),
+                'time' => request('time')
+            ]);
+
+            if (! $scheduledTransaction) {
+                /** Add Scheduled Transaction Failed notification */
+                // $this->dispatchFailedEvent($account, $creditAccount, $userId, $amount);
+                return false;
+            }
+
+            return $scheduledTransaction;
     }
 
     private function dispatchFailedEvent(Account $account, Account $creditAccount, int $userId, int $amount)

@@ -26,8 +26,10 @@ class StoreTransactionRequest extends FormRequest
     public function rules()
     {
         return [
-            'amount' => 'required|numeric|min:0',
-            'credit_account' => 'required|numeric|min:0',
+            'amount' => 'required|numeric|min:1',
+            'credit_account' => 'required|numeric|min:1',
+            'account' => 'required|numeric|min:1',
+            /** TODO add conditional validation for scheduled transactions */
         ];
     }
 

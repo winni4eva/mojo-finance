@@ -8,6 +8,7 @@ use App\Http\Resources\TransactionResource;
 use App\Jobs\ProcessTransaction;
 use App\Models\Account;
 use App\Models\Transaction;
+use App\Service\TransactionService;
 use App\Traits\HttpResponseTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,7 +18,7 @@ class TransactionController extends Controller
 {
     use HttpResponseTrait;
 
-    public function __construct()
+    public function __construct(protected TransactionService $transactionService)
     {
     }
 
@@ -44,9 +45,16 @@ class TransactionController extends Controller
      */
     public function store(StoreTransactionRequest $request, Account $account)
     {
-        ProcessTransaction::dispatch($account, $request->creditAccount(), Auth::user()->id, $request->amount);
+        $message = '';
+        if ($request->has('schedule') && $request->schedule) {
+            $this->transactionService->createScheduledTransaction();
+            $message = 'Transaction scheduled successfully';
+        } else {
+            $message = 'Transaction processing initiated successfully';
+            ProcessTransaction::dispatch($account, $request->creditAccount(), Auth::user()->id, $request->amount);
+        }
 
-        return $this->success('', 'Transaction processing initiated successfully', Response::HTTP_CREATED);
+        return $this->success('', $message, Response::HTTP_CREATED);
     }
 
     /**

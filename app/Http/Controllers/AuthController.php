@@ -5,13 +5,15 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\NewUserRequest;
 use App\Models\User;
-use App\Traits\HttpResponses;
+use App\Traits\HttpResponseTrait;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    use HttpResponses;
+    use HttpResponseTrait;
+
+    /**TODO Reefactor to use Action classes */
 
     public function login(LoginUserRequest $request)
     {

@@ -50,23 +50,22 @@ class TransactionService
 
     public function createScheduledTransaction(Account $account)
     {
-        logger('Request ', request()->all());
-            $scheduledTransaction = ScheduledTransaction::create([
-                'account_id' => (int) request('credit_account'),
-                'debit_account_id' => $account->id,
-                'amount' => request('amount'),
-                'user_id' => auth()->user()->id,
-                'period' => request('period'),
-                'time' => request('time'),
-            ]);
+        $scheduledTransaction = ScheduledTransaction::create([
+            'account_id' => (int) request('credit_account'),
+            'debit_account_id' => $account->id,
+            'amount' => request('amount'),
+            'user_id' => auth()->user()->id,
+            'period' => request('period'),
+            'time' => request('time'),
+        ]);
 
-            if (! $scheduledTransaction) {
-                /** Add Scheduled Transaction Failed notification */
-                // $this->dispatchFailedEvent($account, $creditAccount, $userId, $amount);
-                return false;
-            }
+        if (! $scheduledTransaction) {
+            /** Add Scheduled Transaction Failed notification */
+            // $this->dispatchFailedEvent($account, $creditAccount, $userId, $amount);
+            return false;
+        }
 
-            return $scheduledTransaction;
+        return $scheduledTransaction;
     }
 
     private function dispatchFailedEvent(Account $account, Account $creditAccount, int $userId, int $amount)

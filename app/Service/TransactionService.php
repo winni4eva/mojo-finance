@@ -14,7 +14,7 @@ class TransactionService
     {
         try {
             DB::beginTransaction();
-            
+
             $account->update([
                 'amount' => $account->amount - $amount,
             ]);
@@ -33,6 +33,7 @@ class TransactionService
             if (! $transaction) {
                 DB::rollBack();
                 $this->dispatchFailedEvent($account, $creditAccount, $userId, $amount);
+
                 return false;
             }
 
@@ -51,12 +52,12 @@ class TransactionService
     {
         logger('Request ', request()->all());
             $scheduledTransaction = ScheduledTransaction::create([
-                'account_id' => (int)request('credit_account'),
+                'account_id' => (int) request('credit_account'),
                 'debit_account_id' => $account->id,
                 'amount' => request('amount'),
                 'user_id' => auth()->user()->id,
                 'period' => request('period'),
-                'time' => request('time')
+                'time' => request('time'),
             ]);
 
             if (! $scheduledTransaction) {

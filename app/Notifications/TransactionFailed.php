@@ -5,7 +5,6 @@ namespace App\Notifications;
 use App\Models\Account;
 use App\Models\Transaction;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
@@ -43,11 +42,11 @@ class TransactionFailed extends Notification
     public function toMail($notifiable)
     {
         $appName = config('app.name');
-        
+
         return (new MailMessage)
                     ->line("{$appName}")
                     ->action('TRANSACTION FAILED', url('/'))
-                    ->subject("Transaction Failed")
+                    ->subject('Transaction Failed')
                     ->greeting("Hi {$this->account->user->first_name}")
                     ->line("A transfer of USD {$this->amount} to account (000{$this->creditAccount->id}) owned by {$this->creditAccount->user->first_name} failed")
                     //->line("Account balance is USD ({$this->transaction->debitAccount->amount})")

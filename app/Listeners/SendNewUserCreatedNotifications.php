@@ -21,7 +21,6 @@ class SendNewUserCreatedNotifications implements ShouldQueue
     /**
      * Handle the event.
      *
-     * @param  \App\Events\NewUserCreated  $event
      * @return void
      */
     public function handle(NewUserCreated $event)

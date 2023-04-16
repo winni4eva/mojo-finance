@@ -28,11 +28,11 @@ class EventServiceProvider extends ServiceProvider
             SendNewUserCreatedNotifications::class,
         ],
         NewTransactionCreated::class => [
-            SendNewTransactionCreatedNotifications::class
+            SendNewTransactionCreatedNotifications::class,
         ],
         TransactionFailed::class => [
-            SendTransactionFailedNotifications::class
-        ]
+            SendTransactionFailedNotifications::class,
+        ],
     ];
 
     /**

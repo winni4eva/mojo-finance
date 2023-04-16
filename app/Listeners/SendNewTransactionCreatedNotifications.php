@@ -6,7 +6,6 @@ use App\Events\NewTransactionCreated;
 use App\Events\TransactionFailed;
 use App\Notifications\NewTransactionCreated as NotificationsNewTransactionCreated;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 use Throwable;
 
 class SendNewTransactionCreatedNotifications implements ShouldQueue
@@ -24,7 +23,6 @@ class SendNewTransactionCreatedNotifications implements ShouldQueue
     /**
      * Handle the event.
      *
-     * @param  \App\Events\NewTransactionCreated  $event
      * @return void
      */
     public function handle(NewTransactionCreated $event)

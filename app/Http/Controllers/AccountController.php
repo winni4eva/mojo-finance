@@ -25,14 +25,13 @@ class AccountController extends Controller
             ->filter($filters)
             ->latest()
             ->paginate(request()->query('perPage', 10), columns: ['*'], pageName: 'page', page: request()->query('page', 1));
-        
+
         return AccountResource::collection($accounts);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreAccountRequest  $request
      * @return \App\Http\Resources\AccountResource
      */
     public function store(StoreAccountRequest $request)
@@ -50,7 +49,6 @@ class AccountController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Account  $account
      * @return \App\Http\Resources\AccountResource|\Illuminate\Http\JsonResponse
      */
     public function show(Account $account)
@@ -63,8 +61,6 @@ class AccountController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\StoreAccountRequest  $request
-     * @param  \App\Models\Account  $account
      * @return \App\Http\Resources\AccountResource|\Illuminate\Http\JsonResponse
      */
     public function update(StoreAccountRequest $request, Account $account)
@@ -79,7 +75,6 @@ class AccountController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Account  $account
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Account $account)

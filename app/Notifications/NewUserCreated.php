@@ -45,7 +45,7 @@ class NewUserCreated extends Notification
         return (new MailMessage)
                     ->line("{$appName}")
                     ->action('ACCOUNT', url('/'))
-                    ->subject(" New Account Creeated")
+                    ->subject(' New Account Creeated')
                     ->greeting("Hi {$this->user->first_name}")
                     ->line('Thank you for using our application!');
     }

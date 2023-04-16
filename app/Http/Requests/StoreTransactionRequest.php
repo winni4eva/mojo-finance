@@ -29,7 +29,7 @@ class StoreTransactionRequest extends FormRequest
             'amount' => 'required|numeric|min:1',
             'credit_account' => 'required|numeric|min:1',
             //'account' => 'required|numeric|min:1',
-            /** TODO add conditional validation for scheduled transactions */
+        /** TODO add conditional validation for scheduled transactions */
         ];
     }
 

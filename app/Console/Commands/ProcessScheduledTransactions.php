@@ -39,7 +39,7 @@ class ProcessScheduledTransactions extends Command implements Isolatable
 
             $transaction->delete();
         });
-                   
+
         return Command::SUCCESS;
     }
 }

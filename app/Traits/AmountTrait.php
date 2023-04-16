@@ -8,8 +8,6 @@ trait AmountTrait
 {
     /**
      * Interact with amount.
-     *
-     * @return \Illuminate\Database\Eloquent\Casts\Attribute
      */
     protected function amount(): Attribute
     {

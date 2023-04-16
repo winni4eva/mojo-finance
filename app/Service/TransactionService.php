@@ -47,11 +47,12 @@ class TransactionService
         }
     }
 
-    public function createScheduledTransaction()
+    public function createScheduledTransaction(Account $account)
     {
+        logger('Request ', request()->all());
             $scheduledTransaction = ScheduledTransaction::create([
-                'credit_account_id' => request('credit_account'),
-                'debit_account_id' => request('account'),
+                'account_id' => (int)request('credit_account'),
+                'debit_account_id' => $account->id,
                 'amount' => request('amount'),
                 'user_id' => auth()->user()->id,
                 'period' => request('period'),

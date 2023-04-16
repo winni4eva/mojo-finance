@@ -33,7 +33,7 @@ class ProcessScheduledTransactions extends Command implements Isolatable
     {
         $transactions = $this->withProgressBar(ScheduledTransaction::all(), function (ScheduledTransaction $transaction) {
             $debitAccount = Account::find($transaction->debit_account_id);
-            $creditAccount = Account::find($transaction->credit_account_id);
+            $creditAccount = Account::find($transaction->account_id);
 
             ProcessTransaction::dispatch($debitAccount, $creditAccount, $transaction->user_id, $transaction->amount);
 

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ScheduledTransaction extends Model
 {
-    use HasFactory, AmountTrait;
+    use HasFactory;
 
-    protected $fillable = ['credit_account_id', 'debit_account_id', 'amount', 'user_id', 'period', 'time'];
+    protected $fillable = ['account_id', 'debit_account_id', 'amount', 'user_id', 'period', 'time'];
 }

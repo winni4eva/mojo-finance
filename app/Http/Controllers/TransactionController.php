@@ -46,8 +46,9 @@ class TransactionController extends Controller
     public function store(StoreTransactionRequest $request, Account $account)
     {
         $message = '';
+
         if ($request->has('schedule') && $request->schedule) {
-            $this->transactionService->createScheduledTransaction();
+            $this->transactionService->createScheduledTransaction($account);
             $message = 'Transaction scheduled successfully';
         } else {
             $message = 'Transaction processing initiated successfully';

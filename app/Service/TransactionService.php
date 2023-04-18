@@ -9,10 +9,11 @@ use App\Models\ScheduledTransaction;
 use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpFoundation\Response;
 
 class TransactionService
 {
-    public function createTransaction(Account $account, Account $creditAccount, User $user, int $amount)
+    public function createTransaction(Account $account, Account $creditAccount, User $user, int $amount, int $scheduleId)
     {
         try {
             DB::beginTransaction();
@@ -41,12 +42,16 @@ class TransactionService
 
             DB::commit();
 
+            if ($scheduleId) {
+                ScheduledTransaction::destroy($scheduleId);
+            }
+            
             return $transaction;
         } catch (\Throwable $th) {
             // Add audit logs
             DB::rollBack();
             $this->dispatchFailedEvent($account, $creditAccount, $user, $amount);
-            throw new TransactionProcessingFailed('Yayyy', 400);
+            throw new TransactionProcessingFailed('Transaction processing failed', Response::HTTP_FORBIDDEN);
         }
     }
 

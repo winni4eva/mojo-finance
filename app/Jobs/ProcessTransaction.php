@@ -20,7 +20,7 @@ class ProcessTransaction implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(protected Account $account, protected Account $creditAccount, protected User $user, protected int $amount)
+    public function __construct(protected Account $account, protected Account $creditAccount, protected User $user, protected int $amount, protected int $scheduleId = 0)
     {
         //
     }
@@ -32,6 +32,6 @@ class ProcessTransaction implements ShouldQueue
      */
     public function handle(TransactionService $transactionService)
     {
-        $transactionService->createTransaction($this->account, $this->creditAccount, $this->user, $this->amount);
+        $transactionService->createTransaction($this->account, $this->creditAccount, $this->user, $this->amount, $this->scheduleId);
     }
 }

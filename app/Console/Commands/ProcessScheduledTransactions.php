@@ -43,9 +43,8 @@ class ProcessScheduledTransactions extends Command implements Isolatable
             $creditAccount = Account::find($transaction->account_id);
             $user = User::find($transaction->user_id);
 
-            ProcessTransaction::dispatch($debitAccount, $creditAccount, $user, $transaction->amount);
+            ProcessTransaction::dispatch($debitAccount, $creditAccount, $user, $transaction->amount, $transaction->id);
 
-            $transaction->delete();
             $bar->advance();
         }
 

@@ -15,7 +15,6 @@ class TransactionService
     public function createTransaction(Account $account, Account $creditAccount, User $user, int $amount)
     {
         try {
-            logger('Running transact');
             DB::beginTransaction();
 
             $account->update([

@@ -33,11 +33,11 @@ class ProcessScheduledTransactions extends Command implements Isolatable
     public function handle()
     {
         $totalScheduledTransactions = ScheduledTransaction::count();
- 
+
         $bar = $this->output->createProgressBar($totalScheduledTransactions);
-        
+
         $bar->start();
-        
+
         foreach (ScheduledTransaction::cursor() as $transaction) {
             $debitAccount = Account::find($transaction->debit_account_id);
             $creditAccount = Account::find($transaction->account_id);
@@ -48,7 +48,7 @@ class ProcessScheduledTransactions extends Command implements Isolatable
             $transaction->delete();
             $bar->advance();
         }
-        
+
         $bar->finish();
 
         return Command::SUCCESS;

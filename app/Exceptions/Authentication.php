@@ -10,7 +10,9 @@ class Authentication extends Exception
     use HttpResponseTrait;
 
     protected $message;
+
     protected $statusCode;
+
     protected $errors;
 
     public function __construct($message = null, $statusCode = 401, $errors = null)
@@ -22,7 +24,7 @@ class Authentication extends Exception
     }
 
     public function render($request)
-    {   
+    {
         return $this->error('', $this->message, $this->statusCode);
     }
 }

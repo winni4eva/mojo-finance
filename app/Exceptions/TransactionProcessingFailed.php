@@ -10,7 +10,9 @@ class TransactionProcessingFailed extends Exception
     use HttpResponseTrait;
 
     protected $message;
+
     protected $statusCode;
+
     protected $errors;
 
     public function __construct($message = null, $statusCode = 400, $errors = null)

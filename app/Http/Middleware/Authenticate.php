@@ -26,6 +26,6 @@ class Authenticate extends Middleware
     protected function unauthenticated($request, array $guards)
     {
         //abort($this->error('error', 'Unauthenticated Adam...', Response::HTTP_UNAUTHORIZED));
-        throw new Authentication("User is unauthenticated");
+        throw new Authentication('User is unauthenticated');
     }
 }

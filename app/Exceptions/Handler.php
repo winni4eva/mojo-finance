@@ -12,6 +12,7 @@ use Throwable;
 class Handler extends ExceptionHandler
 {
     use HttpResponseTrait;
+
     /**
      * A list of exception types with their corresponding custom log levels.
      *
@@ -62,7 +63,7 @@ class Handler extends ExceptionHandler
         } elseif ($exception instanceof HttpException) {
             return $this->error('', $exception->getMessage(), $exception->getCode() ?: Response::HTTP_FORBIDDEN);
         }
-        
+
         return parent::render($request, $exception);
     }
 }

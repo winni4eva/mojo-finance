@@ -16,7 +16,7 @@ trait HttpResponseTrait
     protected function error($data, $message = null, $code = 403)
     {
         return response()->json([
-            'status' => 'Error has occurred...',
+            'status' => 'An error has occurred...',
             'message' => $message,
             'data' => $data,
         ], $code);

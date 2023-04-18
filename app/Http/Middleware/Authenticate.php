@@ -2,9 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App\Exceptions\Authentication;
 use App\Traits\HttpResponseTrait;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
-use Symfony\Component\HttpFoundation\Response;
 
 class Authenticate extends Middleware
 {
@@ -25,6 +25,7 @@ class Authenticate extends Middleware
 
     protected function unauthenticated($request, array $guards)
     {
-        abort($this->error('error', 'Unauthenticated.', Response::HTTP_UNAUTHORIZED));
+        //abort($this->error('error', 'Unauthenticated Adam...', Response::HTTP_UNAUTHORIZED));
+        throw new Authentication("User is unauthenticated");
     }
 }

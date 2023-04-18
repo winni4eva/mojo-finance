@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Events\TransactionFailed;
+use App\Exceptions\TransactionProcessingFailed;
 use App\Models\Account;
 use App\Models\ScheduledTransaction;
 use App\Models\Transaction;
@@ -14,6 +15,7 @@ class TransactionService
     public function createTransaction(Account $account, Account $creditAccount, User $user, int $amount)
     {
         try {
+            logger('Running transact');
             DB::beginTransaction();
 
             $account->update([
@@ -45,7 +47,7 @@ class TransactionService
             // Add audit logs
             DB::rollBack();
             $this->dispatchFailedEvent($account, $creditAccount, $user, $amount);
-            throw $th;
+            throw new TransactionProcessingFailed('Yayyy', 400);
         }
     }
 

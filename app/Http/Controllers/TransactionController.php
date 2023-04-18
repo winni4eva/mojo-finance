@@ -51,8 +51,8 @@ class TransactionController extends Controller
             $this->transactionService->createScheduledTransaction($account);
             $message = 'Transaction scheduled successfully';
         } else {
+            ProcessTransaction::dispatch($account, $request->creditAccount(), Auth::user(), $request->amount);
             $message = 'Transaction processing initiated successfully';
-            ProcessTransaction::dispatch($account, $request->creditAccount(), Auth::user()->id, $request->amount);
         }
 
         return $this->success('', $message, Response::HTTP_CREATED);

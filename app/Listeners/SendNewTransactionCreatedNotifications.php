@@ -33,7 +33,7 @@ class SendNewTransactionCreatedNotifications implements ShouldQueue
     /**
      * Handle a job failure.
      */
-    public function failed(TransactionFailed $event, Throwable $exception): void
+    public function failed(NewTransactionCreated $event, Throwable $exception): void
     {
         //logger('transaction failed');
         //auth()->user->notify(new SendTransactionFailedNotifications(auth()->user()));

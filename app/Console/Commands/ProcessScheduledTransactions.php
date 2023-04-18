@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Jobs\ProcessTransaction;
 use App\Models\Account;
 use App\Models\ScheduledTransaction;
+use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Console\Isolatable;
 
@@ -40,11 +41,11 @@ class ProcessScheduledTransactions extends Command implements Isolatable
         foreach (ScheduledTransaction::cursor() as $transaction) {
             $debitAccount = Account::find($transaction->debit_account_id);
             $creditAccount = Account::find($transaction->account_id);
+            $user = User::find($transaction->user_id);
 
-            ProcessTransaction::dispatch($debitAccount, $creditAccount, $transaction->user_id, $transaction->amount);
+            ProcessTransaction::dispatch($debitAccount, $creditAccount, $user, $transaction->amount);
 
             $transaction->delete();
-
             $bar->advance();
         }
         

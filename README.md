@@ -43,3 +43,7 @@ A simple laravel api powered by Sanctum that allows for customer account creatio
 ## Testing
 
     - To run tests => ./vendor/bin/sail test
+
+## Scheduled Transactions
+
+    - ./vendor/bin/sail artisan schedule:work

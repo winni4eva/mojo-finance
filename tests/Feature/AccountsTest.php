@@ -4,14 +4,14 @@ namespace Tests\Feature;
 
 use App\Models\Account;
 use App\Models\User;
-use App\Traits\HttpResponses;
+use App\Traits\HttpResponseTrait;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
 class AccountsTest extends TestCase
 {
-    use RefreshDatabase, HttpResponses;
+    use RefreshDatabase, HttpResponseTrait;
 
     private User $user;
 

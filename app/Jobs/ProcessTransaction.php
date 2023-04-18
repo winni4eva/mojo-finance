@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\Account;
+use App\Models\User;
 use App\Service\TransactionService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -19,7 +20,7 @@ class ProcessTransaction implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(protected Account $account, protected Account $creditAccount, protected int $userId, protected int $amount)
+    public function __construct(protected Account $account, protected Account $creditAccount, protected User $user, protected int $amount)
     {
         //
     }
@@ -31,6 +32,6 @@ class ProcessTransaction implements ShouldQueue
      */
     public function handle(TransactionService $transactionService)
     {
-        $transactionService->createTransaction($this->account, $this->creditAccount, $this->userId, $this->amount);
+        $transactionService->createTransaction($this->account, $this->creditAccount, $this->user, $this->amount);
     }
 }

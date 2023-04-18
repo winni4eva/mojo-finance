@@ -4,6 +4,7 @@ namespace App\Notifications;
 
 use App\Models\Account;
 use App\Models\Transaction;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
@@ -17,7 +18,7 @@ class TransactionFailed extends Notification
      *
      * @return void
      */
-    public function __construct(public Account $account, public Account $creditAccount, public int $userId, public int $amount)
+    public function __construct(public Account $account, public Account $creditAccount, public User $user, public int $amount)
     {
         //
     }

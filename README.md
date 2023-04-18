@@ -17,6 +17,7 @@ A simple laravel api powered by Sanctum that allows for customer account creatio
     - Run command from project root => ./vendor/bin/sail artisan db:migrate
     - Run command from project root => ./vendor/bin/sail artisan db:seed
     - Run command from project root => ./vendor/bin/sail up
+    - To exit run command from project root => ./vendor/bin/sail down -v
 
 ## Jobs (Horizon - Redis)
     - Run command from project root => ./vendor/bin/sail artisan horizon
@@ -38,3 +39,7 @@ A simple laravel api powered by Sanctum that allows for customer account creatio
 ### **[Account Api](https://documenter.getpostman.com/view/9364284/2s93JnUSGf/)**
 
 ### **[Transaction Api](https://documenter.getpostman.com/view/9364284/2s93JnV7Jr/)**
+
+## Testing
+
+    - To run tests => ./vendor/bin/sail test

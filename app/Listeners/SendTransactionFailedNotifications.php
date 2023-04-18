@@ -24,6 +24,6 @@ class SendTransactionFailedNotifications
      */
     public function handle(TransactionFailed $event)
     {
-         $event->account->user->notify(new NotificationsTransactionFailed($event->account, $event->creditAccount, $event->userId, $event->amount));
+         $event->account->user->notify(new NotificationsTransactionFailed($event->account, $event->creditAccount, $event->user, $event->amount));
     }
 }

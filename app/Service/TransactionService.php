@@ -6,11 +6,12 @@ use App\Events\TransactionFailed;
 use App\Models\Account;
 use App\Models\ScheduledTransaction;
 use App\Models\Transaction;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 class TransactionService
 {
-    public function createTransaction(Account $account, Account $creditAccount, int $userId, int $amount)
+    public function createTransaction(Account $account, Account $creditAccount, User $user, int $amount)
     {
         try {
             DB::beginTransaction();
@@ -27,12 +28,12 @@ class TransactionService
                 'credit_account_id' => $creditAccount->id,
                 'debit_account_id' => $account->id,
                 'amount' => $amount,
-                'user_id' => $userId,
+                'user_id' => $user->id,
             ]);
 
             if (! $transaction) {
                 DB::rollBack();
-                $this->dispatchFailedEvent($account, $creditAccount, $userId, $amount);
+                $this->dispatchFailedEvent($account, $creditAccount, $user, $amount);
 
                 return false;
             }
@@ -43,7 +44,7 @@ class TransactionService
         } catch (\Throwable $th) {
             // Add audit logs
             DB::rollBack();
-            $this->dispatchFailedEvent($account, $creditAccount, $userId, $amount);
+            $this->dispatchFailedEvent($account, $creditAccount, $user, $amount);
             throw $th;
         }
     }
@@ -68,8 +69,8 @@ class TransactionService
         return $scheduledTransaction;
     }
 
-    private function dispatchFailedEvent(Account $account, Account $creditAccount, int $userId, int $amount)
+    private function dispatchFailedEvent(Account $account, Account $creditAccount, User $user, int $amount)
     {
-        TransactionFailed::dispatch($account, $creditAccount, $userId, $amount);
+        TransactionFailed::dispatch($account, $creditAccount, $user, $amount);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Events;
 
 use App\Models\Account;
+use App\Models\User;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -17,7 +18,7 @@ class TransactionFailed
      *
      * @return void
      */
-    public function __construct(public Account $account, public Account $creditAccount, public int $userId, public int $amount)
+    public function __construct(public Account $account, public Account $creditAccount, public User $user, public int $amount)
     {
         //
     }

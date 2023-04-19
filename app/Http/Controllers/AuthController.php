@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Traits\HttpResponseTrait;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
@@ -20,7 +21,7 @@ class AuthController extends Controller
         $request->validated($request->all());
 
         if (! Auth::attempt($request->only(['email', 'password']))) {
-            return $this->error('', 'Credentials do not match', 401);
+            return $this->error('', 'Credentials do not match', Response::HTTP_UNAUTHORIZED);
         }
 
         $user = User::where('email', $request->email)->first();

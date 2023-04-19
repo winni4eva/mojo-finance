@@ -38,7 +38,7 @@ class ProcessScheduledTransactions extends Command implements Isolatable
 
         $bar->start();
 
-        foreach (ScheduledTransaction::cursor() as $transaction) {
+        foreach (ScheduledTransaction::lazy() as $transaction) {
             $debitAccount = Account::find($transaction->debit_account_id);
             $creditAccount = Account::find($transaction->account_id);
             $user = User::find($transaction->user_id);

@@ -48,7 +48,7 @@ class TransactionController extends Controller
         $message = '';
 
         if ($request->has('schedule') && $request->schedule) {
-            $this->transactionService->createScheduledTransaction($account);
+            $this->transactionService->createScheduledTransaction($account, Auth::user()->id);
             $message = 'Transaction scheduled successfully';
         } else {
             ProcessTransaction::dispatch($account, $request->creditAccount(), Auth::user(), $request->amount);

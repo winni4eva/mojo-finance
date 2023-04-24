@@ -45,7 +45,7 @@ class TransactionService
             if ($scheduleId) {
                 ScheduledTransaction::destroy($scheduleId);
             }
-            
+
             return $transaction;
         } catch (\Throwable $th) {
             // Add audit logs
@@ -55,13 +55,13 @@ class TransactionService
         }
     }
 
-    public function createScheduledTransaction(Account $account)
+    public function createScheduledTransaction(Account $account, int $userId)
     {
         $scheduledTransaction = ScheduledTransaction::create([
             'account_id' => (int) request('credit_account'),
             'debit_account_id' => $account->id,
             'amount' => request('amount'),
-            'user_id' => auth()->user()->id,
+            'user_id' => $userId,
             'period' => request('period'),
             'time' => request('time'),
         ]);

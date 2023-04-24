@@ -3,7 +3,6 @@
 namespace App\Exceptions;
 
 use App\Traits\HttpResponseTrait;
-use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -52,13 +51,17 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+
+        $this->renderable(function(Throwable $e, $request) {
+            return $this->handleException($request, $e);
+        });
     }
 
-    public function render($request, Throwable $exception)
+    public function handleException($request, Throwable $exception)
     {
         if ($exception instanceof TransactionProcessingFailed) {
             return $exception->render($request);
-        } elseif ($exception instanceof AuthenticationException) {
+        } elseif ($exception instanceof Authentication) {
             return $exception->render($request);
         } elseif ($exception instanceof HttpException) {
             return $this->error('', $exception->getMessage(), $exception->getCode() ?: Response::HTTP_FORBIDDEN);

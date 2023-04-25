@@ -9,17 +9,8 @@ class TransactionProcessingFailed extends Exception
 {
     use HttpResponseTrait;
 
-    protected $message;
-
-    protected $statusCode;
-
-    protected $errors;
-
-    public function __construct($message = null, $statusCode = 400, $errors = null)
+    public function __construct(protected $message = 'Transaction error', protected $statusCode = 401, protected $errors = null)
     {
-        $this->message = $message ?: 'Transaction error';
-        $this->statusCode = $statusCode;
-        $this->errors = $errors;
         parent::__construct($message, $statusCode);
     }
 

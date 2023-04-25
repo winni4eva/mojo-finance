@@ -9,17 +9,8 @@ class Authentication extends Exception
 {
     use HttpResponseTrait;
 
-    protected $message;
-
-    protected $statusCode;
-
-    protected $errors;
-
-    public function __construct($message = null, $statusCode = 401, $errors = null)
+    public function __construct(protected $message = 'Authentication error', protected $statusCode = 401, protected $errors = null)
     {
-        $this->message = $message ?: 'Authentication error';
-        $this->statusCode = $statusCode;
-        $this->errors = $errors;
         parent::__construct($message, $statusCode);
     }
 

@@ -12,7 +12,7 @@ class Transaction extends Model
 {
     use HasFactory, AmountTrait, FilterTrait;
 
-    protected $fillable = ['credit_account_id', 'debit_account_id', 'amount', 'user_id'];
+    protected $fillable = ['credit_account_id', 'debit_account_id', 'amount'];
 
     protected $dispatchesEvents = [
         'created' => NewTransactionCreated::class,

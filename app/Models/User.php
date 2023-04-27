@@ -52,12 +52,7 @@ class User extends Authenticatable
 
     public function accounts()
     {
-        return $this->hasMany(Account::class);
-    }
-
-    public function transactions()
-    {
-        return $this->hasMany(Transaction::class);
+        return $this->hasMany(Account::class, 'accountable_id');
     }
 
     public function scopeByUser($query, $userId)
@@ -65,10 +60,4 @@ class User extends Authenticatable
         return $query->where('user_id', $userId);
     }
 
-    public function getTransaction(int $transactionId)
-    {
-        return $this->transactions()
-            ->byUser($this->id)
-             ->find($transactionId);
-    }
 }

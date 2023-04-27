@@ -18,8 +18,18 @@ class Account extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function accountable()
+    {
+        return $this->morphTo();
+    }
+
+    public function accountType()
+    {
+        return $this->belongsTo(AccountType::class);
+    }
+
     public function transactions()
     {
-        return $this->hasMany(Transaction::class, 'debit_account_id', 'id');
+        return $this->hasMany(Transaction::class);
     }
 }

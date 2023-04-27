@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('account_types', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->enum('name', ['savings', 'checking', 'credit'])->default('savings');
             $table->timestamps();
         });
     }

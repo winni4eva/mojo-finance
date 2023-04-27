@@ -12,20 +12,15 @@ class Transaction extends Model
 {
     use HasFactory, AmountTrait, FilterTrait;
 
-    protected $fillable = ['credit_account_id', 'debit_account_id', 'amount'];
+    protected $fillable = ['account_id', 'amount', 'type'];
 
     protected $dispatchesEvents = [
         'created' => NewTransactionCreated::class,
     ];
 
-    public function debitAccount()
+    public function account()
     {
-        return $this->belongsTo(Account::class, 'debit_account_id', 'id');
-    }
-
-    public function creditAccount()
-    {
-        return $this->belongsTo(Account::class, 'credit_account_id', 'id');
+        return $this->belongsTo(Account::class);
     }
 
     public function user()

@@ -20,7 +20,7 @@ return new class extends Migration
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
             $table->bigInteger('amount')->default(0);
-            $table->enum('name', ['credit', 'debit'])->default('credit');
+            $table->enum('type', ['credit', 'debit'])->default('credit');
             $table->timestamps();
         });
     }

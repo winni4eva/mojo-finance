@@ -8,7 +8,7 @@ use App\Models\User;
 use App\Traits\HttpResponseTrait;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Symfony\Component\HttpFoundation\Request;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
@@ -59,6 +59,13 @@ class AuthController extends Controller
 
         return $this->success([
             'message' => 'User logged out successfully...'
+        ]);
+    }
+
+    public function user(Request $request)
+    {
+        return $this->success([
+            'user' => $request->user()
         ]);
     }
 }

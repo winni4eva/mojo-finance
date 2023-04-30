@@ -2,7 +2,8 @@
 namespace App\Models\Pipelines;
 
 use App\Models\Account;
-use App\Models\Events\SetAccountUuid;
+use App\Models\Events\SetAccountNumberUuid;
+use Illuminate\Support\Facades\Pipeline;
 
 class AccountCreatingPipeline
 {
@@ -11,7 +12,7 @@ class AccountCreatingPipeline
         app(Pipeline::class)
             ->send($model)
             ->through([
-                SetAccountUuid::class,
+                SetAccountNumberUuid::class,
             ]);
     }
 }

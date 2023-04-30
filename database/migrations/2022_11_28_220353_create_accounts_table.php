@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('accounts', function (Blueprint $table) {
             $table->id();
+            $table->uuid('accout_number')->unique();
             $table->foreignId('user_id')
                 ->constrained()
                 ->cascadeOnUpdate()

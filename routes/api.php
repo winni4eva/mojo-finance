@@ -26,8 +26,9 @@ Route::post('/register', [AuthController::class, 'register']);
  * Protected routes
  */
 Route::middleware('auth:sanctum')->group(function () {
-    Route::resource('/accounts', AccountController::class);
-    Route::resource('accounts.transactions', TransactionController::class);
     Route::get('/user', [AuthController::class, 'user']);
     Route::get('/logout', [AuthController::class, 'logout']);
+    
+    Route::resource('/accounts', AccountController::class);
+    Route::resource('accounts.transactions', TransactionController::class);
 });

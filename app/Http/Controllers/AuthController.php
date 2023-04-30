@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Traits\HttpResponseTrait;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
@@ -49,6 +50,15 @@ class AuthController extends Controller
         return $this->success([
             'user' => $user,
             'token' => $user->createToken('Api token of '.$user->first_name.' '.$user->last_name)->plainTextToken,
+        ]);
+    }
+
+    public function logout(Request $request)
+    {
+        $request->user()->currentAccessToken()->delete();
+
+        return $this->success([
+            'message' => 'User logged out successfully...'
         ]);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\AccountType;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -20,6 +21,7 @@ class AccountFactory extends Factory
         return [
             'user_id' => User::all()->random()->id,
             'amount' => fake()->numberBetween(500, 10000),
+            'account_type_id' => AccountType::all()->random()->id
         ];
     }
 }

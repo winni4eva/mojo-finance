@@ -1,14 +1,23 @@
 <?php
  
 namespace App\Models\Events;
- 
-use Illuminate\Database\Eloquent\Model;
+
+use App\Models\Account;
+use App\Models\Pipelines\AbstractUuid;
 use Illuminate\Support\Str;
  
-class SetAccountNumberUuid
+class SetAccountNumberUuid extends AbstractUuid
 {
-    public function __construct(Model $model)
+    // public function __construct(Account $model)
+    // {
+    //     logger('Model Account Number');
+    //     $model->account_number = Str::uuid();
+    // }
+
+    public function mutate(Account $builder)
     {
-        $model->uuid = Str::uuid();
+        logger('Model Account Number');
+        logger($builder);
+        $builder->account_number = Str::uuid();
     }
 }

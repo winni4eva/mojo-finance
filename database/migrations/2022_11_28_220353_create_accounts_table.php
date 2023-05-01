@@ -15,19 +15,20 @@ return new class extends Migration
     {
         Schema::create('accounts', function (Blueprint $table) {
             $table->id();
-            $table->uuid('accout_number')->unique();
+            $table->uuid('account_number')->unique();
             $table->foreignId('user_id')
                 ->constrained()
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
-            $table->foreignId('account_type_id')
-                ->constrained()
-                ->cascadeOnUpdate()
-                ->cascadeOnDelete();
+            // $table->foreignId('account_type_id')
+            //     ->constrained()
+            //     ->cascadeOnUpdate()
+            //     ->cascadeOnDelete();
             $table->morphs('accountable');
             $table->bigInteger('amount')->default(0);
             $table->timestamps();
-            $table->unique(['accountable_type', 'accountable_id', 'account_type_id']);
+            //$table->unique(['user_id', 'account_type_id']);
+            $table->unique(['user_id', 'accountable_id']);
         });
     }
 

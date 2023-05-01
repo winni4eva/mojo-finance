@@ -12,7 +12,7 @@ class Account extends Model
 {
     use HasFactory, AmountTrait, FilterTrait;
 
-    protected $fillable = ['user_id', 'amount'];
+    protected $fillable = ['user_id', 'amount', 'account_type_id', 'account_number'];
 
     protected $dispatchesEvents = [
         'creating' => AccountCreatingPipeline::class,
@@ -21,11 +21,6 @@ class Account extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function accountable()
-    {
-        return $this->morphTo();
     }
 
     public function accountType()

@@ -17,7 +17,7 @@ class AccountTypeFactory extends Factory
     public function definition()
     {
         return [
-            'name' => fake()->randomElement(['savings', 'checking'])
+            'name' => fake()->randomElement(['savings', 'checking']),
         ];
     }
 }

@@ -59,5 +59,4 @@ class User extends Authenticatable
     {
         return $query->where('user_id', $userId);
     }
-
 }

@@ -3,7 +3,6 @@
 namespace App\Listeners;
 
 use App\Events\NewTransactionCreated;
-use App\Events\TransactionFailed;
 use App\Notifications\NewTransactionCreated as NotificationsNewTransactionCreated;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Throwable;

@@ -6,9 +6,9 @@ use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\NewUserRequest;
 use App\Models\User;
 use App\Traits\HttpResponseTrait;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
@@ -58,14 +58,14 @@ class AuthController extends Controller
         $request->user()->currentAccessToken()->delete();
 
         return $this->success([
-            'message' => 'User logged out successfully...'
+            'message' => 'User logged out successfully...',
         ]);
     }
 
     public function user(Request $request)
     {
         return $this->success([
-            'user' => $request->user()
+            'user' => $request->user(),
         ]);
     }
 }

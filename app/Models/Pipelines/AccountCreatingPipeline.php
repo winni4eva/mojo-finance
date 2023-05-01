@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models\Pipelines;
 
 use App\Models\Account;

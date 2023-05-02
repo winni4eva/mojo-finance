@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Pipelines;
+namespace App\Models\Events;
 
 use App\Models\Account;
 use Closure;

@@ -14,6 +14,8 @@ class AccountTypeSeeder extends Seeder
      */
     public function run()
     {
-        AccountType::factory()->create();
+        collect(['savings', 'checking'])->each(function ($accountType) {
+            AccountType::factory()->create(['name' => $accountType]);
+        });
     }
 }

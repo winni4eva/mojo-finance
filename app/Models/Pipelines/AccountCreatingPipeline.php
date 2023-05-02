@@ -10,8 +10,6 @@ class AccountCreatingPipeline
 {
     public function __construct(Account $model)
     {
-        logger('Setting Pipeline -> ');
-        logger($model);
         app(Pipeline::class)
             ->send($model)
             ->through([

@@ -20,15 +20,13 @@ return new class extends Migration
                 ->constrained()
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
-            // $table->foreignId('account_type_id')
-            //     ->constrained()
-            //     ->cascadeOnUpdate()
-            //     ->cascadeOnDelete();
-            $table->morphs('accountable');
+            $table->foreignId('account_type_id')
+                ->constrained()
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
             $table->bigInteger('amount')->default(0);
             $table->timestamps();
-            //$table->unique(['user_id', 'account_type_id']);
-            $table->unique(['user_id', 'accountable_id']);
+            $table->unique(['user_id', 'account_type_id']);
         });
     }
 

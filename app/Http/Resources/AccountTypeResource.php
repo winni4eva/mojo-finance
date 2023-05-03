@@ -17,7 +17,7 @@ class AccountTypeResource extends JsonResource
         return [
             'id' => $this->id,
             'attributes' => [
-                'name' => $this->name
+                'name' => $this->name,
             ],
             'relationships' => [],
         ];

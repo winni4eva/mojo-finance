@@ -13,6 +13,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class TransactionService
 {
+    protected const TRANSACTION_CREDIT_TYPE = 'credit';
+
+    protected const TRANSACTION_DEBIT_TYPE = 'debit';
+
     public function createTransaction(Account $account, Account $creditAccount, User $user, int $amount, int $scheduleId)
     {
         try {
@@ -26,11 +30,19 @@ class TransactionService
                 'amount' => $creditAccount->amount + $amount,
             ]);
 
-            $transaction = Transaction::create([
-                'credit_account_id' => $creditAccount->id,
-                'debit_account_id' => $account->id,
-                'amount' => $amount,
-                'user_id' => $user->id,
+            $transaction = Transaction::insert([
+                [
+                    'account_id' => $creditAccount->id,
+                    'amount' => $amount,
+                    'user_id' => $user->id,
+                    'type' => self::TRANSACTION_CREDIT_TYPE,
+                ],
+                [
+                    'account_id' => $account->id,
+                    'amount' => $amount,
+                    'user_id' => $user->id,
+                    'type' => self::TRANSACTION_DEBIT_TYPE,
+                ],
             ]);
 
             if (! $transaction) {

@@ -30,22 +30,20 @@ class TransactionService
                 'amount' => $creditAccount->amount + $amount,
             ]);
 
-            $transaction = Transaction::insert([
+            $transactions = Transaction::insert([
                 [
                     'account_id' => $creditAccount->id,
                     'amount' => $amount,
-                    'user_id' => $user->id,
                     'type' => self::TRANSACTION_CREDIT_TYPE,
                 ],
                 [
                     'account_id' => $account->id,
                     'amount' => $amount,
-                    'user_id' => $user->id,
                     'type' => self::TRANSACTION_DEBIT_TYPE,
                 ],
             ]);
-
-            if (! $transaction) {
+            
+            if (! $transactions) {
                 DB::rollBack();
                 $this->dispatchFailedEvent($account, $creditAccount, $user, $amount);
 
@@ -58,7 +56,7 @@ class TransactionService
                 ScheduledTransaction::destroy($scheduleId);
             }
 
-            return $transaction;
+            return $transactions;
         } catch (\Throwable $th) {
             // Add audit logs
             DB::rollBack();

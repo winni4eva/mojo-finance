@@ -18,15 +18,12 @@ class TransactionResource extends JsonResource
             'id' => $this->id,
             'attributes' => [
                 'amount' => $this->amount,
-                'credit_account_id' => $this->credit_account_id,
-                'debit_account_id' => $this->debit_account_id,
+                'account_id' => $this->account_id,
+                'type' => $this->type,
                 'created_at' => $this->created_at,
                 'updated_at' => $this->updated_at,
             ],
-            'relationships' => [
-                'debit_user' => new UserResource($this->debitAccount->user),
-                'credit_user' => new UserResource($this->user),
-            ],
+            'relationships' => [],
         ];
     }
 }

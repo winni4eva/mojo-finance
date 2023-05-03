@@ -10,8 +10,7 @@ use App\Filters\TransactionFilterFields\DebitAccountFilter;
 class TransactionFilters extends AbstractFilter implements FilterInterface
 {
     protected $filters = [
-        'credit_account' => CreditAccountFilter::class,
-        'debit_account' => DebitAccountFilter::class,
+        'account' => AccountFilter::class,
         'date' => CreatedDateFilter::class,
         'price' => PriceFilter::class,
     ];

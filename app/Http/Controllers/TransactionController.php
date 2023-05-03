@@ -30,8 +30,9 @@ class TransactionController extends Controller
     {
         // Add view accounts policy
 
-        $transactions = Transaction::whereHas('account', function ($query) {
-            $query->where('user_id', auth()->user()->id);
+        $transactions = Transaction::whereHas('account', function ($query) use ($account) {
+            $query->where('user_id', auth()->user()->id)
+                ->where('id', $account->id);
         })
             ->filter($filters)
             ->latest()

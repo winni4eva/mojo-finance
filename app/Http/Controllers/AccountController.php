@@ -24,7 +24,7 @@ class AccountController extends Controller
         $accounts = Account::where('user_id', Auth::user()->id)
             ->filter($filters)
             ->latest()
-            ->paginate(request()->query('perPage', 10), columns: ['*'], pageName: 'page', page: request()->query('page', 1));
+            ->paginate(request()->query('perPage', config('mojo.perPage')), columns: ['*'], pageName: 'page', page: request()->query('page', 1));
 
         return AccountResource::collection($accounts);
     }

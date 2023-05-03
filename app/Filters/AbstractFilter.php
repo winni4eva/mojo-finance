@@ -8,11 +8,8 @@ abstract class AbstractFilter
 
     public function apply($query)
     {
-        logger('applying filter');
         foreach ($this->receivedFilters() as $name => $value) {
             $filterInstance = new $this->filters[$name];
-            logger($name);
-            logger(serialize($filterInstance));
             $query = $filterInstance($query, $value);
         }
 

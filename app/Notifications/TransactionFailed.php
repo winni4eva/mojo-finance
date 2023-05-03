@@ -49,7 +49,7 @@ class TransactionFailed extends Notification
                     ->action('TRANSACTION FAILED', url('/'))
                     ->subject('Transaction Failed')
                     ->greeting("Hi {$this->account->user->first_name}")
-                    ->line("A transfer of USD {$this->amount} to account (000{$this->creditAccount->id}) owned by {$this->creditAccount->user->first_name} failed")
+                    ->line("A transfer of USD {$this->amount} to account ({$this->creditAccount->account_number}) owned by {$this->creditAccount->user->first_name} failed")
                     //->line("Account balance is USD ({$this->transaction->debitAccount->amount})")
                     ->line('kind Regards.');
     }

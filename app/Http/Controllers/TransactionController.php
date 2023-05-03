@@ -49,17 +49,15 @@ class TransactionController extends Controller
      */
     public function store(StoreTransactionRequest $request, Account $account)
     {
-        $message = '';
-
         if ($request->has('schedule') && $request->schedule) {
             $this->transactionService->createScheduledTransaction($account, Auth::user()->id);
-            $message = 'Transaction scheduled successfully';
-        } else {
-            ProcessTransaction::dispatch($account, $request->creditAccount(), Auth::user(), $request->amount);
-            $message = 'Transaction processing initiated successfully';
+            
+            return $this->success('', 'Transaction scheduled successfully', Response::HTTP_CREATED);
         }
 
-        return $this->success('', $message, Response::HTTP_CREATED);
+        ProcessTransaction::dispatch($account, $request->creditAccount(), Auth::user(), $request->amount);
+
+        return $this->success('', 'Transaction processing initiated successfully', Response::HTTP_CREATED);
     }
 
     /**

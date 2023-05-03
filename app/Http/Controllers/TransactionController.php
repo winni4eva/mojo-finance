@@ -26,8 +26,10 @@ class TransactionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(TransactionFilters $filters)
+    public function index(Account $account, TransactionFilters $filters)
     {
+        // Add view accounts policy
+
         $transactions = Transaction::whereHas('account', function ($query) {
             $query->where('user_id', auth()->user()->id);
         })

@@ -46,7 +46,7 @@ class TransactionService
                     'updated_at' => now(),
                 ],
             ]);
-            
+
             if (! $transactions) {
                 DB::rollBack();
                 $this->dispatchFailedEvent($account, $creditAccount, $user, $amount);
@@ -65,7 +65,7 @@ class TransactionService
             // Add audit logs
             DB::rollBack();
             $this->dispatchFailedEvent($account, $creditAccount, $user, $amount);
-            logger('Message: '. $th->getMessage() . ' Line: ' . $th->getLine() . 'File: '. $th->getFile());
+            logger('Message: '.$th->getMessage().' Line: '.$th->getLine().'File: '.$th->getFile());
             throw new TransactionProcessingFailed('Transaction processing failed', Response::HTTP_FORBIDDEN);
         }
     }

@@ -28,7 +28,9 @@ class TransactionController extends Controller
      */
     public function index(TransactionFilters $filters)
     {
-        $transactions = Transaction::where('user_id', Auth::user()->id)
+        $transactions = Transaction::whereHas('account', function ($query) {
+            $query->where('user_id', auth()->user()->id);
+        })
             ->filter($filters)
             ->latest()
             ->paginate(request()->query('perPage', config('mojo.perPage')), columns: ['*'], pageName: 'page', page: request()->query('page', 1));

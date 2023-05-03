@@ -8,6 +8,7 @@ use App\Models\Account;
 use App\Models\ScheduledTransaction;
 use App\Models\Transaction;
 use App\Models\User;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -35,11 +36,15 @@ class TransactionService
                     'account_id' => $creditAccount->id,
                     'amount' => $amount,
                     'type' => self::TRANSACTION_CREDIT_TYPE,
+                    'created_at' => now(),
+                    'updated_at' => now(),
                 ],
                 [
                     'account_id' => $account->id,
                     'amount' => $amount,
                     'type' => self::TRANSACTION_DEBIT_TYPE,
+                    'created_at' => now(),
+                    'updated_at' => now(),
                 ],
             ]);
             

@@ -46,9 +46,10 @@ class NewTransactionCreated extends Notification
                     ->line("{$appName}")
                     ->action('TRANSACTION', url('/'))
                     ->subject(' New Transaction Created')
-                    ->greeting("Hi {$this->transaction->user->first_name}")
-                    ->line("A transfer of USD {$this->transaction->amount} was sent from account (000{$this->transaction->creditAccount->id}) to account (000{$this->transaction->debitAccount->id})")
-                    ->line("Account balance is USD ({$this->transaction->debitAccount->amount})")
+                    ->greeting("Hi {$this->transaction->account->user->first_name}")
+                    // Reword messages for credit and debit accounts
+                    ->line("A transfer of USD {$this->transaction->amount} was sent from account ({$this->transaction->account->account_number})")
+                    ->line("Account balance is USD ({$this->transaction->account->amount})")
                     ->line('kind Regards.');
     }
 

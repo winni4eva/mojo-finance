@@ -32,16 +32,12 @@ class TransactionService
 
             $accountTransaction = $account->transactions()->create([
                 'amount' => $amount,
-                'type' => self::TRANSACTION_DEBIT_TYPE,
-                'created_at' => now(),
-                'updated_at' => now(),
+                'type' => self::TRANSACTION_DEBIT_TYPE
             ]);
 
             $creditTansaction = $creditAccount->transactions()->create([
                 'amount' => $amount,
-                'type' => self::TRANSACTION_CREDIT_TYPE,
-                'created_at' => now(),
-                'updated_at' => now(),
+                'type' => self::TRANSACTION_CREDIT_TYPE
             ]);
 
             if (!$accountTransaction || !$creditTansaction) {

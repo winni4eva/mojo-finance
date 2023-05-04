@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use App\Traits\HttpResponseTrait;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Throwable;
@@ -63,6 +64,8 @@ class Handler extends ExceptionHandler
             return $exception->render($request);
         } elseif ($exception instanceof Authentication) {
             return $exception->render($request);
+        } elseif ($exception instanceof ValidationException) {
+            return $this->error('', $exception->getMessage(), $exception->getCode() ?: Response::HTTP_FORBIDDEN);
         } elseif ($exception instanceof HttpException) {
             return $this->error('', $exception->getMessage(), $exception->getCode() ?: Response::HTTP_FORBIDDEN);
         }

@@ -29,8 +29,8 @@ class AccountUserTypeRule implements Rule
         $accountExist = Account::where(function ($query) use ($value) {
             return $query->where('user_id', auth()->user()->id)
                         ->where('account_type_id', $value);
-        });
-
+        })->count();
+        
         return ! $accountExist;
     }
 

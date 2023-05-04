@@ -26,7 +26,7 @@ class StoreAccountRequest extends FormRequest
     public function rules()
     {
         return [
-            'amount' => 'required|numeric|min:1',
+            'amount' => 'required|numeric|between:1,9999999999.99',
             'account_type' => [
                 'required',
                 Rule::exists('accounts', 'id'),

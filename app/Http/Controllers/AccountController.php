@@ -7,7 +7,6 @@ use App\Http\Requests\StoreAccountRequest;
 use App\Http\Resources\AccountResource;
 use App\Models\Account;
 use App\Traits\HttpResponseTrait;
-use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class AccountController extends Controller
@@ -21,7 +20,7 @@ class AccountController extends Controller
      */
     public function index(AccountFilters $filters)
     {
-        $accounts = Account::where('user_id', Auth::user()->id)
+        $accounts = Account::where('user_id', auth()->user()->id)
             ->filter($filters)
             ->latest()
             ->paginate(request()->query('perPage', config('mojo.perPage')), columns: ['*'], pageName: 'page', page: request()->query('page', 1));
@@ -39,8 +38,9 @@ class AccountController extends Controller
         $request->validated($request->all());
 
         $account = Account::create([
-            'user_id' => Auth::user()->id,
+            'user_id' => $request->user()->id,
             'amount' => $request->amount,
+            'account_type_id' => $request->account_type_id
         ]);
 
         return new AccountResource($account);

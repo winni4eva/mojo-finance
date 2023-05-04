@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreAccountRequest extends FormRequest
 {
@@ -25,6 +26,14 @@ class StoreAccountRequest extends FormRequest
     {
         return [
             'amount' => 'required|numeric|min:1',
+            'account_type_id' => [
+                'required',
+                Rule::exists('accounts', 'id'),
+                Rule::unique('accounts')->where(function ($query) {
+                    return $query->where('user_id', auth()->user()->id)
+                                ->where('account_type_id', $this->account_type_id);
+                }),
+            ],
         ];
     }
 }

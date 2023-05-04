@@ -32,15 +32,15 @@ class TransactionService
 
             $accountTransaction = $account->transactions()->create([
                 'amount' => $amount,
-                'type' => self::TRANSACTION_DEBIT_TYPE
+                'type' => self::TRANSACTION_DEBIT_TYPE,
             ]);
 
             $creditTansaction = $creditAccount->transactions()->create([
                 'amount' => $amount,
-                'type' => self::TRANSACTION_CREDIT_TYPE
+                'type' => self::TRANSACTION_CREDIT_TYPE,
             ]);
 
-            if (!$accountTransaction || !$creditTansaction) {
+            if (! $accountTransaction || ! $creditTansaction) {
                 DB::rollBack();
                 $this->dispatchFailedEvent($account, $creditAccount, $user, $amount);
 

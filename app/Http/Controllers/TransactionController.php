@@ -51,7 +51,7 @@ class TransactionController extends Controller
     {
         if ($request->has('schedule') && $request->schedule) {
             $this->transactionService->createScheduledTransaction($account, Auth::user()->id);
-            
+
             return $this->success('', 'Transaction scheduled successfully', Response::HTTP_CREATED);
         }
 

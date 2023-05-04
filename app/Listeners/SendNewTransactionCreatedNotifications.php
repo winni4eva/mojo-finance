@@ -5,7 +5,6 @@ namespace App\Listeners;
 use App\Events\NewTransactionCreated;
 use App\Notifications\NewTransactionCreated as NotificationsNewTransactionCreated;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Throwable;
 
 class SendNewTransactionCreatedNotifications implements ShouldQueue
 {

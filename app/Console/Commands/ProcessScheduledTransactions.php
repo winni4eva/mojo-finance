@@ -32,9 +32,8 @@ class ProcessScheduledTransactions extends Command implements Isolatable
      */
     public function handle()
     {
-        $totalScheduledTransactions = ScheduledTransaction::count();
 
-        $bar = $this->output->createProgressBar($totalScheduledTransactions);
+        $bar = $this->output->createProgressBar(ScheduledTransaction::count());
 
         $bar->start();
 

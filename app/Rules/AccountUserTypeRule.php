@@ -30,7 +30,7 @@ class AccountUserTypeRule implements Rule
             return $query->where('user_id', auth()->user()->id)
                         ->where('account_type_id', $value);
         })->count();
-        
+
         return ! $accountExist;
     }
 

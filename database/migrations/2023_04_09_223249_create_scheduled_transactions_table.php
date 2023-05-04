@@ -27,8 +27,7 @@ return new class extends Migration
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
             $table->bigInteger('amount')->default(0);
-            $table->string('period')->default('daily');
-            $table->string('time')->default('12:00');
+            $table->dateTime('period');
             $table->timestamps();
         });
     }

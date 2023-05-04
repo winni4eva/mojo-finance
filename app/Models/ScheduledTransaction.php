@@ -9,5 +9,14 @@ class ScheduledTransaction extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['account_id', 'debit_account_id', 'amount', 'user_id', 'period', 'time'];
+    protected $casts = [
+        'period' => 'date',
+    ];
+
+    protected $fillable = ['account_id', 'debit_account_id', 'amount', 'user_id', 'period'];
+
+    public function account()
+    {
+        return $this->belongsTo(Account::class);
+    }
 }

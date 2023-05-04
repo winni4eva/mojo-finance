@@ -70,8 +70,7 @@ class TransactionService
             'debit_account_id' => $account->id,
             'amount' => request('amount'),
             'user_id' => $userId,
-            'period' => request('period'),
-            'time' => request('time'),
+            'date' => request('period'),
         ]);
 
         if (! $scheduledTransaction) {

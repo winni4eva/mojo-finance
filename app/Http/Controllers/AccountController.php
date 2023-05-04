@@ -58,29 +58,4 @@ class AccountController extends Controller
         return new AccountResource($account);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @return \App\Http\Resources\AccountResource|\Illuminate\Http\JsonResponse
-     */
-    public function update(StoreAccountRequest $request, Account $account)
-    {
-        $request->validated($request->all());
-
-        $account->update($request->all());
-
-        return new AccountResource($account);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function destroy(Account $account)
-    {
-        $account->delete();
-
-        return $this->success(null, 'Account deleted successfully', Response::HTTP_NO_CONTENT);
-    }
 }

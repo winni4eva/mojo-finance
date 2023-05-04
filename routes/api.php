@@ -29,6 +29,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', [AuthController::class, 'user']);
     Route::get('/logout', [AuthController::class, 'logout']);
 
-    Route::resource('/accounts', AccountController::class);
+    Route::resource('/accounts', AccountController::class)->only(['index', 'store', 'show']);
     Route::resource('accounts.transactions', TransactionController::class)->only(['index', 'store', 'show']);
 });

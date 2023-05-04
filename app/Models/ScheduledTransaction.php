@@ -10,7 +10,7 @@ class ScheduledTransaction extends Model
     use HasFactory;
 
     protected $casts = [
-        'period' => 'date',
+        'period' => 'datetime',
     ];
 
     protected $fillable = ['account_id', 'debit_account_id', 'amount', 'user_id', 'period'];

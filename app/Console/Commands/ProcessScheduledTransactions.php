@@ -4,7 +4,6 @@ namespace App\Console\Commands;
 
 use App\Jobs\ProcessTransaction;
 use App\Models\Account;
-use App\Models\ScheduledTransaction;
 use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Console\Isolatable;
@@ -16,7 +15,7 @@ class ProcessScheduledTransactions extends Command implements Isolatable
      *
      * @var string
      */
-    protected $signature = 'transactions:process';
+    protected $signature = 'transactions:process {user} {debit} {credit} {amount} {scheduleId}';
 
     /**
      * The console command description.
@@ -32,22 +31,21 @@ class ProcessScheduledTransactions extends Command implements Isolatable
      */
     public function handle()
     {
+        [ 
+            'command' => $command, 
+            'user' => $user, 
+            'debit' => $debit, 
+            'credit' => $credit, 
+            'amount' => $amount, 
+            'scheduleId' => $scheduleId
+        ] = $this->arguments();
 
-        $bar = $this->output->createProgressBar(ScheduledTransaction::count());
+        $debitAccount = Account::find($debit);
+        $creditAccount = Account::find($credit);
+        $userModel = User::find($user);
 
-        $bar->start();
+        ProcessTransaction::dispatch($debitAccount, $creditAccount, $userModel, $amount, $scheduleId);
 
-        foreach (ScheduledTransaction::lazy() as $transaction) {
-            $debitAccount = Account::find($transaction->debit_account_id);
-            $creditAccount = Account::find($transaction->account_id);
-            $user = User::find($transaction->user_id);
-
-            ProcessTransaction::dispatch($debitAccount, $creditAccount, $user, $transaction->amount, $transaction->id);
-
-            $bar->advance();
-        }
-
-        $bar->finish();
 
         return Command::SUCCESS;
     }

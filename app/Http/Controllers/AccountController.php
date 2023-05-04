@@ -40,7 +40,7 @@ class AccountController extends Controller
         $account = Account::create([
             'user_id' => $request->user()->id,
             'amount' => $request->amount,
-            'account_type_id' => $request->account_type_id
+            'account_type_id' => $request->account_type,
         ]);
 
         return new AccountResource($account);

@@ -36,12 +36,4 @@ class StoreAccountRequest extends FormRequest
             ],
         ];
     }
-
-    public function messages()
-{
-    return [
-        'required' => 'The :attribute field is required.',
-        '*' => 'The :attribute field is invalid.',
-    ];
-}
 }

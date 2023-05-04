@@ -30,10 +30,18 @@ class StoreAccountRequest extends FormRequest
                 'required',
                 Rule::exists('accounts', 'id'),
                 Rule::unique('accounts')->where(function ($query) {
-                    return $query->where('user_id', auth()->user()->id)
+                    return $query->where('user_id', $this->user()->id)
                                 ->where('account_type_id', $this->account_type_id);
                 }),
             ],
         ];
     }
+
+    public function messages()
+{
+    return [
+        'required' => 'The :attribute field is required.',
+        '*' => 'The :attribute field is invalid.',
+    ];
+}
 }

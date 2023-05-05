@@ -31,12 +31,12 @@ class ProcessScheduledTransactions extends Command implements Isolatable
      */
     public function handle()
     {
-        [ 
-            'command' => $command, 
-            'user' => $user, 
-            'debit' => $debit, 
-            'credit' => $credit, 
-            'amount' => $amount, 
+        [
+            'command' => $command,
+            'user' => $user,
+            'debit' => $debit,
+            'credit' => $credit,
+            'amount' => $amount,
             'scheduleId' => $scheduleId
         ] = $this->arguments();
 
@@ -45,7 +45,6 @@ class ProcessScheduledTransactions extends Command implements Isolatable
         $userModel = User::find($user);
 
         ProcessTransaction::dispatch($debitAccount, $creditAccount, $userModel, $amount, $scheduleId);
-
 
         return Command::SUCCESS;
     }

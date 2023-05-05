@@ -8,8 +8,8 @@ use App\Http\Resources\TransactionResource;
 use App\Jobs\ProcessTransaction;
 use App\Models\Account;
 use App\Models\Transaction;
-use Facades\App\Service\TransactionService;
 use App\Traits\HttpResponseTrait;
+use Facades\App\Service\TransactionService;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 

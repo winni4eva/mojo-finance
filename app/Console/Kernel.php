@@ -18,7 +18,7 @@ class Kernel extends ConsoleKernel
         foreach (ScheduledTransaction::lazy() as $transaction) {
             $taskName = 'stransact:'.$transaction->id.':user:'.$transaction->user_id;
             $command = "transactions:process {$transaction->user_id} {$transaction->debit_account_id} {$transaction->account_id} {$transaction->amount} {$transaction->id}";
-            
+
             $schedule->command($command)
                 ->name($taskName)
                 ->emailOutputTo(config('mojo.email'))

@@ -9,5 +9,5 @@ return [
     /**
      * Admin email
      */
-    'email' => 'admin@admin.com'
+    'email' => 'admin@admin.com',
 ];

@@ -29,7 +29,12 @@ class StoreTransactionRequest extends FormRequest
         return [
             'amount' => 'required|numeric|min:1',
             'credit_account' => 'required|numeric|min:1',
-            'period' => [Rule::when(request()->has('schedule') && request()->get('schedule'), ['required', 'date_format:Y-m-d H:i:s'])]
+            'period' => [
+                Rule::when(
+                    request()->has('schedule') && request()->get('schedule'),
+                    ['required', 'date_format:Y-m-d H:i:s']
+                ),
+            ],
         ];
     }
 

@@ -6,7 +6,6 @@ use App\Events\TransactionFailed;
 use App\Exceptions\TransactionProcessingFailed;
 use App\Models\Account;
 use App\Models\ScheduledTransaction;
-use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;

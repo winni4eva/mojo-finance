@@ -8,7 +8,7 @@ use App\Http\Resources\TransactionResource;
 use App\Jobs\ProcessTransaction;
 use App\Models\Account;
 use App\Models\Transaction;
-use App\Service\TransactionService;
+use Facades\App\Service\TransactionService;
 use App\Traits\HttpResponseTrait;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +17,7 @@ class TransactionController extends Controller
 {
     use HttpResponseTrait;
 
-    public function __construct(protected TransactionService $transactionService)
+    public function __construct()
     {
     }
 
@@ -50,7 +50,7 @@ class TransactionController extends Controller
     public function store(StoreTransactionRequest $request, Account $account)
     {
         if ($request->has('schedule') && $request->schedule) {
-            $this->transactionService->createScheduledTransaction($account, Auth::user()->id);
+            TransactionService::createScheduledTransaction($account, Auth::user()->id);
 
             return $this->success('', 'Transaction scheduled successfully', Response::HTTP_CREATED);
         }

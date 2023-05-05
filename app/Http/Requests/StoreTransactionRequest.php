@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Models\Account;
 use App\Models\Transaction;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreTransactionRequest extends FormRequest
 {
@@ -28,8 +29,7 @@ class StoreTransactionRequest extends FormRequest
         return [
             'amount' => 'required|numeric|min:1',
             'credit_account' => 'required|numeric|min:1',
-            //'account' => 'required|numeric|min:1',
-        /** TODO add conditional validation for scheduled transactions */
+            'period' => [Rule::when(request()->has('schedule') && request()->get('schedule'), ['required', 'date'])]
         ];
     }
 

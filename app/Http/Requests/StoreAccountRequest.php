@@ -29,6 +29,7 @@ class StoreAccountRequest extends FormRequest
             'amount' => 'required|numeric|between:1,9999999999.99',
             'account_type' => [
                 'required',
+                'integer',
                 Rule::exists('accounts', 'id'),
                 new AccountUserTypeRule,
             ],

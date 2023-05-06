@@ -15,17 +15,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        foreach (ScheduledTransaction::lazy() as $transaction) {
-            $taskName = 'stransact:'.$transaction->id.':user:'.$transaction->user_id;
-            $command = "transactions:process {$transaction->user_id} {$transaction->debit_account_id} {$transaction->account_id} {$transaction->amount} {$transaction->id}";
-
-            $schedule->command($command)
-                ->name($taskName)
-                ->emailOutputTo(config('mojo.email'))
-                ->withoutOverlapping()
-                ->runInBackground()
-                ->when($transaction->period->isCurrentMinute());
-        }
+        $this->runScheduledTrannsactions($schedule);
     }
 
     /**
@@ -38,5 +28,20 @@ class Kernel extends ConsoleKernel
         $this->load(__DIR__.'/Commands');
 
         require base_path('routes/console.php');
+    }
+
+    protected function runScheduledTrannsactions(Schedule $schedule)
+    {
+        foreach (ScheduledTransaction::lazy() as $transaction) {
+            $taskName = 'stransact:'.$transaction->id.':user:'.$transaction->user_id;
+            $command = "transactions:process {$transaction->user_id} {$transaction->debit_account_id} {$transaction->account_id} {$transaction->amount} {$transaction->id}";
+
+            $schedule->command($command)
+                ->name($taskName)
+                ->emailOutputTo(config('mojo.email'))
+                ->withoutOverlapping()
+                ->runInBackground()
+                ->when($transaction->period->isCurrentMinute());
+        }
     }
 }

@@ -64,9 +64,7 @@ class Handler extends ExceptionHandler
             return $exception->render($request);
         } elseif ($exception instanceof Authentication) {
             return $exception->render($request);
-        } elseif ($exception instanceof ValidationException) {
-            return $this->error('', $exception->getMessage(), $exception->getCode() ?: Response::HTTP_FORBIDDEN);
-        } elseif ($exception instanceof HttpException) {
+        } elseif ($exception instanceof ValidationException || $exception instanceof HttpException) {
             return $this->error('', $exception->getMessage(), $exception->getCode() ?: Response::HTTP_FORBIDDEN);
         }
 

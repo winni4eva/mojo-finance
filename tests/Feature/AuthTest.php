@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Symfony\Component\HttpFoundation\Response;
@@ -10,8 +11,17 @@ use Tests\TestCase;
 class AuthTest extends TestCase
 {
     use RefreshDatabase;
+
+    private User $user;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->user = User::factory()->create(['email' => 'jeff.way@test.com']);
+    }
+
     /**
-     * A basic feature test example.
+     * Test user registration.
      *
      * @return void
      */
@@ -28,7 +38,7 @@ class AuthTest extends TestCase
 
         $response = $this->postJson('/api/v1/register', $registerationDetails);
     
-        $response->assertStatus(Response::HTTP_OK);
+        $response->assertOk();
         $response->assertJsonStructure([
             "status",
             "message",
@@ -49,5 +59,87 @@ class AuthTest extends TestCase
         $response->assertJsonPath('data.user.first_name', $registerationDetails['first_name']);
         $response->assertJsonPath('data.user.other_name', $registerationDetails['other_name']);
         $response->assertJsonPath('data.user.last_name', $registerationDetails['last_name']);
+    }
+
+    /**
+     * Test user registration duplicate email validation error.
+     *
+     * @return void
+     */
+    public function test_should_throw_validation_error_when_email_is_taken()
+    {
+        $registerationDetails = [
+            "first_name" => "Jefferey",
+            "other_name" => "Kobi",
+            "last_name" => "Way",
+            "email" => "jeff.way@test.com",
+            "password" => "password",
+            "password_confirmation" => "password"
+        ];
+        $errorMessage = "The email has already been taken.";
+
+        $response = $this->postJson('/api/v1/register', $registerationDetails);
+        
+        $response->assertStatus(Response::HTTP_FORBIDDEN);
+        $response->assertJsonStructure([
+            "status",
+            "message",
+            "data"
+        ]);
+        $response->assertJsonPath('message', $errorMessage);
+    }
+
+    /**
+     * Test user registration no password confirmation validation error.
+     *
+     * @return void
+     */
+    public function test_should_throw_validation_error_when_password_cofirmation_is_not_provided()
+    {
+        $registerationDetails = [
+            "first_name" => "Douglas",
+            "other_name" => "Yaw",
+            "last_name" => "Crockford",
+            "email" => "dcrockford@test.com",
+            "password" => "password"
+        ];
+        $errorMessage = "The password confirmation does not match.";
+
+        $response = $this->postJson('/api/v1/register', $registerationDetails);
+        
+        $response->assertStatus(Response::HTTP_FORBIDDEN);
+        $response->assertJsonStructure([
+            "status",
+            "message",
+            "data"
+        ]);
+        $response->assertJsonPath('message', $errorMessage);
+    }
+
+    /**
+     * Test user login success.
+     *
+     * @return void
+     */
+    public function test_should_login_user_successfully_when_right_credentials_are_provided()
+    {
+        $loginDetails = [
+            "email" => "jeff.way@test.com",
+            "password" => "password"
+        ];
+        $successMesage = "User logged in successfully.";
+
+        $response = $this->postJson('/api/v1/login', $loginDetails);
+
+        $response->assertOk();
+        $response->assertJsonStructure([
+            "status",
+            "message",
+            "data" => [
+                "user",
+                "token"
+            ]
+        ]);
+        $response->assertJsonPath('message', $successMesage);
     }
 }

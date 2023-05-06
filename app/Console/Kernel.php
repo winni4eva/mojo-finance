@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $this->runScheduledTrannsactions($schedule);
+        $this->runScheduledTransactions($schedule);
     }
 
     /**
@@ -30,9 +30,12 @@ class Kernel extends ConsoleKernel
         require base_path('routes/console.php');
     }
 
-    protected function runScheduledTrannsactions(Schedule $schedule)
+    protected function runScheduledTransactions(Schedule $schedule)
     {
         foreach (ScheduledTransaction::lazy() as $transaction) {
+            /**
+             * Setup Spatie ray to inspect query performance
+             */
             $taskName = 'stransact:'.$transaction->id.':user:'.$transaction->user_id;
             $command = "transactions:process {$transaction->user_id} {$transaction->debit_account_id} {$transaction->account_id} {$transaction->amount} {$transaction->id}";
 

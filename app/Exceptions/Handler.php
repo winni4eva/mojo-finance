@@ -60,8 +60,6 @@ class Handler extends ExceptionHandler
 
     public function handleException($request, Throwable $exception)
     {
-        logger(get_class($exception));
-        logger($exception->getMessage());
         if ($exception instanceof TransactionProcessingFailed) {
             return $exception->render($request);
         } elseif ($exception instanceof Authentication) {

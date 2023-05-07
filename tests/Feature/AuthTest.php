@@ -4,8 +4,6 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 use Laravel\Sanctum\Sanctum;
 
@@ -81,7 +79,7 @@ class AuthTest extends TestCase
 
         $response = $this->postJson('/api/v1/register', $registerationDetails);
         
-        $response->assertStatus(Response::HTTP_FORBIDDEN);
+        $response->assertForbidden();
         $response->assertJsonStructure([
             "status",
             "message",
@@ -108,7 +106,7 @@ class AuthTest extends TestCase
 
         $response = $this->postJson('/api/v1/register', $registerationDetails);
         
-        $response->assertStatus(Response::HTTP_FORBIDDEN);
+        $response->assertForbidden();
         $response->assertJsonStructure([
             "status",
             "message",

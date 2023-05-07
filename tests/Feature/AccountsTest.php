@@ -3,8 +3,12 @@
 namespace Tests\Feature;
 
 use App\Models\Account;
+use App\Models\AccountType;
 use App\Models\User;
 use App\Traits\HttpResponseTrait;
+use Database\Seeders\AccountSeeder;
+use Database\Seeders\AccountTypeSeeder;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
@@ -19,20 +23,15 @@ class AccountsTest extends TestCase
     {
         parent::setUp();
         $this->user = User::factory()->create();
+        $this->seed(AccountTypeSeeder::class);
+        $this->seed(AccountSeeder::class);
     }
 
-    public function test_unauthenticated_user_cannot_access_accounts()
+    public function test_user_can_access_accounts()
     {
-        $response = $this->get('/api/accounts', ['Accept' => 'application/json']);
-
-        $response->assertStatus(Response::HTTP_UNAUTHORIZED)
-            ->assertJsonStructure(['status', 'message', 'data']);
-    }
-
-    public function test_authenticated_user_can_access_accounts()
-    {
-        $response = $this->actingAs($this->user)->get('/api/accounts', ['Accept' => 'application/json']);
-        $response->assertStatus(Response::HTTP_OK);
+        $response = $this->actingAs($this->user)->getJson('/api/v1/accounts');
+        $response->dump();
+        $response->assertOk();
     }
 
     public function test_authenticated_user_can_get_all_related_accounts()

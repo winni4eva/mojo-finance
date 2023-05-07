@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Account;
 use App\Models\AccountType;
 use App\Models\User;
+use App\Service\TransactionService;
 use App\Traits\HttpResponseTrait;
 use Database\Seeders\AccountSeeder;
 use Database\Seeders\AccountTypeSeeder;
@@ -30,8 +31,11 @@ class AccountsTest extends TestCase
     public function test_user_can_access_accounts()
     {
         $response = $this->actingAs($this->user)->getJson('/api/v1/accounts');
-        $response->dump();
+        
         $response->assertOk();
+        $response->assertJsonCount(count: 2, key: 'data');
+        $response->assertJsonPath('data.0.relationships.account_type.attributes.name', 'savings');
+        $response->assertJsonPath('data.1.relationships.account_type.attributes.name', 'checking');
     }
 
     public function test_authenticated_user_can_get_all_related_accounts()

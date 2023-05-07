@@ -21,8 +21,10 @@ class AccountsTest extends TestCase
     {
         parent::setUp();
         $this->user = User::factory()->create();
-        $this->seed(AccountTypeSeeder::class);
-        $this->seed(AccountSeeder::class);
+        $this->seed([
+            AccountTypeSeeder::class,
+            AccountSeeder::class
+        ]);
     }
 
     public function test_user_can_access_accounts()

@@ -17,7 +17,7 @@ class AccountPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return true;
     }
 
     /**

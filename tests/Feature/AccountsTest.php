@@ -46,7 +46,7 @@ class AccountsTest extends TestCase
         ];
         $user = User::factory()->create();
 
-        $response = $this->actingAs($user)->post('/api/v1/accounts', $accountPayload);
+        $response = $this->actingAs($user)->postJson('/api/v1/accounts', $accountPayload);
 
         $response->assertCreated();
         $response->assertJsonStructure([

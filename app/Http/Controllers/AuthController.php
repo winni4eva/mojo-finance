@@ -60,9 +60,7 @@ class AuthController extends Controller
     {
         $request->user()->currentAccessToken()->delete();
 
-        return $this->success([
-            'message' => 'User logged out successfully...',
-        ]);
+        return $this->success(null, 'User logged out successfully...', Response::HTTP_NO_CONTENT);
     }
 
     public function user(Request $request)

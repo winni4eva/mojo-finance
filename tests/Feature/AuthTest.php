@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
+use Laravel\Sanctum\Sanctum;
 
 class AuthTest extends TestCase
 {
@@ -141,5 +142,25 @@ class AuthTest extends TestCase
             ]
         ]);
         $response->assertJsonPath('message', $successMesage);
+    }
+
+     /**
+     * Test user logout success.
+     *
+     * @return void
+     */
+    public function test_should_logout_user_successfully()
+    {
+        Sanctum::actingAs($this->user, ['*']);
+        $accessToken = $this->user->createToken('test')->plainTextToken;
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $accessToken)
+                         ->postJson('/api/v1/logout');
+        
+        $response->assertNoContent();
+
+        // $response = $this->withHeader('Authorization', 'Bearer ' . $accessToken)
+        //                  ->get('/api/v1/accounts');
+        // $response->assertUnauthorized();
     }
 }

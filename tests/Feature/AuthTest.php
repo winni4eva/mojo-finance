@@ -2,16 +2,19 @@
 
 namespace Tests\Feature;
 
+use App\Models\User;
 use Laravel\Sanctum\Sanctum;
 use Tests\FeatureTestCase;
 
 class AuthTest extends FeatureTestCase
 {
 
+    protected $user;
+
     protected function setUp(): void
     {
         parent::setUp();
-        $this->createUser(['email' => 'jeff.way@test.com']);
+        $this->user = $this->createSingleUser(['email' => 'jeff.way@test.com']);
     }
 
     /**

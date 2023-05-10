@@ -9,10 +9,13 @@ class FeatureTestCase extends TestCase
 {
     use RefreshDatabase;
 
-    protected User $user;
-
-    public function createUser(array $fields = [])
+    public function createSingleUser(array $fields = [], int $count = 1): User
     {
-        $this->user = User::factory()->create($fields);
+        return User::factory()->create($fields);
+    }
+
+    public function createManyUsers(array $fields = [], int $count = 1)
+    {
+        return User::factory($count)->create($fields);
     }
 }

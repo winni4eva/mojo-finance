@@ -13,17 +13,19 @@ use Tests\FeatureTestCase;
 class AccountsTest extends FeatureTestCase
 {
 
+    protected $user;
+
     protected function setUp(): void
     {
         parent::setUp();
-        $this->createUser();
+        $this->user = $this->createSingleUser();
         $this->seed([
             AccountTypeSeeder::class,
             AccountSeeder::class,
         ]);
     }
 
-    public function test_user_can_access_accounts()
+    public function test_user_can_access_accounts(): void
     {
         $response = $this->actingAs($this->user)->getJson('/api/v1/accounts');
 
@@ -33,14 +35,14 @@ class AccountsTest extends FeatureTestCase
         $response->assertJsonPath('data.1.relationships.account_type.attributes.name', 'checking');
     }
 
-    public function test_user_can_create_account()
+    public function test_user_can_create_account(): void
     {
         $accountType = AccountType::first();
         $accountPayload = [
             'amount' => 1455.54,
             'account_type' => $accountType->id,
         ];
-        $user = User::factory()->create();
+        $user = $this->createSingleUser();
         Event::fake();
 
         $response = $this->actingAs($user)->postJson('/api/v1/accounts', $accountPayload);

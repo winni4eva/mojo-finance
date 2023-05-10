@@ -4,11 +4,13 @@ namespace Tests\Feature;
 
 use App\Models\Account;
 use App\Models\AccountType;
+use App\Models\Pipelines\AccountCreatingPipeline;
 use App\Models\User;
 use App\Traits\HttpResponseTrait;
 use Database\Seeders\AccountSeeder;
 use Database\Seeders\AccountTypeSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 class AccountsTest extends TestCase
@@ -37,7 +39,7 @@ class AccountsTest extends TestCase
         $response->assertJsonPath('data.1.relationships.account_type.attributes.name', 'checking');
     }
 
-    public function test_can_create_user_account()
+    public function test_user_can_create_account()
     {
         $accountType = AccountType::first();
         $accountPayload = [
@@ -45,9 +47,10 @@ class AccountsTest extends TestCase
             'account_type' => $accountType->id
         ];
         $user = User::factory()->create();
+        Event::fake();
 
         $response = $this->actingAs($user)->postJson('/api/v1/accounts', $accountPayload);
-
+        $response->dump();
         $response->assertCreated();
         $response->assertJsonStructure([
             'data' => [
@@ -80,5 +83,6 @@ class AccountsTest extends TestCase
                 ],
             ],
         ]);
+        Event::assertDispatched(AccountCreatingPipeline::class, 1);
     }
 }

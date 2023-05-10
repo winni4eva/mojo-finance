@@ -5,6 +5,8 @@ namespace App\Nova;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Fields\Currency;
+use Laravel\Nova\Fields\BelongsTo;
 
 class Account extends Resource
 {
@@ -40,7 +42,11 @@ class Account extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            //ID::make()->sortable(),
+            ID::make()->sortable(),
+            
+            Currency::make('Amount')->currency('USD'),
+
+            //BelongsTo::make(\App\Models\AccountType::class),
         ];
     }
 

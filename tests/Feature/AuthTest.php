@@ -2,13 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
 use Laravel\Sanctum\Sanctum;
 use Tests\FeatureTestCase;
 
 class AuthTest extends FeatureTestCase
 {
-
     protected $user;
 
     protected function setUp(): void

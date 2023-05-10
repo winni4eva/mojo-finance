@@ -9,7 +9,7 @@ class FeatureTestCase extends TestCase
 {
     use RefreshDatabase;
 
-    public function createSingleUser(array $fields = [], int $count = 1): User
+    public function createSingleUser(array $fields = []): User
     {
         return User::factory()->create($fields);
     }

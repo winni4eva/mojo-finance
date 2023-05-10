@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\Models\AccountType;
 use App\Models\Pipelines\AccountCreatingPipeline;
-use App\Models\User;
 use Database\Seeders\AccountSeeder;
 use Database\Seeders\AccountTypeSeeder;
 use Illuminate\Support\Facades\Event;
@@ -12,7 +11,6 @@ use Tests\FeatureTestCase;
 
 class AccountsTest extends FeatureTestCase
 {
-
     protected $user;
 
     protected function setUp(): void

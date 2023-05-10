@@ -5,23 +5,18 @@ namespace Tests\Feature;
 use App\Models\AccountType;
 use App\Models\Pipelines\AccountCreatingPipeline;
 use App\Models\User;
-use App\Traits\HttpResponseTrait;
 use Database\Seeders\AccountSeeder;
 use Database\Seeders\AccountTypeSeeder;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
-use Tests\TestCase;
+use Tests\FeatureTestCase;
 
-class AccountsTest extends TestCase
+class AccountsTest extends FeatureTestCase
 {
-    use RefreshDatabase, HttpResponseTrait;
-
-    private User $user;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->user = User::factory()->create();
+        $this->createUser();
         $this->seed([
             AccountTypeSeeder::class,
             AccountSeeder::class,

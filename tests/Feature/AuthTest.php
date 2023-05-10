@@ -2,21 +2,16 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
+use Tests\FeatureTestCase;
 
-class AuthTest extends TestCase
+class AuthTest extends FeatureTestCase
 {
-    use RefreshDatabase;
-
-    private User $user;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->user = User::factory()->create(['email' => 'jeff.way@test.com']);
+        $this->createUser(['email' => 'jeff.way@test.com']);
     }
 
     /**

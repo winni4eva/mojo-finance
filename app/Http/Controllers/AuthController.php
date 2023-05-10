@@ -32,8 +32,8 @@ class AuthController extends Controller
             [
                 'user' => $user,
                 'token' => $user->createToken('Api token of '.$user->first_name.' '.$user->last_name)->plainTextToken,
-            ], 
-            "User logged in successfully."
+            ],
+            'User logged in successfully.'
         );
     }
 

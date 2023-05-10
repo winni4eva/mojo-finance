@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Models\Account;
 use App\Models\AccountType;
 use App\Models\Pipelines\AccountCreatingPipeline;
 use App\Models\User;
@@ -25,14 +24,14 @@ class AccountsTest extends TestCase
         $this->user = User::factory()->create();
         $this->seed([
             AccountTypeSeeder::class,
-            AccountSeeder::class
+            AccountSeeder::class,
         ]);
     }
 
     public function test_user_can_access_accounts()
     {
         $response = $this->actingAs($this->user)->getJson('/api/v1/accounts');
-        
+
         $response->assertOk();
         $response->assertJsonCount(count: 2, key: 'data');
         $response->assertJsonPath('data.0.relationships.account_type.attributes.name', 'savings');
@@ -44,13 +43,13 @@ class AccountsTest extends TestCase
         $accountType = AccountType::first();
         $accountPayload = [
             'amount' => 1455.54,
-            'account_type' => $accountType->id
+            'account_type' => $accountType->id,
         ];
         $user = User::factory()->create();
         Event::fake();
 
         $response = $this->actingAs($user)->postJson('/api/v1/accounts', $accountPayload);
-        
+
         $response->assertCreated();
         $response->assertJsonStructure([
             'data' => [
@@ -77,9 +76,9 @@ class AccountsTest extends TestCase
                     'account_type' => [
                         'id',
                         'attributes' => [
-                            'name'
-                        ]
-                    ]
+                            'name',
+                        ],
+                    ],
                 ],
             ],
         ]);

@@ -50,7 +50,7 @@ class AccountsTest extends TestCase
         Event::fake();
 
         $response = $this->actingAs($user)->postJson('/api/v1/accounts', $accountPayload);
-        $response->dump();
+        
         $response->assertCreated();
         $response->assertJsonStructure([
             'data' => [

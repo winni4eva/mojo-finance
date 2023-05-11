@@ -33,6 +33,8 @@ class Account extends Resource
         'account_number',
     ];
 
+    public static $tableStyle = 'tight';
+
     /**
      * Get the fields displayed by the resource.
      *

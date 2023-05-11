@@ -2,10 +2,9 @@
 
 namespace App\Nova;
 
-use Illuminate\Http\Request;
-use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Account extends Resource
@@ -22,7 +21,7 @@ class Account extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public static $title = 'account_number';
 
     /**
      * The columns that should be searched.
@@ -31,6 +30,7 @@ class Account extends Resource
      */
     public static $search = [
         'id',
+        'account_number',
     ];
 
     /**
@@ -41,11 +41,23 @@ class Account extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            ID::make()->sortable(),
+            ID::make()->sortable()
+                ->textAlign('left'),
 
-            Currency::make('Amount')->currency('USD'),
+            Text::make('Account Number', 'account_number')
+                ->required()
+                ->textAlign('left'),
 
-            //BelongsTo::make(\App\Models\AccountType::class),
+            Currency::make('Amount')
+                ->currency('USD')
+                ->required()
+                ->textAlign('left')
+                ->hideFromIndex()
+                ->showOnPreview(),
+
+            Text::make('Account Type', 'account_type_id')
+                ->textAlign('left'),
+
         ];
     }
 

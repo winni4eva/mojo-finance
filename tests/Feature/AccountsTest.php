@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Http\Resources\AccountResource;
 use App\Models\AccountType;
 use App\Models\Pipelines\AccountCreatingPipeline;
 use Database\Seeders\AccountSeeder;
@@ -78,5 +79,6 @@ class AccountsTest extends FeatureTestCase
             ],
         ]);
         Event::assertDispatched(AccountCreatingPipeline::class, 1);
+        //$this->assertInstanceOf(AccountResource::class, $response->getOriginalContent());
     }
 }

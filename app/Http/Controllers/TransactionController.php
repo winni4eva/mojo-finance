@@ -48,7 +48,7 @@ class TransactionController extends Controller
      */
     public function store(StoreTransactionRequest $request, Account $account)
     {
-        $scheduled = $request->has('schedule') && $request->schedule ? true : false;
+        $scheduled = $request->isTransactionScheduled();
 
         ScheduleTransaction::dispatchIf(
             $scheduled, 
@@ -57,7 +57,7 @@ class TransactionController extends Controller
 
         ProcessTransaction::dispatchIf(
             !$scheduled, 
-            $request->creditAccount(), Auth::user(), $request->amount
+            $account, $request->creditAccount(), Auth::user(), $request->amount
         );
         
         if ($scheduled) {

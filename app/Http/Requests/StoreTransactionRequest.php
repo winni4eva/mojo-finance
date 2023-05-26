@@ -38,8 +38,13 @@ class StoreTransactionRequest extends FormRequest
         ];
     }
 
-    public function creditAccount()
+    public function creditAccount(): Account
     {
         return Account::find($this->credit_account);
+    }
+
+    public function isTransactionScheduled(): bool
+    {
+        return request()->has('schedule') && request()->get('schedule');
     }
 }

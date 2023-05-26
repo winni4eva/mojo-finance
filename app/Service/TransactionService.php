@@ -62,14 +62,14 @@ class TransactionService
         }
     }
 
-    public function createScheduledTransaction(Account $account, int $userId)
+    public function createScheduledTransaction(Account $account, Account $creditAccount, float $amount, int $userId, string $period)
     {
         $scheduledTransaction = ScheduledTransaction::create([
-            'account_id' => (int) request('credit_account'),
+            'account_id' => $creditAccount->id,
             'debit_account_id' => $account->id,
-            'amount' => request('amount'),
+            'amount' => $amount,
             'user_id' => $userId,
-            'period' => request('period'),
+            'period' => $period,
         ]);
 
         if (! $scheduledTransaction) {

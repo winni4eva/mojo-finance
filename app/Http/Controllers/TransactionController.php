@@ -6,6 +6,7 @@ use App\Filters\TransactionFilters;
 use App\Http\Requests\StoreTransactionRequest;
 use App\Http\Resources\TransactionResource;
 use App\Jobs\ProcessTransaction;
+use App\Jobs\ScheduleTransaction;
 use App\Models\Account;
 use App\Models\Transaction;
 use App\Traits\HttpResponseTrait;
@@ -17,10 +18,6 @@ class TransactionController extends Controller
 {
     use HttpResponseTrait;
 
-    public function __construct()
-    {
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -28,7 +25,10 @@ class TransactionController extends Controller
      */
     public function index(Account $account, TransactionFilters $filters)
     {
-        // Add view accounts policy
+        $perPage = request()->query('perPage', config('mojo.perPage'));
+        $columns = ['*'];
+        $pageName = 'page';
+        $page = request()->query('page', 1);
 
         $transactions = Transaction::whereHas('account', function ($query) use ($account) {
             $query->where('user_id', auth()->user()->id)
@@ -36,7 +36,7 @@ class TransactionController extends Controller
         })
             ->filter($filters)
             ->latest()
-            ->paginate(request()->query('perPage', config('mojo.perPage')), columns: ['*'], pageName: 'page', page: request()->query('page', 1));
+            ->paginate($perPage, $columns, $pageName, $page);
 
         return TransactionResource::collection($transactions);
     }
@@ -49,14 +49,22 @@ class TransactionController extends Controller
      */
     public function store(StoreTransactionRequest $request, Account $account)
     {
-        if ($request->has('schedule') && $request->schedule) {
-            TransactionService::createScheduledTransaction($account, Auth::user()->id);
+        $scheduled = $request->has('schedule') && $request->schedule ? true : false;
 
+        ScheduleTransaction::dispatchIf(
+            $scheduled, 
+            $account, $request->creditAccount(), Auth::user(), $request->amount, $request->period
+        );
+
+        ProcessTransaction::dispatchIf(
+            !$scheduled, 
+            $request->creditAccount(), Auth::user(), $request->amount
+        );
+        
+        if ($scheduled) {
             return $this->success('', 'Transaction scheduled successfully', Response::HTTP_CREATED);
         }
-
-        ProcessTransaction::dispatch($account, $request->creditAccount(), Auth::user(), $request->amount);
-
+        
         return $this->success('', 'Transaction processing initiated successfully', Response::HTTP_CREATED);
     }
 

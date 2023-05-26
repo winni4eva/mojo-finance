@@ -10,7 +10,6 @@ use App\Jobs\ScheduleTransaction;
 use App\Models\Account;
 use App\Models\Transaction;
 use App\Traits\HttpResponseTrait;
-use Facades\App\Service\TransactionService;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -64,7 +63,7 @@ class TransactionController extends Controller
         if ($scheduled) {
             return $this->success('', 'Transaction scheduled successfully', Response::HTTP_CREATED);
         }
-        
+
         return $this->success('', 'Transaction processing initiated successfully', Response::HTTP_CREATED);
     }
 

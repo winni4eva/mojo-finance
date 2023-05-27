@@ -81,4 +81,23 @@ class AccountsTest extends FeatureTestCase
         Event::assertDispatched(AccountCreatingPipeline::class, 1);
         //$this->assertInstanceOf(AccountResource::class, $response->getOriginalContent());
     }
+
+    public function test_user_account_create_returns_error_when_account_type_already_exists(): void
+    {
+        $accountType = AccountType::first();
+        $accountPayload = [
+            'amount' => 1455.54,
+            'account_type' => $accountType->id,
+        ];
+
+        $response = $this->actingAs($this->user)->postJson('/api/v1/accounts', $accountPayload);
+
+        $response->assertForbidden();
+        $response->assertJson([
+            'status' => 'An error has occurred...',
+            'message' => 'This account type already exists for this user.',
+            'data' => ''
+        ]);
+    }
 }
+

@@ -158,4 +158,22 @@ class TransactionsTest extends FeatureTestCase
             'data' => ''
         ]);
     }
+
+    public function test_transaction_post_should_return_errors_when_credit_and_debit_accouts_aree_the_same()
+    {
+        $postData = [
+            'credit_account' => $this->debitAccount->id,
+            'amount' => 101,
+        ];
+
+        $response = $this->actingAs($this->user)
+                        ->postJson("/api/v1/accounts/{$this->debitAccount->id}/transactions", $postData);
+
+        $response->assertForbidden();
+        $response->assertJson([
+            'status' => 'An error has occurred...',
+            'message' => 'Debit and credit accounts are the same',
+            'data' => ''
+        ]);
+    }
 }

@@ -83,7 +83,7 @@ class TransactionsTest extends FeatureTestCase
 
     public function test_transaction_post_should_return_errors_when_debit_account_doesnt_belong_to_user()
     {
-        $anotherUser = User::factory()->create();
+        $anotherUser = $this->createSingleUser();
         $accountType = AccountType::first();
         $anotherUsersAccount = Account::factory()->create(['account_type_id' => $accountType->id, 'user_id' => $anotherUser->id]);
 

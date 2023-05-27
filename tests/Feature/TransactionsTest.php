@@ -100,4 +100,27 @@ class TransactionsTest extends FeatureTestCase
             'data' => ''
         ]);
     }
+
+    public function test_transaction_post_should_return_errors_when_schedule_period_is_not_a_valid_date()
+    {
+        $userAccounts = Account::where('user_id', $this->user->id)->get();
+        $debitAccount = $userAccounts->first();
+        $creditAccount = $userAccounts->get(1);
+
+        $postData = [
+            'credit_account' => $creditAccount->id,
+            'amount' => 1034,
+            'schedule' => 1,
+            'period' => '&^%$-05-WE 16:04:00'
+        ];
+
+        $response = $this->actingAs($this->user)->postJson("/api/v1/accounts/{$debitAccount->id}/transactions", $postData);
+
+        $response->assertForbidden();
+        $response->assertJson([
+            'status' => 'An error has occurred...',
+            'message' => 'The period does not match the format Y-m-d H:i:s.',
+            'data' => ''
+        ]);
+    }
 }

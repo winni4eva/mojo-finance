@@ -38,7 +38,7 @@ class TransactionPolicy
      * @param  \App\Models\Account  $creditAccount
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(User $user, Account $account, Account|null $creditAccount, float $depositAmount)
+    public function create(User $user, Account $account, Account|null $creditAccount)
     {
         if ($user->id != $account->user_id) {
             abort(Response::HTTP_FORBIDDEN, $this->getDenyMessage('DEFAULT'));
@@ -50,10 +50,6 @@ class TransactionPolicy
 
         if ($account->id == $creditAccount->id) {
             abort(Response::HTTP_FORBIDDEN, $this->getDenyMessage('ACCOUNTS_ARE_THE_SAME'));
-        }
-
-        if (($depositAmount / 100) > $account->amount) {
-            abort(Response::HTTP_FORBIDDEN, $this->getDenyMessage('INSUFFICIENT_ACCOUNT_BALANCE'));
         }
 
         return $this->allow();
@@ -104,7 +100,6 @@ class TransactionPolicy
         return match ($messageKey) {
             'ACCOUNT_DOES_NOT_EXIST' => 'Credit account does not exist',
             'ACCOUNTS_ARE_THE_SAME' => 'Debit and credit accounts are the same',
-            'INSUFFICIENT_ACCOUNT_BALANCE' => 'You do not have sufficient balance to perform this transaction',
             default => 'You are not authorized to make this request'
         };
     }

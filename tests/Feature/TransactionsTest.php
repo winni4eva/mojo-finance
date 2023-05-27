@@ -9,8 +9,8 @@ use App\Models\AccountType;
 use App\Models\User;
 use Database\Seeders\AccountSeeder;
 use Database\Seeders\AccountTypeSeeder;
-use Tests\FeatureTestCase;
 use Illuminate\Support\Facades\Queue;
+use Tests\FeatureTestCase;
 
 class TransactionsTest extends FeatureTestCase
 {
@@ -34,7 +34,7 @@ class TransactionsTest extends FeatureTestCase
 
         $postData = [
             'credit_account' => $creditAccount->id,
-            'amount' => 10
+            'amount' => 10,
         ];
         Queue::fake();
 
@@ -44,9 +44,9 @@ class TransactionsTest extends FeatureTestCase
         $response->assertJson([
             'status' => 'Request was successful.',
             'message' => 'Transaction processing initiated successfully',
-            'data' => ''
+            'data' => '',
         ]);
-        
+
         Queue::assertPushed(ProcessTransaction::class, 1);
         Queue::assertNotPushed(ScheduleTransaction::class);
     }
@@ -61,7 +61,7 @@ class TransactionsTest extends FeatureTestCase
             'credit_account' => $creditAccount->id,
             'amount' => 10,
             'schedule' => 1,
-            'period' => '2023-05-26 16:04:00'
+            'period' => '2023-05-26 16:04:00',
         ];
         Queue::fake();
 
@@ -71,9 +71,9 @@ class TransactionsTest extends FeatureTestCase
         $response->assertJson([
             'status' => 'Request was successful.',
             'message' => 'Transaction scheduled successfully',
-            'data' => ''
+            'data' => '',
         ]);
-        
+
         Queue::assertPushed(ScheduleTransaction::class, 1);
         Queue::assertNotPushed(ProcessTransaction::class);
     }
@@ -97,7 +97,7 @@ class TransactionsTest extends FeatureTestCase
         $response->assertJson([
             'status' => 'An error has occurred...',
             'message' => 'You are not authorized to make this request',
-            'data' => ''
+            'data' => '',
         ]);
     }
 
@@ -111,7 +111,7 @@ class TransactionsTest extends FeatureTestCase
             'credit_account' => $creditAccount->id,
             'amount' => 1034,
             'schedule' => 1,
-            'period' => '&^%$-05-WE 16:04:00'
+            'period' => '&^%$-05-WE 16:04:00',
         ];
 
         $response = $this->actingAs($this->user)->postJson("/api/v1/accounts/{$debitAccount->id}/transactions", $postData);
@@ -120,6 +120,27 @@ class TransactionsTest extends FeatureTestCase
         $response->assertJson([
             'status' => 'An error has occurred...',
             'message' => 'The period does not match the format Y-m-d H:i:s.',
+            'data' => '',
+        ]);
+    }
+
+    public function test_transaction_post_should_return_errors_when_amount_is_not_a_number()
+    {
+        $userAccounts = Account::where('user_id', $this->user->id)->get();
+        $debitAccount = $userAccounts->first();
+        $creditAccount = $userAccounts->get(1);
+
+        $postData = [
+            'credit_account' => $creditAccount->id,
+            'amount' => 'QWERTY',
+        ];
+
+        $response = $this->actingAs($this->user)->postJson("/api/v1/accounts/{$debitAccount->id}/transactions", $postData);
+
+        $response->assertForbidden();
+        $response->assertJson([
+            'status' => 'An error has occurred...',
+            'message' => 'The amount must be a valid currency value.',
             'data' => ''
         ]);
     }

@@ -27,11 +27,11 @@ class StoreTransactionRequest extends FormRequest
     public function rules()
     {
         return [
-            'amount' => 'required|numeric|min:1',
+            'amount' => 'regex:/^\d+(\.\d{1,2})?$/',
             'credit_account' => 'required|numeric|min:1',
             'period' => [
                 Rule::when(
-                    request()->has('schedule') && request()->get('schedule'),
+                    request()->has('schedule') && request()->schedule,
                     ['required', 'date_format:Y-m-d H:i:s']
                 ),
             ],
@@ -45,6 +45,21 @@ class StoreTransactionRequest extends FormRequest
 
     public function isTransactionScheduled(): bool
     {
-        return request()->has('schedule') && request()->get('schedule');
+        return request()->has('schedule') && request()->schedule;
+    }
+
+    public function hasEnoughBalance(): bool
+    {
+        if ((request()->amount / 100) > $this->account->amount) {
+            return false;
+        }
+        return true;
+    }
+
+    public function messages()
+    {
+        return [
+            'amount.regex' => 'The amount must be a valid currency value.',
+        ];
     }
 }

@@ -48,18 +48,22 @@ class TransactionController extends Controller
      */
     public function store(StoreTransactionRequest $request, Account $account)
     {
+        if (!$request->hasEnoughBalance()) {
+            abort(Response::HTTP_FORBIDDEN, 'You do not have sufficient balance to perform this transaction');
+        }
+
         $scheduled = $request->isTransactionScheduled();
 
         ScheduleTransaction::dispatchIf(
-            $scheduled, 
+            $scheduled,
             $account, $request->creditAccount(), Auth::user(), $request->amount, $request->period
         );
 
         ProcessTransaction::dispatchIf(
-            !$scheduled, 
+            ! $scheduled,
             $account, $request->creditAccount(), Auth::user(), $request->amount
         );
-        
+
         if ($scheduled) {
             return $this->success('', 'Transaction scheduled successfully', Response::HTTP_CREATED);
         }

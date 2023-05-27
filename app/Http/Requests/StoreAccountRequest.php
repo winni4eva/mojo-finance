@@ -26,13 +26,20 @@ class StoreAccountRequest extends FormRequest
     public function rules()
     {
         return [
-            'amount' => 'required|numeric|between:1,9999999999.99',
+            'amount' => 'regex:/^\d+(\.\d{1,2})?$/',
             'account_type' => [
                 'required',
                 'integer',
                 Rule::exists('accounts', 'id'),
                 new AccountUserTypeRule,
             ],
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'amount.regex' => 'The amount must be a valid currency value.',
         ];
     }
 }

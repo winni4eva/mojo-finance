@@ -99,5 +99,24 @@ class AccountsTest extends FeatureTestCase
             'data' => ''
         ]);
     }
+
+    public function test_user_account_create_returns_error_when_aamount_is_invalid(): void
+    {
+        $user = $this->createSingleUser();
+        $accountType = AccountType::first();
+        $accountPayload = [
+            'amount' => 'QWERTY',
+            'account_type' => $accountType->id,
+        ];
+
+        $response = $this->actingAs($user)->postJson('/api/v1/accounts', $accountPayload);
+
+        $response->assertForbidden();
+        $response->assertJson([
+            'status' => 'An error has occurred...',
+            'message' => 'The amount must be a valid currency value.',
+            'data' => ''
+        ]);
+    }
 }
 

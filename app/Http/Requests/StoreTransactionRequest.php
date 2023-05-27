@@ -38,7 +38,7 @@ class StoreTransactionRequest extends FormRequest
         ];
     }
 
-    public function creditAccount(): Account
+    public function creditAccount(): Account|null
     {
         return Account::find($this->credit_account);
     }

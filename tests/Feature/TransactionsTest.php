@@ -92,7 +92,8 @@ class TransactionsTest extends FeatureTestCase
             'amount' => 1034,
         ];
 
-        $response = $this->actingAs($this->user)->postJson("/api/v1/accounts/{$anotherUsersAccount->id}/transactions", $postData);
+        $response = $this->actingAs($this->user)
+                        ->postJson("/api/v1/accounts/{$anotherUsersAccount->id}/transactions", $postData);
 
         $response->assertForbidden();
         $response->assertJson([
@@ -111,7 +112,8 @@ class TransactionsTest extends FeatureTestCase
             'period' => '&^%$-05-WE 16:04:00',
         ];
 
-        $response = $this->actingAs($this->user)->postJson("/api/v1/accounts/{$this->debitAccount->id}/transactions", $postData);
+        $response = $this->actingAs($this->user)
+                        ->postJson("/api/v1/accounts/{$this->debitAccount->id}/transactions", $postData);
 
         $response->assertForbidden();
         $response->assertJson([
@@ -128,12 +130,31 @@ class TransactionsTest extends FeatureTestCase
             'amount' => 'QWERTY',
         ];
 
-        $response = $this->actingAs($this->user)->postJson("/api/v1/accounts/{$this->debitAccount->id}/transactions", $postData);
+        $response = $this->actingAs($this->user)
+                        ->postJson("/api/v1/accounts/{$this->debitAccount->id}/transactions", $postData);
 
         $response->assertForbidden();
         $response->assertJson([
             'status' => 'An error has occurred...',
             'message' => 'The amount must be a valid currency value.',
+            'data' => ''
+        ]);
+    }
+
+    public function test_transaction_post_should_return_errors_when_account_does_not_exist()
+    {
+        $postData = [
+            'credit_account' => 123456789,
+            'amount' => 101,
+        ];
+
+        $response = $this->actingAs($this->user)
+                        ->postJson("/api/v1/accounts/{$this->debitAccount->id}/transactions", $postData);
+
+        $response->assertForbidden();
+        $response->assertJson([
+            'status' => 'An error has occurred...',
+            'message' => 'Credit account does not exist',
             'data' => ''
         ]);
     }

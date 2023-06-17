@@ -8,18 +8,18 @@ use App\Traits\FilterTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-enum AccountType {
-    case CURRENT = 1;
-    case SAVING = 2;
+// enum AccountType {
+//     case CURRENT = 1;
+//     case SAVING = 2;
 
-    public function name()
-    {
-        return match($this) {
-            self::CURRENT => 'Current',
-            default => 'Savings'
-        };
-    }
-}
+//     public function name()
+//     {
+//         return match($this) {
+//             self::CURRENT => 'Current',
+//             default => 'Savings'
+//         };
+//     }
+// }
 
 class Account extends Model
 {
@@ -32,10 +32,10 @@ class Account extends Model
     ];
 
 
-    protected $casts = [
-        'type' => AccountType::class
-    ];
-    
+    // protected $casts = [
+    //     'type' => AccountType::class
+    // ];
+
 
     public function user()
     {

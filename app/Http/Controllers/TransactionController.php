@@ -9,13 +9,11 @@ use App\Jobs\ProcessTransaction;
 use App\Jobs\ScheduleTransaction;
 use App\Models\Account;
 use App\Models\Transaction;
-use App\Traits\HttpResponseTrait;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class TransactionController extends Controller
 {
-    use HttpResponseTrait;
 
     /**
      * Display a listing of the resource.

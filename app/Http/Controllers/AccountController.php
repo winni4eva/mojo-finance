@@ -6,12 +6,9 @@ use App\Filters\AccountFilters;
 use App\Http\Requests\StoreAccountRequest;
 use App\Http\Resources\AccountResource;
 use App\Models\Account;
-use App\Traits\HttpResponseTrait;
 
 class AccountController extends Controller
 {
-    use HttpResponseTrait;
-
     /**
      * Display a listing of the resource.
      *

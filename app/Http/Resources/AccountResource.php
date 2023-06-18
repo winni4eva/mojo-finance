@@ -24,7 +24,7 @@ class AccountResource extends JsonResource
             ],
             'relationships' => [
                 'user' => new UserResource($this->user),
-                //'account_type' => new AccountTypeResource($this->accountType),
+                'account_type' => new AccountTypeResource($this->accountType),
             ],
         ];
     }

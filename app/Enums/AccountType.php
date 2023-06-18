@@ -1,9 +1,9 @@
 <?php
 namespace App\Enums;
 
-class AccountType
+enum AccountType: string
 {
-    const SAVINGS = 'savings';
+    case SAVINGS = 'savings';
 
-    const CHECKING = 'checking';
+    case CHECKING = 'checking';
 }

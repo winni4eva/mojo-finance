@@ -31,12 +31,6 @@ class Account extends Model
         'creating' => AccountCreatingPipeline::class,
     ];
 
-
-    protected $casts = [
-        'type' => AccountType::class
-    ];
-
-
     public function user()
     {
         return $this->belongsTo(User::class);

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\AccountType as EnumsAccountType;
 use App\Models\AccountType;
 use Illuminate\Database\Seeder;
 
@@ -14,7 +15,7 @@ class AccountTypeSeeder extends Seeder
      */
     public function run()
     {
-        collect(['savings', 'checking'])->each(function ($accountType) {
+        collect([EnumsAccountType::SAVINGS, EnumsAccountType::CHECKING])->each(function ($accountType) {
             AccountType::factory()->create(['name' => $accountType]);
         });
     }

@@ -32,9 +32,9 @@ class Account extends Model
     ];
 
 
-    // protected $casts = [
-    //     'type' => AccountType::class
-    // ];
+    protected $casts = [
+        'type' => AccountType::class
+    ];
 
 
     public function user()

@@ -14,7 +14,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class TransactionController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      *
@@ -22,18 +21,18 @@ class TransactionController extends Controller
      */
     public function index(Account $account, TransactionFilters $filters)
     {
-        $perPage = request()->query('perPage', config('mojo.perPage'));
-        $columns = ['*'];
-        $pageName = 'page';
-        $page = request()->query('page', 1);
-
         $transactions = Transaction::whereHas('account', function ($query) use ($account) {
             $query->where('user_id', auth()->user()->id)
                 ->where('id', $account->id);
         })
             ->filter($filters)
             ->latest()
-            ->paginate($perPage, $columns, $pageName, $page);
+            ->paginate(
+                perPage: request()->query('perPage', config('mojo.perPage')),
+                columns: ['*'],
+                pageName: 'page',
+                page: request()->query('page', 1)
+            );
 
         return TransactionResource::collection($transactions);
     }
@@ -46,7 +45,7 @@ class TransactionController extends Controller
      */
     public function store(StoreTransactionRequest $request, Account $account)
     {
-        if (!$request->hasEnoughBalance()) {
+        if (! $request->hasEnoughBalance()) {
             abort(Response::HTTP_FORBIDDEN, 'You do not have sufficient balance to perform this transaction');
         }
 

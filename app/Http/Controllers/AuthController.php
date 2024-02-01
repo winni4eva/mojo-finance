@@ -12,7 +12,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
-
     /**TODO Reefactor to use Action classes */
 
     public function login(LoginUserRequest $request)
@@ -25,7 +24,6 @@ class AuthController extends Controller
 
         $user = User::where('email', $request->email)->first();
 
-        /** TODO Refactor response to match app response structure */
         return $this->success(
             [
                 'user' => $user,
@@ -47,7 +45,6 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        /** TODO Refactor response to match app response structure */
         return $this->success([
             'user' => $user,
             'token' => $user->createToken('Api token of '.$user->first_name.' '.$user->last_name)->plainTextToken,

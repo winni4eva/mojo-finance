@@ -9,6 +9,10 @@ class AuthTest extends FeatureTestCase
 {
     protected $user;
 
+    const REGISTER_ENDPOINT = '/api/v1/register';
+
+    const LOGIN_ENDPOINT = '/api/v1/login';
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -31,7 +35,7 @@ class AuthTest extends FeatureTestCase
             'password_confirmation' => 'password',
         ];
 
-        $response = $this->postJson('/api/v1/register', $registerationDetails);
+        $response = $this->postJson(self::REGISTER_ENDPOINT, $registerationDetails);
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -73,7 +77,7 @@ class AuthTest extends FeatureTestCase
         ];
         $errorMessage = 'The email has already been taken.';
 
-        $response = $this->postJson('/api/v1/register', $registerationDetails);
+        $response = $this->postJson(self::REGISTER_ENDPOINT, $registerationDetails);
 
         $response->assertForbidden();
         $response->assertJsonStructure([
@@ -100,7 +104,7 @@ class AuthTest extends FeatureTestCase
         ];
         $errorMessage = 'The password confirmation does not match.';
 
-        $response = $this->postJson('/api/v1/register', $registerationDetails);
+        $response = $this->postJson(self::REGISTER_ENDPOINT, $registerationDetails);
 
         $response->assertForbidden();
         $response->assertJsonStructure([
@@ -124,7 +128,7 @@ class AuthTest extends FeatureTestCase
         ];
         $successMesage = 'User logged in successfully.';
 
-        $response = $this->postJson('/api/v1/login', $loginDetails);
+        $response = $this->postJson(self::LOGIN_ENDPOINT, $loginDetails);
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -152,9 +156,5 @@ class AuthTest extends FeatureTestCase
                          ->postJson('/api/v1/logout');
 
         $response->assertNoContent();
-
-        // $response = $this->withHeader('Authorization', 'Bearer ' . $accessToken)
-        //                  ->get('/api/v1/accounts');
-        // $response->assertUnauthorized();
     }
 }

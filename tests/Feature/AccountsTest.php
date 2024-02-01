@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Http\Resources\AccountResource;
 use App\Models\AccountType;
 use App\Models\Pipelines\AccountCreatingPipeline;
 use Database\Seeders\AccountSeeder;
@@ -13,6 +12,8 @@ use Tests\FeatureTestCase;
 class AccountsTest extends FeatureTestCase
 {
     protected $user;
+
+    const ACCOUNTS_ENDPOINT = '/api/v1/accounts';
 
     protected function setUp(): void
     {
@@ -26,7 +27,7 @@ class AccountsTest extends FeatureTestCase
 
     public function test_user_can_access_accounts(): void
     {
-        $response = $this->actingAs($this->user)->getJson('/api/v1/accounts');
+        $response = $this->actingAs($this->user)->getJson(self::ACCOUNTS_ENDPOINT);
 
         $response->assertOk();
         $response->assertJsonCount(count: 2, key: 'data');
@@ -44,7 +45,7 @@ class AccountsTest extends FeatureTestCase
         $user = $this->createSingleUser();
         Event::fake();
 
-        $response = $this->actingAs($user)->postJson('/api/v1/accounts', $accountPayload);
+        $response = $this->actingAs($user)->postJson(self::ACCOUNTS_ENDPOINT, $accountPayload);
 
         $response->assertCreated();
         $response->assertJsonStructure([
@@ -79,7 +80,6 @@ class AccountsTest extends FeatureTestCase
             ],
         ]);
         Event::assertDispatched(AccountCreatingPipeline::class, 1);
-        //$this->assertInstanceOf(AccountResource::class, $response->getOriginalContent());
     }
 
     public function test_user_account_create_returns_error_when_account_type_already_exists(): void
@@ -90,13 +90,13 @@ class AccountsTest extends FeatureTestCase
             'account_type' => $accountType->id,
         ];
 
-        $response = $this->actingAs($this->user)->postJson('/api/v1/accounts', $accountPayload);
+        $response = $this->actingAs($this->user)->postJson(self::ACCOUNTS_ENDPOINT, $accountPayload);
 
         $response->assertForbidden();
         $response->assertJson([
             'status' => 'An error has occurred...',
             'message' => 'This account type already exists for this user.',
-            'data' => ''
+            'data' => '',
         ]);
     }
 
@@ -109,14 +109,13 @@ class AccountsTest extends FeatureTestCase
             'account_type' => $accountType->id,
         ];
 
-        $response = $this->actingAs($user)->postJson('/api/v1/accounts', $accountPayload);
+        $response = $this->actingAs($user)->postJson(self::ACCOUNTS_ENDPOINT, $accountPayload);
 
         $response->assertForbidden();
         $response->assertJson([
             'status' => 'An error has occurred...',
             'message' => 'The amount must be a valid currency value.',
-            'data' => ''
+            'data' => '',
         ]);
     }
 }
-

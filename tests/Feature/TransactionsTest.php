@@ -6,7 +6,6 @@ use App\Jobs\ProcessTransaction;
 use App\Jobs\ScheduleTransaction;
 use App\Models\Account;
 use App\Models\AccountType;
-use App\Models\User;
 use Database\Seeders\AccountSeeder;
 use Database\Seeders\AccountTypeSeeder;
 use Illuminate\Support\Facades\Queue;
@@ -21,6 +20,10 @@ class TransactionsTest extends FeatureTestCase
     protected $debitAccount;
 
     protected $creditAccount;
+
+    const ERROR_STATUS = 'An error has occurred...';
+
+    const SUCCESS_STATUS = 'Request was successful.';
 
     protected function setUp(): void
     {
@@ -48,7 +51,7 @@ class TransactionsTest extends FeatureTestCase
 
         $response->assertCreated();
         $response->assertJson([
-            'status' => 'Request was successful.',
+            'status' => self::SUCCESS_STATUS,
             'message' => 'Transaction processing initiated successfully',
             'data' => '',
         ]);
@@ -72,7 +75,7 @@ class TransactionsTest extends FeatureTestCase
 
         $response->assertCreated();
         $response->assertJson([
-            'status' => 'Request was successful.',
+            'status' => self::SUCCESS_STATUS,
             'message' => 'Transaction scheduled successfully',
             'data' => '',
         ]);
@@ -85,7 +88,9 @@ class TransactionsTest extends FeatureTestCase
     {
         $anotherUser = $this->createSingleUser();
         $accountType = AccountType::first();
-        $anotherUsersAccount = Account::factory()->create(['account_type_id' => $accountType->id, 'user_id' => $anotherUser->id]);
+        $anotherUsersAccount = Account::factory()->create([
+            'account_type_id' => $accountType->id, 'user_id' => $anotherUser->id
+        ]);
 
         $postData = [
             'credit_account' => $this->creditAccount->id,
@@ -97,7 +102,7 @@ class TransactionsTest extends FeatureTestCase
 
         $response->assertForbidden();
         $response->assertJson([
-            'status' => 'An error has occurred...',
+            'status' => SELF::ERROR_STATUS,
             'message' => 'You are not authorized to make this request',
             'data' => '',
         ]);
@@ -117,7 +122,7 @@ class TransactionsTest extends FeatureTestCase
 
         $response->assertForbidden();
         $response->assertJson([
-            'status' => 'An error has occurred...',
+            'status' => SELF::ERROR_STATUS,
             'message' => 'The period does not match the format Y-m-d H:i:s.',
             'data' => '',
         ]);
@@ -135,9 +140,9 @@ class TransactionsTest extends FeatureTestCase
 
         $response->assertForbidden();
         $response->assertJson([
-            'status' => 'An error has occurred...',
+            'status' => SELF::ERROR_STATUS,
             'message' => 'The amount must be a valid currency value.',
-            'data' => ''
+            'data' => '',
         ]);
     }
 
@@ -153,9 +158,9 @@ class TransactionsTest extends FeatureTestCase
 
         $response->assertForbidden();
         $response->assertJson([
-            'status' => 'An error has occurred...',
+            'status' => SELF::ERROR_STATUS,
             'message' => 'Credit account does not exist',
-            'data' => ''
+            'data' => '',
         ]);
     }
 
@@ -171,9 +176,9 @@ class TransactionsTest extends FeatureTestCase
 
         $response->assertForbidden();
         $response->assertJson([
-            'status' => 'An error has occurred...',
+            'status' => SELF::ERROR_STATUS,
             'message' => 'Debit and credit accounts are the same',
-            'data' => ''
+            'data' => '',
         ]);
     }
 }

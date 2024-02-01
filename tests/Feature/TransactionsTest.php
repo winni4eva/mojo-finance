@@ -23,6 +23,8 @@ class TransactionsTest extends FeatureTestCase
 
     const ERROR_STATUS = 'An error has occurred...';
 
+    const SUCCESS_STATUS = 'Request was successful.';
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -49,7 +51,7 @@ class TransactionsTest extends FeatureTestCase
 
         $response->assertCreated();
         $response->assertJson([
-            'status' => 'Request was successful.',
+            'status' => self::SUCCESS_STATUS,
             'message' => 'Transaction processing initiated successfully',
             'data' => '',
         ]);
@@ -73,7 +75,7 @@ class TransactionsTest extends FeatureTestCase
 
         $response->assertCreated();
         $response->assertJson([
-            'status' => 'Request was successful.',
+            'status' => self::SUCCESS_STATUS,
             'message' => 'Transaction scheduled successfully',
             'data' => '',
         ]);
@@ -100,7 +102,7 @@ class TransactionsTest extends FeatureTestCase
 
         $response->assertForbidden();
         $response->assertJson([
-            'status' => 'An error has occurred...',
+            'status' => SELF::ERROR_STATUS,
             'message' => 'You are not authorized to make this request',
             'data' => '',
         ]);
@@ -120,7 +122,7 @@ class TransactionsTest extends FeatureTestCase
 
         $response->assertForbidden();
         $response->assertJson([
-            'status' => 'An error has occurred...',
+            'status' => SELF::ERROR_STATUS,
             'message' => 'The period does not match the format Y-m-d H:i:s.',
             'data' => '',
         ]);
@@ -138,7 +140,7 @@ class TransactionsTest extends FeatureTestCase
 
         $response->assertForbidden();
         $response->assertJson([
-            'status' => 'An error has occurred...',
+            'status' => SELF::ERROR_STATUS,
             'message' => 'The amount must be a valid currency value.',
             'data' => '',
         ]);
@@ -156,7 +158,7 @@ class TransactionsTest extends FeatureTestCase
 
         $response->assertForbidden();
         $response->assertJson([
-            'status' => 'An error has occurred...',
+            'status' => SELF::ERROR_STATUS,
             'message' => 'Credit account does not exist',
             'data' => '',
         ]);
@@ -174,7 +176,7 @@ class TransactionsTest extends FeatureTestCase
 
         $response->assertForbidden();
         $response->assertJson([
-            'status' => 'An error has occurred...',
+            'status' => SELF::ERROR_STATUS,
             'message' => 'Debit and credit accounts are the same',
             'data' => '',
         ]);

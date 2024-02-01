@@ -16,15 +16,15 @@ class AccountController extends Controller
      */
     public function index(AccountFilters $filters)
     {
-        $perPage = request()->query('perPage', config('mojo.perPage'));
-        $columns = ['*'];
-        $pageName = 'page';
-        $page = request()->query('page', 1);
-
         $accounts = Account::where('user_id', auth()->user()->id)
             ->filter($filters)
             ->latest()
-            ->paginate($perPage, $columns, $pageName, $page);
+            ->paginate(
+                perPage: request()->query('perPage', config('mojo.perPage')),
+                columns: ['*'],
+                pageName: 'page',
+                page: request()->query('page', 1)
+            );
 
         return AccountResource::collection($accounts);
     }

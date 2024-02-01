@@ -12,15 +12,21 @@ use Symfony\Component\HttpFoundation\Response;
 
 class TransactionService
 {
-    protected const TRANSACTION_CREDIT_TYPE = 'credit';
+    const TRANSACTION_CREDIT_TYPE = 'credit';
 
-    protected const TRANSACTION_DEBIT_TYPE = 'debit';
+    const TRANSACTION_DEBIT_TYPE = 'debit';
 
-    public function createTransaction(Account $account, Account $creditAccount, User $user, int $amount, int $scheduleId)
+    public function createTransaction(
+        Account $account,
+        Account $creditAccount,
+        User $user,
+        int $amount,
+        int $scheduleId
+    )
     {
-        try {
-            DB::beginTransaction();
+        DB::beginTransaction();
 
+        try {
             $account->update([
                 'amount' => $account->amount - $amount,
             ]);
@@ -57,12 +63,17 @@ class TransactionService
             // Add audit logs
             DB::rollBack();
             $this->dispatchFailedEvent($account, $creditAccount, $user, $amount);
-            logger('Message: '.$th->getMessage().' Line: '.$th->getLine().'File: '.$th->getFile());
             throw new TransactionProcessingFailed('Transaction processing failed', Response::HTTP_FORBIDDEN);
         }
     }
 
-    public function createScheduledTransaction(Account $account, Account $creditAccount, float $amount, int $userId, string $period)
+    public function createScheduledTransaction(
+        Account $account,
+        Account $creditAccount,
+        float $amount,
+        int $userId,
+        string $period
+    )
     {
         $scheduledTransaction = ScheduledTransaction::create([
             'account_id' => $creditAccount->id,
@@ -74,7 +85,6 @@ class TransactionService
 
         if (! $scheduledTransaction) {
             /** Add Scheduled Transaction Failed notification */
-            // $this->dispatchFailedEvent($account, $creditAccount, $userId, $amount);
             return false;
         }
 

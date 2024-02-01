@@ -20,7 +20,13 @@ class ScheduleTransaction implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(protected Account $account, protected Account $creditAccount, protected User $user, protected int $amount, protected string $period)
+    public function __construct(
+        protected Account $account,
+        protected Account $creditAccount,
+        protected User $user,
+        protected int $amount,
+        protected string $period
+    )
     {
         //
     }
@@ -32,6 +38,12 @@ class ScheduleTransaction implements ShouldQueue
      */
     public function handle(TransactionService $transactionService)
     {
-        $transactionService->createScheduledTransaction($this->account, $this->creditAccount, $this->amount, $this->user->id, $this->period);
+        $transactionService->createScheduledTransaction(
+            $this->account,
+            $this->creditAccount,
+            $this->amount,
+            $this->user->id,
+            $this->period
+        );
     }
 }

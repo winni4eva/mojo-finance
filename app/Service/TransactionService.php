@@ -24,9 +24,9 @@ class TransactionService
         int $scheduleId
     )
     {
-        try {
-            DB::beginTransaction();
+        DB::beginTransaction();
 
+        try {
             $account->update([
                 'amount' => $account->amount - $amount,
             ]);

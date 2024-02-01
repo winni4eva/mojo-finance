@@ -77,7 +77,7 @@ class AuthTest extends FeatureTestCase
         ];
         $errorMessage = 'The email has already been taken.';
 
-        $response = $this->postJson(SELF::REGISTER_ENDPOINT, $registerationDetails);
+        $response = $this->postJson(self::REGISTER_ENDPOINT, $registerationDetails);
 
         $response->assertForbidden();
         $response->assertJsonStructure([
@@ -104,7 +104,7 @@ class AuthTest extends FeatureTestCase
         ];
         $errorMessage = 'The password confirmation does not match.';
 
-        $response = $this->postJson(SELF::REGISTER_ENDPOINT, $registerationDetails);
+        $response = $this->postJson(self::REGISTER_ENDPOINT, $registerationDetails);
 
         $response->assertForbidden();
         $response->assertJsonStructure([

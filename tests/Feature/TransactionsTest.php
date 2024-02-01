@@ -6,7 +6,6 @@ use App\Jobs\ProcessTransaction;
 use App\Jobs\ScheduleTransaction;
 use App\Models\Account;
 use App\Models\AccountType;
-use App\Models\User;
 use Database\Seeders\AccountSeeder;
 use Database\Seeders\AccountTypeSeeder;
 use Illuminate\Support\Facades\Queue;
@@ -21,6 +20,8 @@ class TransactionsTest extends FeatureTestCase
     protected $debitAccount;
 
     protected $creditAccount;
+
+    const ERROR_STATUS = 'An error has occurred...';
 
     protected function setUp(): void
     {
@@ -85,7 +86,9 @@ class TransactionsTest extends FeatureTestCase
     {
         $anotherUser = $this->createSingleUser();
         $accountType = AccountType::first();
-        $anotherUsersAccount = Account::factory()->create(['account_type_id' => $accountType->id, 'user_id' => $anotherUser->id]);
+        $anotherUsersAccount = Account::factory()->create([
+            'account_type_id' => $accountType->id, 'user_id' => $anotherUser->id
+        ]);
 
         $postData = [
             'credit_account' => $this->creditAccount->id,
@@ -137,7 +140,7 @@ class TransactionsTest extends FeatureTestCase
         $response->assertJson([
             'status' => 'An error has occurred...',
             'message' => 'The amount must be a valid currency value.',
-            'data' => ''
+            'data' => '',
         ]);
     }
 
@@ -155,7 +158,7 @@ class TransactionsTest extends FeatureTestCase
         $response->assertJson([
             'status' => 'An error has occurred...',
             'message' => 'Credit account does not exist',
-            'data' => ''
+            'data' => '',
         ]);
     }
 
@@ -173,7 +176,7 @@ class TransactionsTest extends FeatureTestCase
         $response->assertJson([
             'status' => 'An error has occurred...',
             'message' => 'Debit and credit accounts are the same',
-            'data' => ''
+            'data' => '',
         ]);
     }
 }

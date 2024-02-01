@@ -53,6 +53,7 @@ class StoreTransactionRequest extends FormRequest
         if ((request()->amount / 100) > $this->account->amount) {
             return false;
         }
+
         return true;
     }
 

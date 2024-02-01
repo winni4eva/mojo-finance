@@ -12,7 +12,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
-
     /**TODO Reefactor to use Action classes */
 
     public function login(LoginUserRequest $request)

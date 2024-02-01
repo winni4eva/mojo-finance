@@ -14,7 +14,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class TransactionController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      *
@@ -46,7 +45,7 @@ class TransactionController extends Controller
      */
     public function store(StoreTransactionRequest $request, Account $account)
     {
-        if (!$request->hasEnoughBalance()) {
+        if (! $request->hasEnoughBalance()) {
             abort(Response::HTTP_FORBIDDEN, 'You do not have sufficient balance to perform this transaction');
         }
 

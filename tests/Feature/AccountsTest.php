@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Http\Resources\AccountResource;
 use App\Models\AccountType;
 use App\Models\Pipelines\AccountCreatingPipeline;
 use Database\Seeders\AccountSeeder;
@@ -97,7 +96,7 @@ class AccountsTest extends FeatureTestCase
         $response->assertJson([
             'status' => 'An error has occurred...',
             'message' => 'This account type already exists for this user.',
-            'data' => ''
+            'data' => '',
         ]);
     }
 
@@ -116,8 +115,7 @@ class AccountsTest extends FeatureTestCase
         $response->assertJson([
             'status' => 'An error has occurred...',
             'message' => 'The amount must be a valid currency value.',
-            'data' => ''
+            'data' => '',
         ]);
     }
 }
-

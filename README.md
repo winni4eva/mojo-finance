@@ -1,14 +1,6 @@
 ## Mojo Finance API
 A simple laravel api powered by Sanctum that allows for customer account creation and transfer of funds between accounts
 
-## Setup Default
-    - You should have php, mysql setup locally
-    - Create a mysql database eg. mojo_finance
-    - Update .env with database name and credentials
-    - Update .env with email config
-    - Run the seeder with command **php artisan db:seed**
-    - Follow the api doc links to get an api token to start making requests
-
 ## Setup with Sail
     - Install docker
     - Start docker
@@ -19,17 +11,17 @@ A simple laravel api powered by Sanctum that allows for customer account creatio
     - Run command from project root => ./vendor/bin/sail up
     - To exit run command from project root => ./vendor/bin/sail down -v
 
+## Setup Local Environment
+    - You should have php, mysql setup locally
+    - Create a mysql database eg. mojo_finance
+    - Update .env with database name and credentials
+    - Update .env with email config
+    - Run the seeder with command **php artisan db:seed**
+    - Follow the api doc links to get an api token to start making requests
+
 ## Jobs (Horizon - Redis)
     - Run command from project root => ./vendor/bin/sail artisan horizon
     - Visit http://localhost/horizon to access the dashboard
-
-## Nova 
-    - Run command from project root => ./vendor/bin/sail npm i
-    - Run command from project root => ./vendor/bin/sail npm run dev
-    - Run command from project root => ./vendor/bin/sail artisan nova:install
-    - Run comman from project root => ./vendor/bin/sail artisan migrate
-    - Visit dashboard => http://localhost/nova
-    - To setup user run command => ./vendor/bin/sail artisan nova:user
 
 
 ## Api Docs
@@ -47,3 +39,11 @@ A simple laravel api powered by Sanctum that allows for customer account creatio
 ## Scheduled Transactions
 
     - ./vendor/bin/sail artisan schedule:work
+
+## Nova [Implementation Paused]
+    - Run command from project root => ./vendor/bin/sail npm i
+    - Run command from project root => ./vendor/bin/sail npm run dev
+    - Run command from project root => ./vendor/bin/sail artisan nova:install
+    - Run comman from project root => ./vendor/bin/sail artisan migrate
+    - Visit dashboard => http://localhost/nova
+    - To setup user run command => ./vendor/bin/sail artisan nova:user

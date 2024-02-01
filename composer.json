@@ -10,6 +10,7 @@
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^9.19",
         "laravel/horizon": "^5.15",
+        "laravel/nova": "^4.19.4",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7"
     },
@@ -64,5 +65,9 @@
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "repositories": [{
+        "type": "composer",
+        "url": "https://laravel-nova.site"
+    }]
 }

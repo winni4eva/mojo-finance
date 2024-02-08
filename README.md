@@ -40,7 +40,7 @@ A simple laravel api powered by Sanctum that allows for customer account creatio
 
     - ./vendor/bin/sail artisan schedule:work
 
-## Nova [Implementation Paused]
+## Nova Setup
     - Run command from project root => ./vendor/bin/sail npm i
     - Run command from project root => ./vendor/bin/sail npm run dev
     - Run command from project root => ./vendor/bin/sail artisan nova:install

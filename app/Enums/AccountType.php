@@ -2,9 +2,8 @@
 
 namespace App\Enums;
 
-enum AccountType: string
-{
+enum AccountType: string {
     case SAVINGS = 'savings';
-
     case CHECKING = 'checking';
 }
+

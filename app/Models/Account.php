@@ -25,7 +25,7 @@ class Account extends Model
 {
     use HasFactory, AmountTrait, FilterTrait;
 
-    protected $fillable = ['user_id', 'amount', 'account_type_id'];
+    protected $fillable = ['user_id', 'amount', 'account_type_id', 'status'];
 
     protected $dispatchesEvents = [
         'creating' => AccountCreatingPipeline::class,

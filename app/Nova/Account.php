@@ -2,10 +2,12 @@
 
 namespace App\Nova;
 
+//use App\Models\AccountType;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Fields\BelongsTo;
 
 class Account extends Resource
 {
@@ -50,16 +52,18 @@ class Account extends Resource
                 ->required()
                 ->textAlign('left'),
 
-            Currency::make('Amount')
+            Currency::make('Amount', 'amount')
                 ->currency('USD')
                 ->required()
-                ->textAlign('left')
-                ->hideFromIndex()
-                ->showOnPreview(),
-
-            Text::make('Account Type', 'account_type_id')
                 ->textAlign('left'),
+                //->hideFromIndex()
+                //->showOnPreview(),
 
+            //Text::make('Account Type', 'account_type_id')
+                //->textAlign('left'),
+
+        BelongsTo::make('Account Type', 'accountType')
+                ->textAlign('left'),
         ];
     }
 

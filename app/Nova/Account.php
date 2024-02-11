@@ -37,8 +37,6 @@ class Account extends Resource
         'account_number',
     ];
 
-    public static $tableStyle = 'tight';
-
     /**
      * Get the fields displayed by the resource.
      *
@@ -57,19 +55,21 @@ class Account extends Resource
             Currency::make('Amount', 'amount')
                 ->currency('GHS')
                 ->required()
-                ->textAlign('left'),
-                //->hideFromIndex()
-                //->showOnPreview(),
+                ->textAlign('left')
+                ->hideFromIndex()
+                ->showOnPreview(),
 
             BelongsTo::make('Account Type')
-                    ->sortable()
-                    ->searchable()
-                    ->required()
-                    ->textAlign('left'),
+                ->sortable()
+                ->searchable()
+                ->required()
+                ->textAlign('left')
+                ->help('The account type that is to be created, could be a savings account or a checking account.'),
+                //->placeholder('Select Account Type'),
 
             Boolean::make('Status')
-            ->sortable()
-            ->textAlign('left'),
+                ->sortable()
+                ->textAlign('left'),
 
             //Markdown::make('Notes', 'notes')
             //Number::make('Quantity');

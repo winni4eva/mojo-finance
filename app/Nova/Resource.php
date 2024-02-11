@@ -7,6 +7,13 @@ use Laravel\Nova\Resource as NovaResource;
 
 abstract class Resource extends NovaResource
 {
+     /**
+     * Sets the spacing around table cells
+     *
+     * @var string
+     */
+    public static $tableStyle = 'tight';
+
     /**
      * Build an "index" query for the given resource.
      *

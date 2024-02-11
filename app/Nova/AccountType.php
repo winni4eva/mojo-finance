@@ -30,6 +30,7 @@ class AccountType extends Resource
      */
     public static $search = [
         'id',
+        'name'
     ];
 
     /**

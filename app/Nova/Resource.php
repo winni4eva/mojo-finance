@@ -14,6 +14,20 @@ abstract class Resource extends NovaResource
      */
     public static $tableStyle = 'tight';
 
+     /**
+     * Shows or hids table cell borders
+     *
+     * @var string
+     */
+    public static $showColumnBorders = false;
+
+    /**
+     * The page total count to load per page.
+     *
+     * @var array
+     */
+    public static $perPageOptions =  [10];
+
     /**
      * Build an "index" query for the given resource.
      *

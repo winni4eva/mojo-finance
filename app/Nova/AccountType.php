@@ -34,6 +34,15 @@ class AccountType extends Resource
     ];
 
     /**
+     * The click behaviour of a resource.
+     *
+     * @var string
+     */
+    public static $clickAction =  'edit'; //default, 'edit', 'select', 'preview', 'ignore'
+
+
+
+    /**
      * Get the fields displayed by the resource.
      *
      * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request

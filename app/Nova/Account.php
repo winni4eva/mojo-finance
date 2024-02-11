@@ -8,6 +8,8 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\Markdown;
+use Laravel\Nova\Fields\Number;
 
 class Account extends Resource
 {
@@ -53,7 +55,7 @@ class Account extends Resource
                 ->textAlign('left'),
 
             Currency::make('Amount', 'amount')
-                ->currency('USD')
+                ->currency('GHS')
                 ->required()
                 ->textAlign('left'),
                 //->hideFromIndex()
@@ -68,6 +70,9 @@ class Account extends Resource
             Boolean::make('Status')
             ->sortable()
             ->textAlign('left'),
+
+            //Markdown::make('Notes', 'notes')
+            //Number::make('Quantity');
         ];
     }
 

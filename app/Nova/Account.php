@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Models\AccountType;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
@@ -10,6 +11,7 @@ use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Markdown;
 use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\Select;
 
 class Account extends Resource
 {
@@ -52,6 +54,10 @@ class Account extends Resource
                 ->required()
                 ->textAlign('left'),
 
+            BelongsTo::make('Owner', 'user', User::class)
+                ->searchable()
+                ->textAlign('left'),
+
             Currency::make('Amount', 'amount')
                 ->currency('GHS')
                 ->required()
@@ -59,13 +65,12 @@ class Account extends Resource
                 ->hideFromIndex()
                 ->showOnPreview(),
 
-            BelongsTo::make('Account Type')
+            Select::make('Account Type', 'account_type_id')->options(AccountType::pluck('name', 'id'))
+                ->displayUsing(fn ($value) => AccountType::find($value)->name)
                 ->sortable()
-                ->searchable()
-                ->required()
                 ->textAlign('left')
+                ->placeholder('Select Account Type')
                 ->help('The account type that is to be created, could be a savings account or a checking account.'),
-                //->placeholder('Select Account Type'),
 
             Boolean::make('Status')
                 ->sortable()

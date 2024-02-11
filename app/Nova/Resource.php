@@ -7,6 +7,27 @@ use Laravel\Nova\Resource as NovaResource;
 
 abstract class Resource extends NovaResource
 {
+     /**
+     * Sets the spacing around table cells
+     *
+     * @var string
+     */
+    public static $tableStyle = 'tight';
+
+     /**
+     * Shows or hids table cell borders
+     *
+     * @var string
+     */
+    public static $showColumnBorders = false;
+
+    /**
+     * The page total count to load per page.
+     *
+     * @var array
+     */
+    public static $perPageOptions =  [10, 50, 100];
+
     /**
      * Build an "index" query for the given resource.
      *

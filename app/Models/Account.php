@@ -7,25 +7,13 @@ use App\Traits\AmountTrait;
 use App\Traits\FilterTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
-// enum AccountType {
-//     case CURRENT = 1;
-//     case SAVING = 2;
-
-//     public function name()
-//     {
-//         return match($this) {
-//             self::CURRENT => 'Current',
-//             default => 'Savings'
-//         };
-//     }
-// }
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Account extends Model
 {
-    use HasFactory, AmountTrait, FilterTrait;
+    use HasFactory, AmountTrait, FilterTrait, SoftDeletes;
 
-    protected $fillable = ['user_id', 'amount', 'account_type_id'];
+    protected $fillable = ['user_id', 'amount', 'account_type_id', 'status'];
 
     protected $dispatchesEvents = [
         'creating' => AccountCreatingPipeline::class,

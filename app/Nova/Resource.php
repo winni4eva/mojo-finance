@@ -26,7 +26,7 @@ abstract class Resource extends NovaResource
      *
      * @var array
      */
-    public static $perPageOptions =  [10];
+    public static $perPageOptions =  [10, 50, 100];
 
     /**
      * Build an "index" query for the given resource.

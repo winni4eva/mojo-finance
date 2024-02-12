@@ -65,7 +65,8 @@ class Account extends Resource
                 ->hideFromIndex()
                 ->showOnPreview(),
 
-            Select::make('Account Type', 'account_type_id')->options(AccountType::pluck('name', 'id'))
+            Select::make('Account Type', 'account_type_id')
+                ->options(AccountType::pluck('name', 'id'))
                 ->displayUsing(fn ($value) => AccountType::find($value)->name)
                 ->sortable()
                 ->textAlign('left')

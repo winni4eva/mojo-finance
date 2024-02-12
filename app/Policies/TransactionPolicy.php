@@ -19,7 +19,7 @@ class TransactionPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return $this->allow();
     }
 
     /**
@@ -29,7 +29,7 @@ class TransactionPolicy
      */
     public function view(User $user, Transaction $transaction)
     {
-        //
+        return $this->allow();
     }
 
     /**
@@ -38,20 +38,8 @@ class TransactionPolicy
      * @param  \App\Models\Account  $creditAccount
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(User $user, Account $account, Account|null $creditAccount)
+    public function create(User $user)
     {
-        if ($user->id != $account->user_id) {
-            abort(Response::HTTP_FORBIDDEN, $this->getDenyMessage('DEFAULT'));
-        }
-
-        if (! $creditAccount) {
-            abort(Response::HTTP_FORBIDDEN, $this->getDenyMessage('ACCOUNT_DOES_NOT_EXIST'));
-        }
-
-        if ($account->id == $creditAccount->id) {
-            abort(Response::HTTP_FORBIDDEN, $this->getDenyMessage('ACCOUNTS_ARE_THE_SAME'));
-        }
-
         return $this->allow();
     }
 

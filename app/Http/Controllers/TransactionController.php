@@ -49,6 +49,18 @@ class TransactionController extends Controller
             abort(Response::HTTP_FORBIDDEN, 'You do not have sufficient balance to perform this transaction');
         }
 
+        // if ($user->id != $account->user_id) {
+        //     abort(Response::HTTP_FORBIDDEN, $this->getDenyMessage('DEFAULT'));
+        // }
+
+        // if (! $creditAccount) {
+        //     abort(Response::HTTP_FORBIDDEN, $this->getDenyMessage('ACCOUNT_DOES_NOT_EXIST'));
+        // }
+
+        // if ($account->id == $creditAccount->id) {
+        //     abort(Response::HTTP_FORBIDDEN, $this->getDenyMessage('ACCOUNTS_ARE_THE_SAME'));
+        // }
+
         $scheduled = $request->isTransactionScheduled();
 
         ScheduleTransaction::dispatchIf(
